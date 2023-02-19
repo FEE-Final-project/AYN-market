@@ -1,0 +1,1 @@
+This is the front end of the project were we will use ReactJS framework.
