@@ -2,6 +2,10 @@ import React from 'react'
 
 export default function Home() {
   return (
-    <div>hello</div>
+
+    <div>
+     home changes to hooooooooooooome
+    </div>
+
   )
 }
