@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { 
+    box-sizing: border-box;
+    margin: 0; 
+    padding: 0; 
+    text-decoration: none;
+    list-style: none;
+  }
+ ::-webkit-scrollbar {
+    width: 10px; 
+  }
+::-webkit-scrollbar-track {
+    background: rgb(202, 103, 56);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgb(27, 53, 71) ;
+  } 
+  
+button{
+ cursor: pointer;
+}
+
+@media screen and (max-width: 800px)  {
+  *{
+    font-size:0.9rem;
+  }
+}
