@@ -1,6 +1,8 @@
 docker is used as container for project
 
 the comman used is
+
+
 1- docker-compose up --build - > to build image for first time
 
 
