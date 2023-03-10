@@ -5,5 +5,5 @@ WORKDIR /front-end
 COPY ./package.json /front-end/
 RUN yarn install
 
-COPY ./front-end
+COPY . /front-end
 RUN yarn build
