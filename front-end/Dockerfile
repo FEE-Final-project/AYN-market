@@ -1,9 +1,14 @@
-FROM node:16.13.0
+FROM node:15.12.0
 
-WORKDIR /front-end
+WORKDIR /app
 
-COPY ./package.json /front-end/
-RUN yarn install
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-COPY . /front-end
-RUN yarn build
+ADD . .
+
+RUN npm install
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["npm", "run", "dev"]

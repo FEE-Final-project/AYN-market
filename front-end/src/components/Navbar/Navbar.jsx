@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import logo from "../assets/logo.svg";
+import logo from "../../assets/logo.svg";
 import "./Navbar.css";
 
 function classNames(...classes) {
@@ -53,7 +53,7 @@ export default function Navbar() {
                 activeClassName="active"
                 className="bg-gray-900 text-white p-1 rounded mx-1 hover:bg-gray-700"
               >
-                Home
+                home
               </NavLink>
               <NavLink
                 to="/"
@@ -61,7 +61,7 @@ export default function Navbar() {
                 activeClassName="active"
                 className="bg-gray-900 text-white p-1 rounded hover:bg-gray-700"
               >
-                Home
+                home
               </NavLink>
                 </div>
               </div>
@@ -229,7 +229,7 @@ export default function Navbar() {
                 activeClassName="active"
                 className="bg-gray-900 text-white p-1 rounded  block"
               >
-                Home
+                home
               </NavLink>
               <NavLink
                 to="/"
@@ -237,7 +237,7 @@ export default function Navbar() {
                 activeClassName="active"
                 className="bg-gray-900 text-white p-1 rounded block"
               >
-                Home
+               home
               </NavLink>
             </div>
           </Disclosure.Panel>
