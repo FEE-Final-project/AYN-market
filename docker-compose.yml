@@ -55,7 +55,7 @@ services:
     build: ./front-end
     command: bash -c "
                       yes | cp -rf ./* /frontend_build/ &&
-                      npx serve build"
+                      npm run dev"
 
     env_file:
       - ./.env
