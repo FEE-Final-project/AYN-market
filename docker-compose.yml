@@ -50,21 +50,15 @@ services:
   #  |_| |_|_\\___/|_|\_| |_| |___|_|\_|___/
   #
   frontend:
-    container_name: frontend
-    restart: always
-    build: ./front-end
-    command: bash -c "
-                      yes | cp -rf ./* /frontend_build/ &&
-                      npx serve build"
 
-    env_file:
-      - ./.env
-    expose:
-      - "3000"
-    ports:
-      - "3000:3000"
-    volumes:
-      - frontend_build:/frontend_build
+      build: 
+        context: ./front-end
+        dockerfile: Dockerfile
+      volumes:
+        - ./front-end/:/app
+      ports:
+        - '3000:3000'
+  
 
   # #   _   _  ____ ___ _   ___  __
   # #  | \ | |/ ___|_ _| \ | \ \/ /
