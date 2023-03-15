@@ -35,6 +35,7 @@ graphql-ws==0.4.4
 graphviz==0.16
 gunicorn==20.0.4
 psycopg2-binary==2.8.6
+Pillow==8.0.1
 PyJWT==1.7.1
 pytest==6.2.2
 pytest-django==4.1.0
