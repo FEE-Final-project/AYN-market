@@ -21,17 +21,13 @@ class storeQuery(graphene.ObjectType):
     variation_details=relay.Node.Field(VariationType)
 
     @login_required
-    @user_passes_test(
-        lambda u: u.is_staff is True
-    )
     def resolve_product_list(self, info, **kwargs):
         return Products.objects.filter(is_available=True)
 
     @login_required
-    @user_passes_test(
-        lambda u: u.is_staff is True
-    )
     def resolve_variation_list(self , info , **kwargs):
 
         return Variation.objects.filter(is_active=True)
+    def resolve_category_list(self , info , **kwargs):
+        return Category.objects.all()
 

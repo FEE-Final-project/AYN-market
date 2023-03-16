@@ -4,14 +4,14 @@ from graphene_django.types import DjangoObjectType
 from graphql_relay.node.node import to_global_id
 from graphql_jwt.decorators import login_required, user_passes_test
 
-# from .connections import CountableConnection
+from .connections import CountableConnection
 from apps.store.models import Products , Variation , Category
 
 class CategoryType(DjangoObjectType):
     class Meta:
         model = Category
         interfaces = (relay.Node,)
-        # connection_class = CountableConnection
+        connection_class = CountableConnection
         fields = "__all__"
 
 class ProductType(DjangoObjectType):
@@ -19,7 +19,7 @@ class ProductType(DjangoObjectType):
     class Meta:
         model = Products
         interfaces = (relay.Node,)
-        # connection_class = CountableConnection
+        connection_class = CountableConnection
         fields = "__all__"
 
     def resolve_category(self, info, **kwargs):
@@ -31,7 +31,7 @@ class VariationType(DjangoObjectType):
     class Meta:
         model = Variation
         interfaces = (relay.Node,)
-        # connection_class = CountableConnection
+        connection_class = CountableConnection
         fields = "__all__"
 
     def resolve_product(self , info , **kwargs):

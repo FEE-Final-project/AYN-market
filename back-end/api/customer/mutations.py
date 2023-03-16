@@ -28,7 +28,7 @@ from .types import CustomerType
 
 class CustomerSignUp(relay.ClientIDMutation):
     """
-    Admin can create doctor
+    Admin can create customer
     """
 
     customer = graphene.Field(CustomerType)

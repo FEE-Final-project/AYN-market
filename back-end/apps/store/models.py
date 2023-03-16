@@ -13,7 +13,7 @@ CATEGORY_CHOICES=(
 )
 class Category(models.Model):
     category_name=models.CharField(choices=CATEGORY_CHOICES, max_length=255 , unique=True)
-    description=models.TextField(blank=True)
+    description=models.TextField(null=True, blank=True)
     # cat_image=models.ImageField(upload_to=category_image_file_path ,null=True, blank=True)
 
     def get_url(self):
@@ -26,13 +26,13 @@ class Category(models.Model):
 class Products(models.Model):
     product_name=models.CharField( max_length=255 , unique=True)
     price=models.IntegerField()
-    description=models.TextField(blank=True)
+    description=models.TextField(null=True, blank=True)
     # images=models.ImageField(upload_to=products_image_file_path ,null=True, blank=True)
-    stock=models.IntegerField()
+    stock=models.IntegerField(null=True, blank=True)
     is_available=models.BooleanField(default=True)
     created_date=models.DateTimeField(auto_now_add=True)
     modified_date=models.DateTimeField( auto_now=True)
-    category=models.ForeignKey(Category,on_delete=models.CASCADE)
+    category=models.ForeignKey(Category,on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.product_name
