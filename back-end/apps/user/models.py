@@ -40,7 +40,6 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.is_active = True
         user.is_superuser = True
-        user.role = 1
         user.save(using=self._db)
 
         return user
@@ -101,9 +100,9 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
 
 
 
-    @property
-    def is_admin(self):
-        return True if self.role in [User.ROLE.admin, User.ROLE.super_admin] else False
+    # @property
+    # def is_admin(self):
+    #     return True if self.role in [User.ROLE.admin, User.ROLE.super_admin] else False
 
     @property
     def full_name(self):
