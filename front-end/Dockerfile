@@ -1,14 +1,26 @@
-FROM node:15.12.0
+# Base image
+FROM node:17-alpine
 
+# Set working directory
 WORKDIR /app
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Copy package.json and package-lock.json
+COPY package.json .
 
-ADD . .
+# Install Vite
+RUN npm install -g vite
 
+
+# Install dependencies
 RUN npm install
 
-ENTRYPOINT ["/entrypoint.sh"]
+COPY . .
 
+
+# Expose port
+EXPOSE 3000
+
+RUN chmod -R 777 /app/node_modules
+
+# Start app
 CMD ["npm", "run", "dev"]
