@@ -4,7 +4,7 @@ export default function Home() {
   return (
 
     <div>
-     home changes to hooooooooooooome
+     home
     </div>
 
   )
