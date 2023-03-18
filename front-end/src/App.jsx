@@ -6,9 +6,10 @@ import Footer from "./components/footer/Footer";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile"
-
+import { ProductsContextProvider } from "./Context/ProductsContext";
 function App() {
   return (
+    <ProductsContextProvider>
     <BrowserRouter>
     <Navbar />
     <Routes>
@@ -19,7 +20,7 @@ function App() {
     </Routes>
     <Footer />
   </BrowserRouter>
+  </ProductsContextProvider>
   )
-}
-
+  }
 export default App
