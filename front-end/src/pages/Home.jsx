@@ -4,7 +4,7 @@ export default function Home() {
   return (
 
     <div>
-     home edit by ramy
+     home 
     </div>
 
   )
