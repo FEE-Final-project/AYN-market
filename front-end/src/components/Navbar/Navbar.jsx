@@ -11,7 +11,7 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false); // change login state
   const [read, setRead] = useState(false);
 
   return (

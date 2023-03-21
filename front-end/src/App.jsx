@@ -10,6 +10,7 @@ import { ProductsContextProvider } from "./Context/ProductsContext";
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 
 function App() {
+  //connect with server
   const client = new ApolloClient({
     uri: 'http://localhost:8000/graphql/',
     cache: new InMemoryCache(),
