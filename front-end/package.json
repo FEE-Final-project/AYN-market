@@ -9,8 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.10",
     "@headlessui/react": "^1.7.12",
     "@heroicons/react": "^2.0.16",
+    "graphql": "^16.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.2"

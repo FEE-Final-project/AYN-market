@@ -34,8 +34,6 @@ export default function Navbar() {
               <div className="flex flex-1 items-center justify-center content-center sm:items-center sm:justify-start ">
                 <NavLink
                   to="/"
-                  exact
-                  activeClassName="active"
                   className="flex flex-shrink-0 items-center bg-white rounded-full bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <img
@@ -49,16 +47,12 @@ export default function Navbar() {
                   {/* put different NavLink here */}
                   <NavLink
                 to="/"
-                exact
-                activeClassName="active"
                 className="bg-gray-900 text-white p-1 rounded mx-1 hover:bg-gray-700"
               >
                 home
               </NavLink>
               <NavLink
                 to="/"
-                exact
-                activeClassName="active"
                 className="bg-gray-900 text-white p-1 rounded hover:bg-gray-700"
               >
                 home
@@ -168,7 +162,6 @@ export default function Navbar() {
                           className="h-8 w-8 rounded-full"
                           src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                           alt=""
-                          white
                         />
                       </Menu.Button>
                     </div>
@@ -225,16 +218,12 @@ export default function Navbar() {
             <div className="space-y-1 px-2 pt-2 pb-3 text-center">
               <NavLink
                 to="/"
-                exact
-                activeClassName="active"
                 className="bg-gray-900 text-white p-1 rounded  block"
               >
                 home
               </NavLink>
               <NavLink
                 to="/"
-                exact
-                activeClassName="active"
                 className="bg-gray-900 text-white p-1 rounded block"
               >
                home
