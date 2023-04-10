@@ -1,7 +1,10 @@
 //import react utilities
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Fragment } from "react";
+import Cookies from "universal-cookie";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { gql, useQuery } from '@apollo/client';
 //import tailwind tags
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -13,9 +16,33 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+const GET_USER = gql`
+query Me($id: ID!) {
+  me(id: $id) {
+    isActive
+    isAdmin
+    role
+  }
+}
+
+`;
 export default function Navbar() {
-  const [loggedIn, setLoggedIn] = useState(false); // change login state
+  const cookies = new Cookies();
+  const { user, dispatch} = useAuthContext();
+  // const id = user?.id;
+  // console.log(id)
+  // const { loading, error, data } = useQuery(GET_USER, {variables: {id}});
+
+  // console.log(data)
+
   const [read, setRead] = useState(false);
+
+
+  function handleSignOut() {
+    cookies.remove("user");
+    cookies.remove("token");
+    dispatch({ type: "LOGOUT" });
+  }
 
   return (
     <Disclosure as="nav" className="bg-gray-800 z-50">
@@ -62,7 +89,7 @@ export default function Navbar() {
               </NavLink>
                 </div>
               </div>
-              {loggedIn ? (
+              {user ? (
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                   {/* notification dropdown */}
                   <button
@@ -177,22 +204,22 @@ export default function Navbar() {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none px-2 py-5">
                         <Menu.Item>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          >
-                            Your Profile
-                          </a>
+                        <NavLink
+                        to="/Profile"
+                   className="block text-sm mb-3 text-gray-700 hover:bg-gray-100"
+                  >
+                    Your Profile
+                  </NavLink>
                         </Menu.Item>
                         <Menu.Item>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          <button
+                            onClick={handleSignOut}
+                            className="block text-center  text-sm text-white bg-red-500 hover:bg-red-400"
                           >
                             Sign out
-                          </a>
+                          </button>
                         </Menu.Item>
                       </Menu.Items>
                     </Transition>
