@@ -34,8 +34,8 @@ class CustomerSignUp(relay.ClientIDMutation):
     customer = graphene.Field(CustomerType)
 
     class Input:
-        first_name = graphene.String(required=True)
-        last_name = graphene.String(required=True)
+        first_name = graphene.String(required=False)
+        last_name = graphene.String(required=False)
         password = graphene.String(required=True)
         password_confirmation = graphene.String(required=True)
         email = graphene.String(required=True)
