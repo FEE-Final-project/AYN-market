@@ -1,8 +1,11 @@
+//import react utilities
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Fragment } from "react";
+//import tailwind tags
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+//import styles and logo
 import logo from "../../assets/logo.svg";
 import "./Navbar.css";
 
@@ -15,7 +18,7 @@ export default function Navbar() {
   const [read, setRead] = useState(false);
 
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-800 z-50">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -34,7 +37,7 @@ export default function Navbar() {
               <div className="flex flex-1 items-center justify-center content-center sm:items-center sm:justify-start ">
                 <NavLink
                   to="/"
-                  className="flex flex-shrink-0 items-center bg-white rounded-full bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="flex flex-shrink-0 items-center bg-white rounded-full text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <img
                     className="block h-8 w-auto logo"
