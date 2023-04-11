@@ -22,7 +22,9 @@ export default function SignUp() {
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const phoneRegex = /^01[0125][0-9]{8}$/;
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/;
+
   const {user} =useAuthContext()
+
   const [customerSignup, {loading, error }] = useMutation(ADD_USER);
 
   const navigate = useNavigate();
@@ -42,6 +44,7 @@ export default function SignUp() {
   const [userNameError, setUserNameError] = useState("");
 
   const [formError, setFormError] = useState("");
+  
   useEffect (()=>{
     if(user){
       navigate("/")

@@ -1,6 +1,6 @@
 //import react utilities
 import React, {  useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Fragment } from "react";
 import Cookies from "universal-cookie";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -31,6 +31,7 @@ function classNames(...classes) {
 export default function Navbar() {
   const cookies = new Cookies();
   const { user, dispatch} = useAuthContext();
+  const navigate = useNavigate();
   // const id = user?.id;
   // console.log(id)
   // const { loading, error, data } = useQuery(GET_USER, {variables: {id}});
@@ -44,6 +45,7 @@ export default function Navbar() {
     cookies.remove("user");
     cookies.remove("token");
     dispatch({ type: "LOGOUT" });
+    navigate("/")
   }
 
   return (
