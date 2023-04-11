@@ -61,8 +61,6 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
         null=True,
         blank=True
     )
-    first_name = TrimCharField(max_length=255, null=True, blank=True)
-    last_name = TrimCharField(max_length=255, null=True, blank=True)
     username=TrimCharField(max_length=255, null=True, blank=True)
 
 
