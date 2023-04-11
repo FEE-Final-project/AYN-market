@@ -1,16 +1,17 @@
 //import react utilities
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Fragment } from "react";
 import Cookies from "universal-cookie";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { gql, useQuery } from '@apollo/client';
+// import { gql, useQuery } from '@apollo/client';
 //import tailwind tags
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 //import styles and logo
 import logo from "../../assets/logo.svg";
 import "./Navbar.css";
+import 'remixicon/fonts/remixicon.css';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
