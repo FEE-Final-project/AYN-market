@@ -44,34 +44,31 @@ export default function LogIn() {
 
 
   async function handleSubmit(e){
-   e.preventDefault();
-   
-   let response = await obtainToken({variables:{email:userData.email , password:userData.password}})
- 
-   console.log(response)
-   if (error) {
-    setFormError(error.message);
-    return;
-   }
-   
-   if(!response.data.obtainToken.success){
-   
-    setFormError(response.data.obtainToken.errors[0])
-    return
-   }
+    try{
 
-   if(response.data.obtainToken.success){
-    const cookies = new Cookies();
-    cookies.set('user', response.data.obtainToken.user, { path: '/' });
-    cookies.set('token', response.data.obtainToken.token, { path: '/' });
-    dispatch({ type: "LOGIN", payload: response.data.obtainToken.user , token: response.data.obtainToken.token });
-    setUserData({
-      email: "",
-      password: "",
-    });
-    navigate("/");
-    setFormError("");
-   }
+      e.preventDefault();
+      
+      let response = await obtainToken({variables:{email:userData.email , password:userData.password}})
+    
+     
+    if(response.data.obtainToken.success){
+     const cookies = new Cookies();
+     cookies.set('user', response.data.obtainToken.user, { path: '/' });
+     cookies.set('token', response.data.obtainToken.token, { path: '/' });
+     dispatch({ type: "LOGIN", payload: response.data.obtainToken.user , token: response.data.obtainToken.token });
+     setUserData({
+       email: "",
+       password: "",
+     });
+     navigate("/");
+     setFormError("");
+    }
+  
+  }
+    catch(error){
+      setFormError(error.message)
+    }
+
   }
   return (
 

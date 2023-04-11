@@ -1,22 +1,23 @@
 //import react utilities
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Fragment } from "react";
 import Cookies from "universal-cookie";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { gql, useQuery } from '@apollo/client';
+// import { gql, useQuery } from '@apollo/client';
 //import tailwind tags
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 //import styles and logo
 import logo from "../../assets/logo.svg";
 import "./Navbar.css";
+import 'remixicon/fonts/remixicon.css';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-let GET_USER = gql`
+const GET_USER = gql`
 query Me($id: ID!) {
   me(id: $id) {
     isActive
@@ -25,7 +26,6 @@ query Me($id: ID!) {
   }
 }
 
-`;
 export default function Navbar() {
   const cookies = new Cookies();
   const { user, dispatch} = useAuthContext();
