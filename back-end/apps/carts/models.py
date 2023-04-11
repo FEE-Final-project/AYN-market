@@ -12,9 +12,9 @@ class Cart(models.Model):
 
 class CartItems(models.Model):
     user=models.ForeignKey(get_user_model(),on_delete=models.CASCADE , null =True)
-    variation=models.ManyToManyField(Variation, blank=True)
+    variation=models.ManyToManyField(Variation, null=True ,blank=True)
     prducts=models.ForeignKey(Products, on_delete=models.CASCADE)
-    cart=models.ForeignKey(Cart, on_delete=models.CASCADE , null=True)
+    cart=models.ForeignKey(Cart,related_name="cart_items", on_delete=models.CASCADE , null=True)
     quauntity=models.IntegerField()
     is_active=models.BooleanField(default=True)
 
