@@ -7,7 +7,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { gql, useQuery } from '@apollo/client';
 //import tailwind tags
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 //import styles and logo
 import logo from "../../assets/logo.svg";
 import "./Navbar.css";
@@ -202,7 +202,7 @@ export default function Navbar() {
                       <Menu.Button className="flex rounded-full bg-gray-800 text-sm">
                         <span className="sr-only">card</span>
                         {/* //TODo: add cart icon */}
-                        <i class="ri-shopping-cart-fill"></i>
+                        <i className="ri-shopping-cart-2-fill rounded-full  text-lg   bg-gray-800 p-1 text-gray-400 hover:text-white " ></i>
                         
                         
                       </Menu.Button>
@@ -232,7 +232,7 @@ export default function Navbar() {
                       <Menu.Button className="flex rounded-full bg-gray-800 text-sm">
                         <span className="sr-only">Open user menu</span>
                         {/* //TODo: add user icon */}
-                        <i class="ri-user-3-fill"></i>
+                        <i className="ri-user-3-fill     rounded-full  text-lg   bg-gray-800 p-1 text-gray-400 hover:text-white"></i>
                         
                         
                       </Menu.Button>
