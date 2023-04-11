@@ -1,10 +1,10 @@
 //import react utilities
-import React, {  useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Fragment } from "react";
 import Cookies from "universal-cookie";
 import { useAuthContext } from "../../hooks/useAuthContext";
-// import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 //import tailwind tags
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
@@ -13,11 +13,12 @@ import logo from "../../assets/logo.svg";
 import "./Navbar.css";
 import 'remixicon/fonts/remixicon.css';
 
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const GET_USER = gql`
+let GET_USER = gql`
 query Me($id: ID!) {
   me(id: $id) {
     isActive
@@ -26,6 +27,7 @@ query Me($id: ID!) {
   }
 }
 
+`;
 export default function Navbar() {
   const cookies = new Cookies();
   const { user, dispatch} = useAuthContext();
@@ -200,7 +202,7 @@ export default function Navbar() {
                       <Menu.Button className="flex rounded-full bg-gray-800 text-sm">
                         <span className="sr-only">card</span>
                         {/* //TODo: add cart icon */}
-                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M4.00436 6.41662L0.761719 3.17398L2.17593 1.75977L5.41857 5.00241H20.6603C21.2126 5.00241 21.6603 5.45012 21.6603 6.00241C21.6603 6.09973 21.6461 6.19653 21.6182 6.28975L19.2182 14.2898C19.0913 14.7127 18.7019 15.0024 18.2603 15.0024H6.00436V17.0024H17.0044V19.0024H5.00436C4.45207 19.0024 4.00436 18.5547 4.00436 18.0024V6.41662ZM6.00436 7.00241V13.0024H17.5163L19.3163 7.00241H6.00436ZM5.50436 23.0024C4.67593 23.0024 4.00436 22.3308 4.00436 21.5024C4.00436 20.674 4.67593 20.0024 5.50436 20.0024C6.33279 20.0024 7.00436 20.674 7.00436 21.5024C7.00436 22.3308 6.33279 23.0024 5.50436 23.0024ZM17.5044 23.0024C16.6759 23.0024 16.0044 22.3308 16.0044 21.5024C16.0044 20.674 16.6759 20.0024 17.5044 20.0024C18.3328 20.0024 19.0044 20.674 19.0044 21.5024C19.0044 22.3308 18.3328 23.0024 17.5044 23.0024Z" fill="#000"></path></svg>
+                        <i class="ri-shopping-cart-fill"></i>
                         
                         
                       </Menu.Button>
@@ -230,9 +232,8 @@ export default function Navbar() {
                       <Menu.Button className="flex rounded-full bg-gray-800 text-sm">
                         <span className="sr-only">Open user menu</span>
                         {/* //TODo: add user icon */}
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                          <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12.1597 16C10.1243 16 8.29182 16.8687 7.01276 18.2556C8.38039 19.3474 10.114 20 12 20C13.9695 20 15.7727 19.2883 17.1666 18.1081C15.8956 16.8074 14.1219 16 12.1597 16ZM12 4C7.58172 4 4 7.58172 4 12C4 13.8106 4.6015 15.4807 5.61557 16.8214C7.25639 15.0841 9.58144 14 12.1597 14C14.6441 14 16.8933 15.0066 18.5218 16.6342C19.4526 15.3267 20 13.7273 20 12C20 7.58172 16.4183 4 12 4ZM12 5C14.2091 5 16 6.79086 16 9C16 11.2091 14.2091 13 12 13C9.79086 13 8 11.2091 8 9C8 6.79086 9.79086 5 12 5ZM12 7C10.8954 7 10 7.89543 10 9C10 10.1046 10.8954 11 12 11C13.1046 11 14 10.1046 14 9C14 7.89543 13.1046 7 12 7Z" fill="#000"></path>
-                          </svg>
+                        <i class="ri-user-3-fill"></i>
+                        
                         
                       </Menu.Button>
                     </div>
