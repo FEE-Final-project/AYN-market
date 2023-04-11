@@ -97,7 +97,7 @@ export default function SignUp() {
       return;
     }
    let response = await customerSignup({ variables: {input : {password:userData.password,passwordConfirmation:userData.passwordConfirmation,email:userData.email,username:userData.userName,phone:userData.phone}}});
-    
+
     if (error) {
       setFormError(error.message);
       return;

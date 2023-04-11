@@ -75,7 +75,7 @@ export default function Navbar() {
 
                 <div className="hidden sm:ml-6 sm:block ">
                   {/* put different NavLink here */}
-                  <NavLink
+                  {/* <NavLink
                 to="/"
                 className="bg-gray-900 text-white p-1 rounded mx-1 hover:bg-gray-700"
               >
@@ -86,7 +86,7 @@ export default function Navbar() {
                 className="bg-gray-900 text-white p-1 rounded hover:bg-gray-700"
               >
                 home
-              </NavLink>
+              </NavLink> */}
                 </div>
               </div>
               {user ? (
@@ -188,6 +188,7 @@ export default function Navbar() {
                     <div>
                       <Menu.Button className="flex rounded-full bg-gray-800 text-sm">
                         <span className="sr-only">Open user menu</span>
+                        {/* //TODo: add user icon */}
                         <img
                           className="h-8 w-8 rounded-full"
                           src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
@@ -203,8 +204,9 @@ export default function Navbar() {
                       leave="transition ease-in duration-75"
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
-                    >
+                      >
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none px-2 py-5">
+                      {/* //TODo profile dropdown customize */}
                         <Menu.Item>
                         <NavLink
                         to="/Profile"
@@ -216,7 +218,7 @@ export default function Navbar() {
                         <Menu.Item>
                           <button
                             onClick={handleSignOut}
-                            className="block text-center  text-sm text-white bg-red-500 hover:bg-red-400"
+                            className="block text-center  text-sm text-white bg-red-500 hover:bg-red-500"
                           >
                             Sign out
                           </button>
@@ -246,7 +248,7 @@ export default function Navbar() {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pt-2 pb-3 text-center">
-              <NavLink
+              {/* <NavLink
                 to="/"
                 className="bg-gray-900 text-white p-1 rounded  block"
               >
@@ -257,7 +259,7 @@ export default function Navbar() {
                 className="bg-gray-900 text-white p-1 rounded block"
               >
                home
-              </NavLink>
+              </NavLink> */}
             </div>
           </Disclosure.Panel>
         </>
