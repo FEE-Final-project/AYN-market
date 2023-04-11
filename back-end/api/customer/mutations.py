@@ -34,8 +34,6 @@ class CustomerSignUp(relay.ClientIDMutation):
     customer = graphene.Field(CustomerType)
 
     class Input:
-        first_name = graphene.String(required=False)
-        last_name = graphene.String(required=False)
         password = graphene.String(required=True)
         password_confirmation = graphene.String(required=True)
         email = graphene.String(required=True)
@@ -69,14 +67,14 @@ class CustomerSignUp(relay.ClientIDMutation):
         email_has_account = User.objects.filter(email=email).exists()
         if email_has_account:
             errors.append(
-                _('User with the email already exist!')
+                _('User with these email already exist!')
             )
             return CustomerSignUp(success=False, errors=errors)
 
         phone_has_account = User.objects.filter(phone=phone).exists()
         if phone and phone_has_account:
             errors.append(
-                _('User with the phone already exist!')
+                _('User with these phone already exist!')
             )
 
             return CustomerSignUp(success=False, errors=errors)
@@ -84,15 +82,13 @@ class CustomerSignUp(relay.ClientIDMutation):
         username_has_account=User.objects.filter(username=username).exists()
         if username_has_account:
             errors.append(
-                _('User with the username already exist!')
+                _('User with these username already exist!')
             )
 
             return CustomerSignUp(success=False, errors=errors)
 
         try:
             customer = User.objects.create_user(
-                first_name=input.get('first_name'),
-                last_name=input.get('last_name'),
                 email=email,
                 username=username
 
@@ -118,9 +114,7 @@ class CustomerUpdate(relay.ClientIDMutation):
 
     class Input:
         customer_id = graphene.ID(required=True)
-        first_name = graphene.String()
-        last_name = graphene.String()
-        username=graphene.String()
+        username =graphene.String()
         gender = graphene.String()
         phone = graphene.String()
 
@@ -149,13 +143,13 @@ class CustomerUpdate(relay.ClientIDMutation):
         username=input.get('username')
         if phone and User.objects.filter(phone=phone).exclude(id=from_global_id(customer_id)[1]).exists():
             errors.append(
-                _('User with the phone already exist!')
+                _('User with these phone already exist!')
             )
 
             return CustomerUpdate(success=False, errors=errors)
         if username and User.objects.filter(username=username).exclude(id=from_global_id(customer_id)[1]).exists():
             errors.append(
-                _('User with the username already exist!')
+                _('User with these username already exist!')
             )
 
             return CustomerUpdate(success=False, errors=errors)
