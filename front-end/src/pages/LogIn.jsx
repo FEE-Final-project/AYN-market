@@ -19,6 +19,7 @@ mutation ObtainToken($email: String!, $password: String!) {
       id
       email
       username
+      isSuperuser
     }
   }
 }
@@ -31,7 +32,7 @@ export default function LogIn() {
 
   const { dispatch ,user} = useAuthContext();
  
-
+ 
   useEffect(()=>{
     if(user){
       navigate("/")
@@ -50,23 +51,31 @@ export default function LogIn() {
       
       let response = await obtainToken({variables:{email:userData.email , password:userData.password}})
     
-     
+  
     if(response.data.obtainToken.success){
-     const cookies = new Cookies();
-     cookies.set('user', response.data.obtainToken.user, { path: '/' });
-     cookies.set('token', response.data.obtainToken.token, { path: '/' });
-     dispatch({ type: "LOGIN", payload: response.data.obtainToken.user , token: response.data.obtainToken.token });
-     setUserData({
-       email: "",
-       password: "",
-     });
-     navigate("/");
+      const cookies = new Cookies();
+      cookies.set('user', response.data.obtainToken.user, { path: '/' });
+      cookies.set('token', response.data.obtainToken.token, { path: '/' });
+
+      dispatch({ type: "LOGIN", payload: response.data.obtainToken.user , token: response.data.obtainToken.token });
+
+      setUserData({
+        email: "",
+        password: "",
+      });
+
+     if(response.data.obtainToken.user.isSuperuser){
+      navigate("/profile")
+     }
+     else{
+      navigate("/");
+     }
      setFormError("");
     }
   
   }
     catch(error){
-      setFormError(error.message)
+      setFormError("your email or password is incorrect")
     }
 
   }
