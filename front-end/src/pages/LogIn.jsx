@@ -1,8 +1,9 @@
-import React,{useState} from 'react'
+import React,{useState , useEffect} from 'react'
 import { gql, useMutation } from '@apollo/client';
 import {useNavigate} from 'react-router-dom'
 import { useAuthContext } from "../hooks/useAuthContext";
 import Cookies from 'universal-cookie';
+
 //import for styling
 import logo from "../assets/logo.svg";
 import "./pages.css"
@@ -28,7 +29,14 @@ export default function LogIn() {
   const [userData, setUserData] = useState({email:"", password:""});
   const [formError,setFormError] = useState("");
 
-  const { dispatch } = useAuthContext();
+  const { dispatch ,user} = useAuthContext();
+ 
+
+  useEffect(()=>{
+    if(user){
+      navigate("/")
+    }
+  })
 
   function handleChange(e){
     setUserData({...userData, [e.target.name]:e.target.value})
@@ -37,16 +45,21 @@ export default function LogIn() {
 
   async function handleSubmit(e){
    e.preventDefault();
-   let response = await obtainToken({variables:{email:userData.email , password:userData.password}})
    
+   let response = await obtainToken({variables:{email:userData.email , password:userData.password}})
+ 
+   console.log(response)
    if (error) {
     setFormError(error.message);
     return;
    }
+   
    if(!response.data.obtainToken.success){
+   
     setFormError(response.data.obtainToken.errors[0])
     return
    }
+
    if(response.data.obtainToken.success){
     const cookies = new Cookies();
     cookies.set('user', response.data.obtainToken.user, { path: '/' });
@@ -57,6 +70,7 @@ export default function LogIn() {
       password: "",
     });
     navigate("/");
+    setFormError("");
    }
   }
   return (

@@ -1,6 +1,7 @@
-import React, {  useState } from 'react'
+import React, {  useState , useEffect } from 'react'
 import { gql, useMutation } from '@apollo/client';
 import {useNavigate} from 'react-router-dom'
+import { useAuthContext } from "../hooks/useAuthContext";
 
 //import for styling
 import logo from "../assets/logo.svg";
@@ -16,11 +17,12 @@ const ADD_USER = gql`
   }
 `;
 
+
 export default function SignUp() {
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const phoneRegex = /^01[0125][0-9]{8}$/;
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/;
-
+  const {user} =useAuthContext()
   const [customerSignup, {loading, error }] = useMutation(ADD_USER);
 
   const navigate = useNavigate();
@@ -40,6 +42,11 @@ export default function SignUp() {
   const [userNameError, setUserNameError] = useState("");
 
   const [formError, setFormError] = useState("");
+  useEffect (()=>{
+    if(user){
+      navigate("/")
+    }
+  })
 
   function handleChange(e) {
     if(e.target.name === "password"){
@@ -97,7 +104,7 @@ export default function SignUp() {
       return;
     }
    let response = await customerSignup({ variables: {input : {password:userData.password,passwordConfirmation:userData.passwordConfirmation,email:userData.email,username:userData.userName,phone:userData.phone}}});
-    
+
     if (error) {
       setFormError(error.message);
       return;
