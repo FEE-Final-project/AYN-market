@@ -6,6 +6,7 @@ import Footer from "./components/footer/Footer";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile"
+import Product from "./components/Product/Product";
 import { ProductsContextProvider } from "./Context/ProductsContext";
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
@@ -27,6 +28,7 @@ function App() {
       <Route path="/LogIn" element={<LogIn/>} />
       <Route path="/SignUp" element={<SignUp/>} />
       <Route path="/profile" element={<Profile/>} />
+      <Route path="/product" element={<Product/>} />
     </Routes>
     <Footer />
   </BrowserRouter>
