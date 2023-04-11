@@ -222,7 +222,69 @@ input{
   }
    }
 /*profile page styles*/
-
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .profile-header img {
+    border-radius: 50%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border: 2px solid #2E2E2E;
+  }
+  
+  .profile-header h1 {
+    font-size: 36px;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+  
+  .profile-header h2 {
+    font-size: 24px;
+    margin-top: 5px;
+    text-align: center;
+  }
+  
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .info-row {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .info-row label {
+    font-weight: bold;
+    margin-right: 10px;
+    width: 80px;
+  }
+  
+  .info-row span {
+    font-weight: normal;
+    font-size: 16px;
+    color: #2E2E2E;
+  }
+  
+  
+  .ri-account-box-fill {
+    font-size: 8rem;
+  }
+  
+   
+  
 
 /*product page styles*/
 
