@@ -16,16 +16,17 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const GET_USER = gql`
-query Me($id: ID!) {
-  me(id: $id) {
-    isActive
-    isAdmin
-    role
-  }
-}
+// const GET_USER = gql`
+// query Me($id: ID!) {
+//   me(id: $id) {
+//     isActive
+//     isAdmin
+//     role
+//   }
+// }
 
-`;
+// `;
+
 export default function Navbar() {
   const cookies = new Cookies();
   const { user, dispatch} = useAuthContext();
