@@ -1,10 +1,10 @@
 //import react utilities
-import React, {  useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Fragment } from "react";
 import Cookies from "universal-cookie";
 import { useAuthContext } from "../../hooks/useAuthContext";
-// import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 //import tailwind tags
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -13,21 +13,21 @@ import logo from "../../assets/logo.svg";
 import "./Navbar.css";
 import 'remixicon/fonts/remixicon.css';
 
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-// const GET_USER = gql`
-// query Me($id: ID!) {
-//   me(id: $id) {
-//     isActive
-//     isAdmin
-//     role
-//   }
-// }
+let GET_USER = gql`
+query Me($id: ID!) {
+  me(id: $id) {
+    isActive
+    isAdmin
+    role
+  }
+}
 
-// `;
-
+`;
 export default function Navbar() {
   const cookies = new Cookies();
   const { user, dispatch} = useAuthContext();
@@ -92,6 +92,11 @@ export default function Navbar() {
                 </div>
               </div>
               {user ? (
+
+
+                 
+
+
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                   {/* notification dropdown */}
                   <button
@@ -185,17 +190,21 @@ export default function Navbar() {
                     </Transition>
                   </Menu>
 
-                  {/* Profile dropdown */}
+
+
+
+
+                  {/* cart */}
+
+
                   <Menu as="div" className="relative ml-3">
                     <div>
                       <Menu.Button className="flex rounded-full bg-gray-800 text-sm">
-                        <span className="sr-only">Open user menu</span>
-                        {/* //TODo: add user icon */}
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt=""
-                        />
+                        <span className="sr-only">card</span>
+                        {/* //TODo: add cart icon */}
+                        <i className="ri-shopping-cart-2-fill rounded-full  text-lg   bg-gray-800 p-1 text-gray-400 hover:text-white " ></i>
+                        
+                        
                       </Menu.Button>
                     </div>
                     <Transition
@@ -207,28 +216,82 @@ export default function Navbar() {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                       >
-                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none px-2 py-5">
+                  
+                     
+    
+                        
+                      
+                    </Transition>
+                  </Menu>
+                   
+
+                   
+                  {/* Profile dropdown */}
+                  <Menu as="div" className="relative ml-3">
+                    <div>
+                      <Menu.Button className="flex rounded-full bg-gray-800 text-sm">
+                        <span className="sr-only">Open user menu</span>
+                        {/* //TODo: add user icon */}
+                        <i className="ri-user-3-fill     rounded-full  text-lg   bg-gray-800 p-1 text-gray-400 hover:text-white"></i>
+                        
+                        
+                      </Menu.Button>
+                    </div>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                      >
+                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none px-2 py-5"   style={{ backgroundColor: "#d8c5e0"}}>
                       {/* //TODo profile dropdown customize */}
                         <Menu.Item>
-                        <NavLink
-                        to="/Profile"
-                   className="block text-sm mb-3 text-gray-700 hover:bg-gray-100"
-                  >
-                    Your Profile
-                  </NavLink>
+                        <NavLink to="/Profile" className="block text-sm mb-3 text-gray-700 hover:bg-white-400 flex items-center "  >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 14V16C8.68629 16 6 18.6863 6 22H4C4 17.5817 7.58172 14 12 14ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13ZM12 11C14.21 11 16 9.21 16 7C16 4.79 14.21 3 12 3C9.79 3 8 4.79 8 7C8 9.21 9.79 11 12 11ZM14.5946 18.8115C14.5327 18.5511 14.5 18.2794 14.5 18C14.5 17.7207 14.5327 17.449 14.5945 17.1886L13.6029 16.6161L14.6029 14.884L15.5952 15.4569C15.9883 15.0851 16.4676 14.8034 17 14.6449V13.5H19V14.6449C19.5324 14.8034 20.0116 15.0851 20.4047 15.4569L21.3971 14.8839L22.3972 16.616L21.4055 17.1885C21.4673 17.449 21.5 17.7207 21.5 18C21.5 18.2793 21.4673 18.551 21.4055 18.8114L22.3972 19.3839L21.3972 21.116L20.4048 20.543C20.0117 20.9149 19.5325 21.1966 19.0001 21.355V22.5H17.0001V21.3551C16.4677 21.1967 15.9884 20.915 15.5953 20.5431L14.603 21.1161L13.6029 19.384L14.5946 18.8115ZM18 19.5C18.8284 19.5 19.5 18.8284 19.5 18C19.5 17.1716 18.8284 16.5 18 16.5C17.1716 16.5 16.5 17.1716 16.5 18C16.5 18.8284 17.1716 19.5 18 19.5Z" fill="#000"></path>
+                        </svg>
+                          <span class="ml-2">Profile</span>
+                        </NavLink>
+
+
                         </Menu.Item>
                         <Menu.Item>
-                          <button
+                        <button
                             onClick={handleSignOut}
-                            className="block text-center  text-sm text-white bg-red-500 hover:bg-red-500"
-                          >
-                            Sign out
-                          </button>
+                            className="text-sm mb-3 text-gray-700 hover:bg-white-400 flex items-center"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M5 22C4.44772 22 4 21.5523 4 21V3C4 2.44772 4.44772 2 5 2H19C19.5523 2 20 2.44772 20 3V6H18V4H6V20H18V18H20V21C20 21.5523 19.5523 22 19 22H5ZM18 16V13H11V11H18V8L23 12L18 16Z" fill="#000"></path>
+                            </svg>
+                             <span class="ml-2">Sign out</span>
+                        </button>
+
+                        
+
                         </Menu.Item>
                       </Menu.Items>
                     </Transition>
                   </Menu>
                 </div>
+                
+                   
+
+
+
+
+
+
+
+
+                           
+
+
+
+
+
+
               ) : (
                 <div className="flex content-center  absolute inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto ">
                   <NavLink
