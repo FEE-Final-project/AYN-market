@@ -19,7 +19,7 @@ from apps.user.models import (
 )
 from django.contrib.auth import get_user_model
 
-from apps.store.models import Products , Category , Variation,CATEGORY_CHOICES
+from apps.store.models import Products , Category , Variation
 from .types import ProductType , VariationType , CategoryType
 
 class CreateProduct(relay.ClientIDMutation):
@@ -33,7 +33,7 @@ class CreateProduct(relay.ClientIDMutation):
         price = graphene.Int(required=True)
         stock = graphene.Int(required=True)
         category = graphene.ID()
-        # image = FileUpload(required=True)
+        image = FileUpload()
         is_available = graphene.Boolean(required=True)
 
     @login_required
@@ -57,17 +57,23 @@ class CreateProduct(relay.ClientIDMutation):
             stock = input.get('stock')
             description = input.get('description')
             is_available = input.get('is_available')
-            # image = input.get('image')
+            image = input.get('image')
             product = Products.objects.create(
                 product_name=product_name,
                 description=description,
                 price=price,
                 stock=stock,
                 is_available=is_available,
-                # image=image
+                image=image
             )
             if input.get('category'):
-                product.category=input.get('category')
+                category_id = from_global_id(input.get('category'))[1]
+                category = Category.objects.filter(id=category_id).exists()
+                if not category:
+                    raise Exception('Category does not exist')
+                category = Category.objects.get(id=category_id)
+                product.category = category
+
             product.save()
             return CreateProduct(product=product, success=True)
         except Exception as e:
@@ -84,7 +90,7 @@ class UpdateProduct(relay.ClientIDMutation):
         price = graphene.Int()
         stock = graphene.Int()
         category = graphene.ID()
-        # image = FileUpload()
+        image = FileUpload()
         is_available = graphene.Boolean()
 
     @login_required
@@ -148,7 +154,7 @@ class CreateCategory(relay.ClientIDMutation):
     class Input:
         name = graphene.String(required=True)
         description = graphene.String()
-        # image = FileUpload(required=True)
+        image = FileUpload()
 
     @login_required
     @user_passes_test(lambda user: user.is_superuser)
@@ -160,17 +166,14 @@ class CreateCategory(relay.ClientIDMutation):
 
         try:
             category_name = input.get('name')
-            if category_name not in [category[0] for category in CATEGORY_CHOICES]:
-                raise Exception('Invalid category')
-
             if Category.objects.filter(category_name=category_name).exists():
                 raise Exception('Category already exists')
             description = input.get('description')
-            # image = input.get('image')
+            image = input.get('image')
             category = Category.objects.create(
                 category_name=category_name,
                 description=description,
-                # image=image
+                image=image
             )
             return CreateCategory(category=category, success=True)
         except Exception as e:
@@ -184,7 +187,7 @@ class UpdateCategory(relay.ClientIDMutation):
         id=graphene.ID(required=True)
         category_name = graphene.String()
         description = graphene.String()
-        # image = FileUpload()
+        image = FileUpload()
 
     @login_required
     @user_passes_test(lambda user: user.is_superuser)
