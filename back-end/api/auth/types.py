@@ -19,7 +19,6 @@ class AuthType(DjangoObjectType):
         interfaces = (relay.Node,)
         fields = (
             'id',
-            'role',
             'is_admin',
             'is_active',
         )
@@ -29,9 +28,6 @@ class AuthType(DjangoObjectType):
             info.context.user.is_admin
 
         ) else False
-
-    def resolve_role(self, info, **kwargs):
-        return info.context.user.role
 
     @user_passes_test(lambda user: user.role == 'customer')
     def resolve_customer(self, info):

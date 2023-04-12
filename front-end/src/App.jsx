@@ -5,9 +5,12 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
-import Profile from "./pages/Profile"
+import Product from "./components/Product/Product";
+import PrivateRoute from "./components/PrivateRoute";
 import { ProductsContextProvider } from "./Context/ProductsContext";
-import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import ProfileDirect from "./pages/ProfileDirect";
+import Cart from "./pages/Cart";
 
 function App() {
   //connect with server
@@ -16,21 +19,6 @@ function App() {
     cache: new InMemoryCache(),
   });
 
-  // client
-  // .query({
-  //   query: gql`
-  //     query GetLocations {
-  //       locations {
-  //         id
-  //         name
-  //         description
-  //         photo
-  //       }
-  //     }
-  //   `,
-  // })
-  // .then((result) => console.log(result));
-  
   return (
     <ApolloProvider client={client}>
     <ProductsContextProvider>
@@ -38,9 +26,13 @@ function App() {
     <Navbar />
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route element={<PrivateRoute />}>
+            <Route path="/profile" element={<ProfileDirect/>} />
+      </Route>
+      <Route path="/cart" element={<Cart/>}/>
       <Route path="/LogIn" element={<LogIn/>} />
       <Route path="/SignUp" element={<SignUp/>} />
-      <Route path="/profile" element={<Profile/>} />
+      <Route path="/product" element={<Product/>} />
     </Routes>
     <Footer />
   </BrowserRouter>

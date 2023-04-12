@@ -80,6 +80,6 @@ services:
   #     - static:/static
   #     - frontend_build:/frontend_build
 volumes:
-  frontend_build: {}
+  frontend_build: {} 
   static: {}
   aws: {}

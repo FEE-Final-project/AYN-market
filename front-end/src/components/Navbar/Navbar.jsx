@@ -1,21 +1,53 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+//import react utilities
+
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+
 import { Fragment } from "react";
+import Cookies from "universal-cookie";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { gql, useQuery } from '@apollo/client';
+//import tailwind tags
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+//import styles and logo
 import logo from "../../assets/logo.svg";
 import "./Navbar.css";
+import 'remixicon/fonts/remixicon.css';
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+let GET_USER = gql`
+query Me($id: ID!) {
+  me(id: $id) {
+    isActive
+    isAdmin
+    role
+  }
+}
+
+`;
 export default function Navbar() {
-  const [loggedIn, setLoggedIn] = useState(false); // change login state
+  const cookies = new Cookies();
+  const { user, dispatch } = useAuthContext();
+  const navigate = useNavigate();
+
+
   const [read, setRead] = useState(false);
 
+
+  function handleSignOut() {
+    cookies.remove("user");
+    cookies.remove("token");
+    dispatch({ type: "LOGOUT" });
+    navigate("/")
+  }
+
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-800 z-50">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -34,7 +66,7 @@ export default function Navbar() {
               <div className="flex flex-1 items-center justify-center content-center sm:items-center sm:justify-start ">
                 <NavLink
                   to="/"
-                  className="flex flex-shrink-0 items-center bg-white rounded-full bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="flex flex-shrink-0 items-center bg-white rounded-full text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <img
                     className="block h-8 w-auto logo"
@@ -45,7 +77,7 @@ export default function Navbar() {
 
                 <div className="hidden sm:ml-6 sm:block ">
                   {/* put different NavLink here */}
-                  <NavLink
+                  {/* <NavLink
                 to="/"
                 className="bg-gray-900 text-white p-1 rounded mx-1 hover:bg-gray-700"
               >
@@ -56,12 +88,14 @@ export default function Navbar() {
                 className="bg-gray-900 text-white p-1 rounded hover:bg-gray-700"
               >
                 home
-              </NavLink>
+              </NavLink> */}
                 </div>
               </div>
-              {loggedIn ? (
+              {user ? (
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                  {/* notification dropdown */}
+              {/* notification dropdown */}
+              {!user?.isSuperuser ?   
+               <>
                   <button
                     type="button"
                     className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white"
@@ -153,16 +187,37 @@ export default function Navbar() {
                     </Transition>
                   </Menu>
 
+
+                  {/* cart */}
+                  <Menu as="div" className="relative ml-3">
+                    <div>
+                      <Menu.Button className="flex rounded-full bg-gray-800 text-sm">
+                        <span className="sr-only">cart</span>
+                        <NavLink to="/cart">
+                        <i className="ri-shopping-cart-2-fill rounded-full  text-lg   bg-gray-800 p-1 text-gray-400 hover:text-white " ></i>
+                        </NavLink>
+                      </Menu.Button>
+                    </div>
+
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                    </Transition>
+                  </Menu> </> : <></>}
+
+
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-3">
                     <div>
                       <Menu.Button className="flex rounded-full bg-gray-800 text-sm">
                         <span className="sr-only">Open user menu</span>
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt=""
-                        />
+                        <i className="ri-user-3-fill rounded-full text-lg bg-gray-800 p-1 text-gray-400 hover:text-white"></i>
                       </Menu.Button>
                     </div>
                     <Transition
@@ -174,27 +229,48 @@ export default function Navbar() {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none px-2 " style={{ backgroundColor: "#d8c5e0" }}>
+                       
                         <Menu.Item>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          >
-                            Your Profile
-                          </a>
+                          <NavLink to="/Profile" className=" text-sm mb-1 text-black  flex items-center hover:text-blue-500 "  >
+                            <i className="ri-user-settings-line text-2xl"></i>
+                            <span className="ml-3">Profile</span>
+                          </NavLink>
+
                         </Menu.Item>
-                        <Menu.Item>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        <Menu.Item >
+                          <button
+                            onClick={handleSignOut}
+                            className="text-sm  text-black  flex items-center hover:text-red-500"
                           >
-                            Sign out
-                          </a>
+                           <i className="ri-logout-box-r-line text-2xl "></i>
+                          <span className="ml-3">Sign out</span>
+                          </button>
+
+
+
                         </Menu.Item>
                       </Menu.Items>
                     </Transition>
                   </Menu>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               ) : (
                 <div className="flex content-center  absolute inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto ">
                   <NavLink
@@ -216,7 +292,7 @@ export default function Navbar() {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pt-2 pb-3 text-center">
-              <NavLink
+              {/* <NavLink
                 to="/"
                 className="bg-gray-900 text-white p-1 rounded  block"
               >
@@ -227,7 +303,7 @@ export default function Navbar() {
                 className="bg-gray-900 text-white p-1 rounded block"
               >
                home
-              </NavLink>
+              </NavLink> */}
             </div>
           </Disclosure.Panel>
         </>
