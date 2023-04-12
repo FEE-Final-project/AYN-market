@@ -13,6 +13,8 @@ class CategoryType(DjangoObjectType):
         interfaces = (relay.Node,)
         connection_class = CountableConnection
         fields = "__all__"
+    def resolve_image(self, info, **kwargs):
+        return self.image.url
 
 class ProductType(DjangoObjectType):
     category=graphene.Field(CategoryType)
@@ -25,6 +27,9 @@ class ProductType(DjangoObjectType):
     def resolve_category(self, info, **kwargs):
         return self.category
 
+    def resolve_image(self, info, **kwargs):
+        return self.image.url
+
 
 class VariationType(DjangoObjectType):
     product=graphene.Field(ProductType)
@@ -36,3 +41,6 @@ class VariationType(DjangoObjectType):
 
     def resolve_product(self , info , **kwargs):
         return self.product
+
+
+
