@@ -10,6 +10,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { ProductsContextProvider } from "./Context/ProductsContext";
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import ProfileDirect from "./pages/ProfileDirect";
+import Cart from "./pages/Cart";
 
 function App() {
   //connect with server
@@ -28,6 +29,7 @@ function App() {
       <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<ProfileDirect/>} />
       </Route>
+      <Route path="/cart" element={<Cart/>}/>
       <Route path="/LogIn" element={<LogIn/>} />
       <Route path="/SignUp" element={<SignUp/>} />
       <Route path="/product" element={<Product/>} />
