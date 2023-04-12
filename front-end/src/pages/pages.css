@@ -294,3 +294,12 @@ input{
 
 
 
+/* Admin panel styles*/
+
+@media screen and (max-width: 765px) {
+ .adminPanel{
+    display: block !important;
+ }
+}
+    
+
