@@ -238,6 +238,35 @@ export default function Navbar() {
                           </NavLink>
 
                         </Menu.Item>
+                       
+                        {!user.isSuperuser &&   <>  <Menu.Item >
+                          
+                            
+                            
+                          <NavLink to="/Wishlist" className=" text-sm mb-1 text-black  flex items-center hover:text-blue-500 "  >
+                            
+                            <i className="ri-heart-fill  text-2xl "></i>
+                            <span className="ml-3">  Wishlist</span>
+                          </NavLink>
+                          
+                        </Menu.Item> 
+                        <Menu.Item>
+                        <NavLink to="/Orders" className=" text-sm mb-1 text-black  flex items-center hover:text-blue-500 "  >
+                            
+                            
+                            <i class="ri-order-play-line  text-2xl"></i>
+
+                            <span className="ml-3">  Orders </span>
+                          </NavLink>
+                        
+                        </Menu.Item>  
+
+
+
+                         </>
+
+                        
+                                             }
                         <Menu.Item >
                           <button
                             onClick={handleSignOut}
@@ -247,6 +276,8 @@ export default function Navbar() {
                           <span className="ml-3">Sign out</span>
                           </button>
                         </Menu.Item>
+
+                       
                       </Menu.Items>
                     </Transition>
                   </Menu>
