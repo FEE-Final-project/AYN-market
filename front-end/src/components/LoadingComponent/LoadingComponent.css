@@ -1,0 +1,34 @@
+.progress {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    --r1: 154%;
+    --r2: 68.5%;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  
+    background: radial-gradient(var(--r1) var(--r2) at top   ,#0000 79.5%,#ff9147 80%) center left,
+         radial-gradient(var(--r1) var(--r2) at bottom,#ff9147 79.5%,#0000 80%) center center,
+         radial-gradient(var(--r1) var(--r2) at top   ,#0000 79.5%,#ff9147 80%) center right,
+         white;
+    background-size: 50.5% 220%;
+    background-position: -100% 0%,0% 0%,100% 0%;
+    background-repeat: no-repeat;
+    animation: aynLoading 5s infinite linear;
+ }
+ 
+ @keyframes aynLoading {
+    33% {
+       background-position: 0% 33% ,100% 33% ,200% 33%;
+    }
+ 
+    66% {
+       background-position: -100%  66%,0%   66% ,100% 66%;
+    }
+ 
+    100% {
+       background-position: 0% 100%,100% 100%,200% 100%;
+    }
+ }
