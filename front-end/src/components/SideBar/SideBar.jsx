@@ -7,7 +7,7 @@ import './SideBar.css';
 import 'remixicon/fonts/remixicon.css';
 
 export default function SideBar({setActive}) {
-    const [activeSidebar, setActiveSidebar] = useState(false);
+    const [activeSidebar, setActiveSidebar] = useState(true);
     return (
         
       <div className="w-fit p-2 sideBarContainer">
