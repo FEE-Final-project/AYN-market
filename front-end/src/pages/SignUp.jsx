@@ -1,31 +1,21 @@
 import React, {  useState , useEffect } from 'react'
-import { gql, useMutation } from '@apollo/client';
+
 import {useNavigate} from 'react-router-dom'
 import { useAuthContext } from "../hooks/useAuthContext";
-
+import { useAuthApi } from '../hooks/useAuthApi';
 //import for styling
 import logo from "../assets/logo.svg";
 import "./pages.css"
-
-
-const ADD_USER = gql`
-  mutation CreateUser($input:CustomerSignUpInput!) {
-    customerSignup(input: $input) {
-    success
-    errors
-    }
-  }
-`;
 
 
 export default function SignUp() {
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const phoneRegex = /^01[0125][0-9]{8}$/;
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/;
-
+  const [loading ,setLoading] = useState(false);
   const {user} =useAuthContext()
 
-  const [customerSignup, {loading, error }] = useMutation(ADD_USER);
+  const {createUserApi} = useAuthApi();
 
   const navigate = useNavigate();
   
@@ -93,6 +83,7 @@ export default function SignUp() {
       }
    }
     setUserData((prev) => {
+    
       return {
         ...prev,
         [e.target.name]: e.target.value,
@@ -100,20 +91,16 @@ export default function SignUp() {
     });
   }
 
-  async function handleSubmit(e) {
+function handleSubmit(e) {
     e.preventDefault();
     if(passwordError || passwordConfirmationError || phoneError || emailError || userNameError){
       setFormError("Please fix the errors in the form");
       return;
     }
-   let response = await customerSignup({ variables: {input : {password:userData.password,passwordConfirmation:userData.passwordConfirmation,email:userData.email,username:userData.userName,phone:userData.phone}}});
-
-    if (error) {
-      setFormError(error.message);
-      return;
-    }
+   setLoading(true);
+   createUserApi({password:userData.password,passwordConfirmation:userData.passwordConfirmation,email:userData.email,username:userData.userName,phone:userData.phone}).then(response=>{
     if (!response.data.customerSignup.success){
-      setFormError(response.data.customerSignup.errors[0]);
+       setFormError(response.data.customerSignup.errors[0]);
       return;
     }
     if(response.data.customerSignup.success){
@@ -126,8 +113,16 @@ export default function SignUp() {
         phone: "",
       });
       setFormError('');
+      
       navigate('/login');
   }
+  setLoading(false);
+   })
+   .catch(error=>{
+    setFormError(error.message);
+    setLoading(false);
+   })
+    setLoading(false);  
   }
   
   return (

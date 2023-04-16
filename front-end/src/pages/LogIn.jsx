@@ -1,36 +1,25 @@
 import React,{useState , useEffect} from 'react'
-import { gql, useMutation } from '@apollo/client';
+
 import {useNavigate} from 'react-router-dom'
 import { useAuthContext } from "../hooks/useAuthContext";
-import Cookies from 'universal-cookie';
+import { useAuthApi } from '../hooks/useAuthApi';
+
 
 //import for styling
 import logo from "../assets/logo.svg";
 import "./pages.css"
 
-const LOG_IN = gql`
-mutation ObtainToken($email: String!, $password: String!) {
-  obtainToken(email: $email, password: $password) {
-    errors
-    success
-    refreshToken
-    token
-    user {
-      id
-      email
-      username
-      isSuperuser
-    }
-  }
-}
-`;
+
 export default function LogIn() {
+  
+  const {obtainTokenApi} = useAuthApi();
+  
   const navigate = useNavigate();
-  const [obtainToken, {loading, error }] = useMutation(LOG_IN);
+  const [loading ,setLoading] = useState(false);
   const [userData, setUserData] = useState({email:"", password:""});
   const [formError,setFormError] = useState("");
 
-  const { dispatch ,user} = useAuthContext();
+  const {user} = useAuthContext();
  
  
   useEffect(()=>{
@@ -44,41 +33,31 @@ export default function LogIn() {
   }
 
 
-  async function handleSubmit(e){
-    try{
-
-      e.preventDefault();
-      
-      let response = await obtainToken({variables:{email:userData.email , password:userData.password}})
+   function handleSubmit(e){
+    e.preventDefault();
+    setLoading(true);
+    obtainTokenApi(userData.email, userData.password)
+    .catch(error=>{
+      console.log(error)
+      setFormError("your email or password is incorrect")
+      setLoading(false);
+    })
     
-  
-    if(response.data.obtainToken.success){
-      const cookies = new Cookies();
-      cookies.set('user', response.data.obtainToken.user, { path: '/' });
-      cookies.set('token', response.data.obtainToken.token, { path: '/' });
-      cookies.set('refreshToken', response.data.obtainToken.refreshToken, { path: '/' });
-      dispatch({ type: "LOGIN", payload: response.data.obtainToken.user , token: response.data.obtainToken.token });
-
+    if(formError === ""){
       setUserData({
         email: "",
         password: "",
       });
-
-     if(response.data.obtainToken.user.isSuperuser){
-      navigate("/profile")
-     }
-     else{
-      navigate("/");
-     }
      setFormError("");
+     setLoading(false);
+    }
+     
     }
   
-  }
-    catch(error){
-      setFormError("your email or password is incorrect")
-    }
+  
 
-  }
+
+  
   return (
 
     <>
