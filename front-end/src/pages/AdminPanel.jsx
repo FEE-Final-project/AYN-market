@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import SideBar from '../components/SideBar/SideBar';
+import Categories from '../components/Categories/Categories';
 
 export default function AdminPanel() {
   const [active, setActive] = useState("Dashboard");
@@ -16,7 +17,7 @@ export default function AdminPanel() {
               <div>Products</div>
               : active === "Orders" ?
                 <div>Orders</div> :
-                <div> Categories </div>
+                <Categories />
       }
 
     </div>

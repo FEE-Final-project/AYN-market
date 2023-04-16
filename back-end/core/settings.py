@@ -217,3 +217,18 @@ CORS_ORIGIN_WHITELIST = (
   'http://localhost:3000',
   'http://localhost:3001',
 )
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'x-refresh-token',
+    'x-token',
+    'x-access-token',
+]

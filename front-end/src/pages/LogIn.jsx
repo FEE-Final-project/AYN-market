@@ -56,7 +56,7 @@ export default function LogIn() {
       const cookies = new Cookies();
       cookies.set('user', response.data.obtainToken.user, { path: '/' });
       cookies.set('token', response.data.obtainToken.token, { path: '/' });
-
+      cookies.set('refreshToken', response.data.obtainToken.refreshToken, { path: '/' });
       dispatch({ type: "LOGIN", payload: response.data.obtainToken.user , token: response.data.obtainToken.token });
 
       setUserData({
