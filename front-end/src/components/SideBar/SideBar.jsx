@@ -9,10 +9,9 @@ import 'remixicon/fonts/remixicon.css';
 export default function SideBar({setActive}) {
     const [activeSidebar, setActiveSidebar] = useState(true);
     return (
-        
       <div className="w-fit p-2 sideBarContainer">
       <button className={activeSidebar ?'toggleSideBar px-3 activeToggleSideBar  whitespace-nowrap' :'toggleSideBar  nonActiveToggleSideBar' } onClick={()=>setActiveSidebar(prev=>!prev)}> {activeSidebar ? "X" : "⬇"} </button>
-      { activeSidebar &&   <Sidebar aria-label="Sidebar with multi-level dropdown example">
+      { activeSidebar &&   <Sidebar aria-label="Sidebar with multi-level dropdown example" className="border-r-2 border-lime-500">
                 <Sidebar.Items>
                     <Sidebar.ItemGroup>
                         <Sidebar.Item

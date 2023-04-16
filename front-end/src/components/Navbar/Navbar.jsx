@@ -42,6 +42,7 @@ export default function Navbar() {
   function handleSignOut() {
     cookies.remove("user");
     cookies.remove("token");
+    cookies.remove("refreshToken");
     dispatch({ type: "LOGOUT" });
     navigate("/")
   }
