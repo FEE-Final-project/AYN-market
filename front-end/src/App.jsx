@@ -8,51 +8,90 @@ import SignUp from "./pages/SignUp";
 import Product from "./components/Product/Product";
 import PrivateRoute from "./components/PrivateRoute";
 import { ProductsContextProvider } from "./Context/ProductsContext";
-import { ApolloClient, InMemoryCache, ApolloProvider , createHttpLink, ApolloLink } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+import {ApolloProvider, ApolloClient, InMemoryCache,  fromPromise ,gql , createHttpLink} from "@apollo/client";
+import { onError } from '@apollo/client/link/error'
+import { setContext } from "@apollo/client/link/context";
 import ProfileDirect from "./pages/ProfileDirect";
 import Cart from "./pages/Cart";
 import Cookies from "universal-cookie";
 
 
 function App() {
-  const cookies = new Cookies();
+const cookies = new Cookies();
   
+const errorLink = onError( ({ graphQLErrors, operation, forward }) => {
+  if (graphQLErrors) {
+      const messages = graphQLErrors.map(({ message }) => message);
+      const refreshToken = cookies.get("refreshToken");
+      if (messages.includes('Signature has expired') || messages.includes('Error decoding signature')) {
+          return getNewTokenByRefreshToken(refreshToken)
+              .filter(value => Boolean(value))
+              .flatMap((newToken) => {
+                  const oldHeaders = operation.getContext().headers;
+                  operation.setContext({
+                      headers: {
+                          ...oldHeaders,
+                          authorization: `JWT ${newToken}`,
+                      },
+                  });
+                  return forward(operation);
+              });
+      }
+  }
+})
+
+const authLink = setContext((_, { headers }) => {
+  const token = cookies.get("token");
+  return {
+      headers: {
+          ...headers,
+          authorization:  token ? token : '',
+      },
+  };
+});
+
+const getNewTokenByRefreshToken = (refreshToken) => {
+  return fromPromise(
+      client
+          .mutate({
+              mutation:gql`
+              mutation refreshToken($refreshToken: String!) {
+                refreshToken(refreshToken: $refreshToken) {
+                  token
+                  refreshToken
+                  payload
+                }
+             }`,
+              variables: { refreshToken },
+          })
+          .then((response) => {
+              if (response?.data) {
+                  const { token, refreshToken } = response.data.refreshToken;
+                  if (token && refreshToken) {
+                      cookies.set('token',token);
+                      cookies.set('refreshToken',refreshToken);
+                      return token;
+                  }
+              }
+          })
+          .catch((error) => {
+              if (error.message === 'Invalid refresh token' || error.message === 'Refresh token is expired') {
+                  cookies.remove('token');
+                  cookies.remove('refreshToken');
+                  window.location = window.location.origin;
+              }
+          })
+  );
+};
+
+
   const httpLink = createHttpLink({
     uri: 'http://localhost:8000/graphql/',
   });
  
-  const authLink = new ApolloLink((operation, forward) => {
-  
-    const token = cookies.get("token");
-    const refreshToken = cookies.get("refreshToken");
-     operation.setContext(({ headers = {} }) => ({
-      headers: {
-        ...headers,
-        authorization: token ? `JWT ${token}` : "",
-        'x-refresh-token': refreshToken ? refreshToken : '',
-      }
-  }))
-return forward(operation);
-})
-
-const refreshLink = new ApolloLink((operation, forward) => {
-  return forward(operation).map((response) => {
-     const context = operation.getContext();
-     const { response: { headers } } = context;
-     const token = headers.get('x-token');
-     const refreshToken = headers.get('x-refresh-token');
-     if(token && refreshToken){
-      cookies.set('token',token);
-      cookies.set('refreshToken',refreshToken);
-     }
-     return response;
-    });
-})
-
   //connect with server
   const client = new ApolloClient({
-    link: refreshLink.concat(authLink).concat(httpLink),
+    link: errorLink.concat(authLink).concat(httpLink),
     cache: new InMemoryCache()
   });
 
