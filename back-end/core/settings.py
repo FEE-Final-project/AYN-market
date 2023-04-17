@@ -193,8 +193,11 @@ AUTHENTICATION_BACKENDS = [
 #                  |_|
 GRAPHQL_JWT = {
     'JWT_VERIFY_EXPIRATION': True,
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
     'JWT_EXPIRATION_DELTA': timedelta(minutes=120),
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+    'JWT_HIDE_TOKEN_FIELDS': True,
 }
 GRAPHENE = {
     'SCHEMA': 'api.graphql.schema',
