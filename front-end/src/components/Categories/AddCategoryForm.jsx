@@ -1,78 +1,61 @@
 import React, { useState } from 'react'
-// import { gql, useMutation } from '@apollo/client';
-import Cookies from "universal-cookie";
+import { useAdminMutations } from '../../hooks/useAdminMutations';
 
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
 
-// const ADD_CATEGORY = gql`
-//   mutation($input: CreateCategoryInput!){
-//     createCategory(input: $input){
-//       errors
-//       success
-//     }
-//   }
-// `
 
 export default function AddCategoryForm() {
-
-  // const [createCategory, { loading, error }] = useMutation(ADD_CATEGORY);
-
-
+  const { addCategoryApi } = useAdminMutations();
+  const [loading, setLoading] = useState(false);
   const [categoryData, setCategoryData] = useState({ name: "", description: "" });
-  let image;
+  const [image, setImage] = useState(null);
+  const [categoryError, setCategoryError] = useState("");
+
   function handleChange(e) {
     setCategoryData(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
-
   function handleImageChange(e) {
-    image = e.target.files[0];
+    setImage(e.target.files[0])
   }
 
-  async function handleSubmit(e) {
-    // try {
+ function handleSubmit(e) {
       e.preventDefault();
-      let formData = new FormData();
-      formData.append("image", image)
-      const requestOptions = {
-        method: 'POST',
-        headers:{
-          'content-type': 'application/json',
-          'Authorization': `JWT ${new Cookies().get('token')}`
-        },
-        body:JSON.stringify({
-          query:`
-          mutation CreateCategory{
-            createCategory(input: {name:"hello"}){
-              errors
-              success
-            }
+      const formData = new FormData();
+      console.log(image)
+      formData.append('image', image);
+      setLoading(true);
+      addCategoryApi({description:categoryData.description,image:formData,name:categoryData.name})
+      .then(
+        (res) => {
+          if(res.data.createCategory.success){
+            setCategoryData({name:"",description:""})
+            setImage(null)
           }
-            `
-        })
-      }
-      // let response = await createCategory({ variables: { input:{description:categoryData.description,image,name:categoryData.name}}});
-      fetch('http://localhost:8000/graphql/',requestOptions)
-      .then(res=>res.json())
-      .then(data => console.log(data))
-      .catch(error=>console.log(error))
-      // console.log(response)
-    // }
-    // catch (err) {
-    //   console.log(err)
-    // }
+          console.log(res);
+          setLoading(false);
+        }
+      )
+      .catch(error=>{
+        console.log(error);
+        setLoading(false);
+      })
+  }
+
+  if(loading){
+    return <LoadingComponent />
   }
 
   return (
     <form className="flex flex-col gap-3 mb-5" onSubmit={handleSubmit}>
 
       <label htmlFor="categoryName">Category Name</label>
-      <input type="text" name="name" id="categoryName" value={categoryData.name} onChange={handleChange} />
+      <input type="text" name="name" id="categoryName" value={categoryData.name} onChange={handleChange} required />
 
       <label htmlFor="description">Category Description</label>
-      <textarea name="description" id="description" value={categoryData.description} onChange={handleChange} cols="30" rows="5"></textarea>
+      <textarea name="description" id="description" value={categoryData.description} onChange={handleChange} cols="30" rows="5" required></textarea>
 
       <label htmlFor="image">Upload Category Image</label>
-      <input id="image" name='image' type="file" className='bg-gray-500 text-white' onChange={handleImageChange} />
+      <input id="image" name='image' type="file" className='bg-gray-500 text-white' onChange={handleImageChange}  required/>
 
 
       <button className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow" type="submit"> Add Category </button>

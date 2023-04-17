@@ -15,26 +15,24 @@ export const useAuthApi = () => {
         return createUser({variables:{input}})
     }
 
-   const obtainTokenApi = (email,password) => {
-        return obtainToken({variables:{email,password}})
-        .then((response) => {
-            if (response?.data) {
-                const { token, refreshToken ,user } = response.data.obtainToken;
-                if (token && refreshToken) {
-                    TokenStorage.storeToken(token);
-                    TokenStorage.storeRefreshToken(refreshToken);
-                    TokenStorage.storeUser(user);
-                    dispatch({ type: "LOGIN", payload: response.data.obtainToken.user , token: response.data.obtainToken.token });
-                    if(response.data.obtainToken.user.isSuperuser){
-                        navigate("/profile")
-                       }
-                       else{
-                        navigate("/");
-                       }
-   
-                }
-            }
-        })
+   const obtainTokenApi = async (email,password) => {
+        const response = await obtainToken({ variables: { email, password } });
+       if (response?.data) {
+           const { token, refreshToken, user } = response.data.obtainToken;
+           if (token && refreshToken) {
+               TokenStorage.storeToken(token);
+               TokenStorage.storeRefreshToken(refreshToken);
+               TokenStorage.storeUser(user);
+               dispatch({ type: "LOGIN", payload: response.data.obtainToken.user, token: response.data.obtainToken.token });
+               if (response.data.obtainToken.user.isSuperuser) {
+                   navigate("/profile");
+               }
+               else {
+                   navigate("/");
+               }
+
+           }
+       }
     }
 
     const refreshTokenApi = (token) => {
@@ -46,8 +44,5 @@ export const useAuthApi = () => {
         obtainTokenApi,
         refreshTokenApi,
  }
-
-
-
 
 };

@@ -100,7 +100,7 @@ function handleSubmit(e) {
    setLoading(true);
    createUserApi({password:userData.password,passwordConfirmation:userData.passwordConfirmation,email:userData.email,username:userData.userName,phone:userData.phone}).then(response=>{
     if (!response.data.customerSignup.success){
-       setFormError(response.data.customerSignup.errors[0]);
+       setFormError(response.data.customerSignup.errors[0]); 
       return;
     }
     if(response.data.customerSignup.success){

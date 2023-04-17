@@ -1,4 +1,4 @@
-import {ApolloClient, InMemoryCache,  fromPromise ,gql , createHttpLink} from "@apollo/client";
+import {ApolloClient, InMemoryCache,  fromPromise  , createHttpLink} from "@apollo/client";
 import { onError } from '@apollo/client/link/error'
 import { setContext } from "@apollo/client/link/context";
 
