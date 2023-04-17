@@ -14,7 +14,9 @@ class CategoryType(DjangoObjectType):
         connection_class = CountableConnection
         fields = "__all__"
     def resolve_image(self, info, **kwargs):
-        return self.image.url
+        if self.image:
+            return self.image.url
+        return None
 
 class ProductType(DjangoObjectType):
     category=graphene.Field(CategoryType)
@@ -28,7 +30,9 @@ class ProductType(DjangoObjectType):
         return self.category
 
     def resolve_image(self, info, **kwargs):
-        return self.image.url
+        if self.image:
+            return self.image.url
+        return None
 
 
 class VariationType(DjangoObjectType):
