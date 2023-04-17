@@ -37,7 +37,7 @@ class CreateProduct(relay.ClientIDMutation):
         is_available = graphene.Boolean(required=True)
 
     @login_required
-    @user_passes_test(lambda user: user.is_superuser)
+    @user_passes_test(lambda user: user.is_staff)
     def mutate_and_get_payload(
         root,
         info,
@@ -94,7 +94,7 @@ class UpdateProduct(relay.ClientIDMutation):
         is_available = graphene.Boolean()
 
     @login_required
-    @user_passes_test(lambda user: user.is_superuser)
+    @user_passes_test(lambda user: user.is_staff)
     def mutate_and_get_payload(
         root,
         info,
@@ -129,7 +129,7 @@ class DeleteProduct(relay.ClientIDMutation):
         id=graphene.ID(required=True)
 
     @login_required
-    @user_passes_test(lambda user: user.is_superuser)
+    @user_passes_test(lambda user: user.is_staff)
     def mutate_and_get_payload(
         root,
         info,
@@ -157,7 +157,7 @@ class CreateCategory(relay.ClientIDMutation):
         image = FileUpload()
 
     @login_required
-    @user_passes_test(lambda user: user.is_superuser)
+    @user_passes_test(lambda user: user.is_staff)
     def mutate_and_get_payload(
         root,
         info,
@@ -165,6 +165,7 @@ class CreateCategory(relay.ClientIDMutation):
     ):
 
         try:
+            print(info.context.user ,"hi")
             category_name = input.get('name')
             if Category.objects.filter(category_name=category_name).exists():
                 raise Exception('Category already exists')
@@ -190,7 +191,7 @@ class UpdateCategory(relay.ClientIDMutation):
         image = FileUpload()
 
     @login_required
-    @user_passes_test(lambda user: user.is_superuser)
+    @user_passes_test(lambda user: user.is_staff)
     def mutate_and_get_payload(
         root,
         info,
@@ -224,7 +225,7 @@ class DeleteCategory(relay.ClientIDMutation):
         id=graphene.ID(required=True)
 
     @login_required
-    @user_passes_test(lambda user: user.is_superuser)
+    @user_passes_test(lambda user: user.is_staff)
     def mutate_and_get_payload(
         root,
         info,
@@ -252,7 +253,7 @@ class CreateVariation(relay.ClientIDMutation):
         is_active = graphene.Boolean()
 
     @login_required
-    @user_passes_test(lambda user: user.is_superuser)
+    @user_passes_test(lambda user: user.is_staff)
     def mutate_and_get_payload(
         root,
         info,
@@ -290,7 +291,7 @@ class UpdateVariation(relay.ClientIDMutation):
         is_active = graphene.Boolean()
 
     @login_required
-    @user_passes_test(lambda user: user.is_superuser)
+    @user_passes_test(lambda user: user.is_staff)
     def mutate_and_get_payload(
         root,
         info,
@@ -321,7 +322,7 @@ class DeleteVariation(relay.ClientIDMutation):
         id=graphene.ID(required=True)
 
     @login_required
-    @user_passes_test(lambda user: user.is_superuser)
+    @user_passes_test(lambda user: user.is_staff)
     def mutate_and_get_payload(
         root,
         info,

@@ -65,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -179,12 +180,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #  /_/   \_\__,_|\__|_| |_|
 #
 AUTH_USER_MODEL = 'user.User'
-# AUTHENTICATION_BACKENDS = [
-#     'apps.config.graphql_jwt.backends.CustomJSONWebTokenBackend',
-#     # 'social_core.backends.google.GoogleOAuth2',
-#     # 'social_core.backends.apple.AppleIdAuth',
-#     'django.contrib.auth.backends.ModelBackend',
-# ]
+AUTHENTICATION_BACKENDS = [
+    "graphql_jwt.backends.JSONWebTokenBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
 
 #    ____                 _      ___  _
 #   / ___|_ __ __ _ _ __ | |__  / _ \| |
@@ -194,13 +193,8 @@ AUTH_USER_MODEL = 'user.User'
 #                  |_|
 GRAPHQL_JWT = {
     'JWT_VERIFY_EXPIRATION': True,
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
     'JWT_EXPIRATION_DELTA': timedelta(minutes=120),
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
-    'JWT_HIDE_TOKEN_FIELDS': True,
-    "JWT_PAYLOAD_HANDLER": "apps.config.graphql_jwt.utils.custom_jwt_payload",
-
 }
 GRAPHENE = {
     'SCHEMA': 'api.graphql.schema',
