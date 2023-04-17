@@ -193,7 +193,7 @@ AUTHENTICATION_BACKENDS = [
 #                  |_|
 GRAPHQL_JWT = {
     'JWT_VERIFY_EXPIRATION': True,
-    'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
+    'JWT_EXPIRATION_DELTA': timedelta(minutes=120),
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
 }
 GRAPHENE = {
