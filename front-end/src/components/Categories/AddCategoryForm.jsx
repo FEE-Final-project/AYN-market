@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
+import React, {  useState } from 'react'
 import { useAdminMutations } from '../../hooks/useAdminMutations';
-
-import LoadingComponent from "../LoadingComponent/LoadingComponent";
 
 
 export default function AddCategoryForm() {
   const { addCategoryApi } = useAdminMutations();
-  const [loading, setLoading] = useState(false);
+  const [loadingForm, setLoadingForm] = useState(false);
   const [categoryData, setCategoryData] = useState({ name: "", description: "" });
   const [image, setImage] = useState(null);
   const [categoryError, setCategoryError] = useState("");
+
 
   function handleChange(e) {
     setCategoryData(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -18,36 +17,34 @@ export default function AddCategoryForm() {
     setImage(e.target.files[0])
   }
 
- function handleSubmit(e) {
+
+async function handleSubmit(e) {
       e.preventDefault();
       const formData = new FormData();
-      console.log(image)
       formData.append('image', image);
-      setLoading(true);
-      addCategoryApi({description:categoryData.description,image:formData,name:categoryData.name})
-      .then(
-        (res) => {
+      setLoadingForm(true);
+      let res = await addCategoryApi({description:categoryData.description,image:formData,name:categoryData.name})
           if(res.data.createCategory.success){
             setCategoryData({name:"",description:""})
             setImage(null)
+            setCategoryError("")
           }
-          console.log(res);
-          setLoading(false);
-        }
-      )
-      .catch(error=>{
-        console.log(error);
-        setLoading(false);
-      })
+          else{
+            setCategoryError(res.data.createCategory.errors[0])
+          }
+       
+      setLoadingForm(false);
   }
 
-  if(loading){
-    return <LoadingComponent />
-  }
+ 
 
   return (
-    <form className="flex flex-col gap-3 mb-5" onSubmit={handleSubmit}>
-
+     
+    <form className="flex flex-col gap-3 mb-5" encType='multipart/form-data' onSubmit={(e)=>{
+      handleSubmit(e);
+    
+      }}>
+      {categoryError && <p className="text-red-300 bg-red-900 text-center rounded p-3">{categoryError}</p>}
       <label htmlFor="categoryName">Category Name</label>
       <input type="text" name="name" id="categoryName" value={categoryData.name} onChange={handleChange} required />
 
@@ -58,7 +55,7 @@ export default function AddCategoryForm() {
       <input id="image" name='image' type="file" className='bg-gray-500 text-white' onChange={handleImageChange}  required/>
 
 
-      <button className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow" type="submit"> Add Category </button>
+      <button className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow" disabled={loadingForm} type="submit"> {loadingForm ? "Create your Category" : "Add Category"}  </button>
     </form>
   )
 }

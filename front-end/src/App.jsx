@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
-import Product from "./components/Product/Product";
+import Product from "./pages/Product"
 import PrivateRoute from "./components/PrivateRoute";
 import { ProductsContextProvider } from "./Context/ProductsContext";
 import { ApolloProvider } from "@apollo/client";

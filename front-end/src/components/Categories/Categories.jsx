@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import AddCategoryForm from './AddCategoryForm'
+import CategorySlider from './CategorySlider';
 
 export default function Categories() {
   const [showCategoryForm, setShowCategoryForm] = useState(false);
@@ -10,8 +11,7 @@ export default function Categories() {
     {
       showCategoryForm && <AddCategoryForm/>
     }
-     
-
+    <CategorySlider />
     </aside>
   )
 }
