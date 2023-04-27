@@ -1,10 +1,8 @@
 
 import { createContext, useReducer , useEffect } from 'react'
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
-
+import  TokenStorage from '../services/TokenStorage.service'
 export const AuthContext = createContext()
+
 
 export const authReducer = (state, action) => {
   switch (action.type) {
@@ -25,8 +23,8 @@ export const AuthContextProvider = ({ children }) => {
     token:null
   })
   useEffect(()=>{
-    const user = cookies.get('user')
-    const token = cookies.get('token')
+    const user = TokenStorage.getUser()
+    const token = TokenStorage.getToken()
     if(user){
       dispatch({type:"LOGIN" , payload:user, token:token})
     }

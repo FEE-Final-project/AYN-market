@@ -19,6 +19,17 @@ class AdminMutations{
         }
     `
     }
+
+    deleteCategory(){
+        return gql`
+          mutation($input: DeleteCategoryInput!){
+            deleteCategory(input: $input){
+                success
+                errors
+            }
+          }
+        `
+    }
    
 }
 
