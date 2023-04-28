@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'apps.config',
     'apps.store',
     'apps.carts',
+    'apps.payment',
     #vendor
     'graphene_django',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',

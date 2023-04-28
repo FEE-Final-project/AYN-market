@@ -1,5 +1,6 @@
 import graphene
 import pytz
+from django.shortcuts import get_object_or_404
 
 from datetime import timedelta, datetime
 from django.db.models import Q
@@ -19,63 +20,15 @@ from apps.user.models import (
 )
 from django.contrib.auth import get_user_model
 from .types import CartItemsType , CartType
+from apps.carts.models import Cart , CartItems
+from apps.store.models import Products , Variation
 
 
-class CreateCartItem(relay.ClientIDMutation):
-    """
-    user can create cart item
-    """
 
-    cart_item = graphene.Field(CartItemsType)
-
+class AddToCart(relay.ClientIDMutation):
     class Input:
-        product = graphene.ID(required=True)
+        product_id = graphene.ID(required=True)
         quantity = graphene.Int(required=True)
-        cart_id = graphene.ID(required=True)
-    success = graphene.Boolean()
-    errors = graphene.List(graphene.String)
-
-    @login_required
-    def mutate_and_get_payload(
-        root,
-        info,
-        **input
-    ):
-        errors = []
-
-        product = Product.objects.get(id=from_global_id(input.get('product'))[1])
-        quantity = input.get('quantity')
-        user = info.context.user
-        cart_id = input.get('cart_id')
-        cart = get_obbject_or_create(Cart, id=cart_id)
-        if product.quantity < quantity:
-            errors.append(_('Product quantity is not enough'))
-            return CreateCartItem(
-                success=False,
-                errors=errors
-            )
-
-        cart_item = CartItems.objects.create(
-            product=product,
-            quantity=quantity,
-            user=user,
-            cart=cart
-        )
-
-        return CreateCartItem(
-            success=True,
-            cart_item=cart_item
-        )
-
-class UpdateCartItem(relay.ClientIDMutation):
-    """
-    user can update cart item
-    """
-    cart_item = graphene.Field(CartItemsType)
-    class Input:
-        id = graphene.ID(required=True)
-        quantity = graphene.Int(required=True)
-        product = graphene.ID(required=True)
     success = graphene.Boolean()
     errors = graphene.List(graphene.String)
     @login_required
@@ -84,48 +37,47 @@ class UpdateCartItem(relay.ClientIDMutation):
         info,
         **input
         ):
-        errors = []
-        id = from_global_id(input.get('id'))[1]
-        quantity = input.get('quantity')
-        product=None
-        product_id = from_global_id(input.get('product'))[1]
-        if product_id:
-            if not Product.objects.filter(id=product_id).exists():
+
+            user=info.context.user
+            errors = []
+            product_id = from_global_id(input.get('product_id'))[1]
+            if not Products.objects.filter(id=product_id).exists():
                 errors.append(_('Product not found'))
-                return UpdateCartItem(
+                return AddToCart(
                     success=False,
                     errors=errors
                 )
-            product = Product.objects.get(id=product_id)
-            if product.quantity < quantity:
-                errors.append(_('Product quantity is not enough'))
-                return UpdateCartItem(
+            product = Products.objects.get(id=product_id)
+            quantity = input.get('quantity')
+            if product.stock < quantity:
+                errors.append('Product quantity is not enough')
+                return AddToCart(
                     success=False,
                     errors=errors
                 )
-            input['product'] = product
-
-        cart_item = CartItems.objects.filter(id=id).first()
-        if not cart_item:
-            errors.append(_('Cart item not found'))
-            return UpdateCartItem(
-                success=False,
-                errors=errors
-            )
-        for key, value in input.items():
-            setattr(cart_item, key, value)
-        cart_item.save()
-        return UpdateCartItem(
-            success=True,
-            cart_item=cart_item
-        )
-
-class DeleteCartItem(relay.ClientIDMutation):
-    """
-    user can delete cart item
-    """
+            cart = Cart.objects.get_or_create(user=user)[0]
+            cart_item , created = CartItems.objects.get_or_create(
+                product=product,
+                user=user,
+                cart=cart,)
+            # update
+            if not created:
+                if cart_item.user != user:
+                    errors.append('You are not allowed to do this')
+                    return AddToCart(
+                        success=False,
+                        errors=errors
+                    )
+                cart_item.quauntity += quantity
+                cart_item.save()
+            # create
+            else:
+                cart_item.quauntity = quantity
+                cart_item.save()
+            return AddToCart(success=True)
+class RemoveItemFromCart(relay.ClientIDMutation):
     class Input:
-        id = graphene.ID(required=True)
+        cart_item_id = graphene.ID(required=True)
     success = graphene.Boolean()
     errors = graphene.List(graphene.String)
     @login_required
@@ -134,19 +86,59 @@ class DeleteCartItem(relay.ClientIDMutation):
         info,
         **input
         ):
-        errors = []
-        id = from_global_id(input.get('id'))[1]
-        cart_item = CartItems.objects.filter(id=id).first()
-        if not cart_item:
-            errors.append(_('Cart item not found'))
-            return DeleteCartItem(
-                success=False,
-                errors=errors
-            )
-        cart_item.delete()
-        return DeleteCartItem(
-            success=True
-        )
+            user=info.context.user
+            errors=[]
+            cart_item_id = from_global_id(input.get('cart_item_id'))[1]
+            if not CartItems.objects.filter(id=cart_item_id).exists():
+                errors.append('Cart item not found')
+                return RemoveItemFromCart(
+                    success=False,
+                    errors=errors
+                )
+            cart_item = CartItems.objects.get(id=cart_item_id)
+            if  cart_item.user != user:
+                errors.append(f'You are not allowed to delete this item')
+                return RemoveItemFromCart(
+                    success=False,
+                    errors=errors
+                )
+            cart_item.delete()
+            return RemoveItemFromCart(success=True)
+
+class ReduceQuantityOfCartitem(relay.ClientIDMutation):
+    class Input:
+        cart_item_id = graphene.ID(required=True)
+    success = graphene.Boolean()
+    errors = graphene.List(graphene.String)
+    @login_required
+    def mutate_and_get_payload(
+        root,
+        info,
+        **input
+        ):
+            user=info.context.user
+            errors=[]
+            cart_item_id = from_global_id(input.get('cart_item_id'))[1]
+            if not CartItems.objects.filter(id=cart_item_id).exists():
+                errors.append(_('Cart item not found'))
+                return ReduceQuantityOfCartitem(
+                    success=False,
+                    errors=errors
+                )
+            cart_item = CartItems.objects.get(id=cart_item_id)
+            if cart_item.user != user:
+                errors.append(_('You are not authorized to perform this action'))
+                return ReduceQuantityOfCartitem(
+                    success=False,
+                    errors=errors
+                )
+            if cart_item.quauntity == 1:
+                cart_item.delete()
+            else:
+                cart_item.quauntity -= 1
+                cart_item.save()
+            return ReduceQuantityOfCartitem(success=True)
+
 
 
 
