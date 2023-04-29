@@ -36,7 +36,7 @@ export default function LogIn() {
    function handleSubmit(e){
     e.preventDefault();
     setLoading(true);
-    obtainTokenApi(userData.email, userData.password)
+    obtainTokenApi(userData.email.toLowerCase(), userData.password)
     .catch(error=>{
       console.log(error)
       setFormError("your email or password is incorrect")
