@@ -5,7 +5,7 @@ class AdminQueries{
 
     fetchCategories(){
         return gql`
-        query CategoryList($first: Int,$last: Int , $after: String, $before: String)  {
+        query CategoryList($first: Int, $last: Int , $after: String , $before: String)  {
             categoryList(first: $first,last:$last, after: $after, before: $before) {
               edges {
                 node {
