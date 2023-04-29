@@ -3,6 +3,7 @@ import { useAdminMutations } from '../../hooks/useAdminMutations';
 
 
 export default function AddCategoryForm() {
+  //TODO: image upload fix
   const { addCategoryApi } = useAdminMutations();
   const [loadingForm, setLoadingForm] = useState(false);
   const [categoryData, setCategoryData] = useState({ name: "", description: "" });
@@ -20,19 +21,17 @@ export default function AddCategoryForm() {
 
 async function handleSubmit(e) {
       e.preventDefault();
-      const formData = new FormData();
-      formData.append('image', image);
       setLoadingForm(true);
-      let res = await addCategoryApi({description:categoryData.description,image:formData,name:categoryData.name})
+      let res = await addCategoryApi({description:categoryData.description,image,name:categoryData.name})
           if(res.data.createCategory.success){
             setCategoryData({name:"",description:""})
             setImage(null)
+            // console.log(image)
             setCategoryError("")
           }
           else{
             setCategoryError(res.data.createCategory.errors[0])
           }
-       
       setLoadingForm(false);
   }
 
@@ -40,7 +39,7 @@ async function handleSubmit(e) {
 
   return (
      
-    <form className="flex flex-col gap-3 mb-5" encType='multipart/form-data' onSubmit={(e)=>{
+    <form className="flex flex-col gap-3 mb-5"  onSubmit={(e)=>{
       handleSubmit(e);
     
       }}>
