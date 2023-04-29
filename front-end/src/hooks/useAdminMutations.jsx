@@ -13,7 +13,10 @@ export const useAdminMutations = () => {
     const [deleteCategory] = useMutation(AdminMutations.deleteCategory(),{
         refetchQueries: ['CategoryList'],
     });
-    
+    const [updateCategory] = useMutation(AdminMutations.updateCategory(),{
+        refetchQueries: ['CategoryList'],
+    });
+
     const addCategoryApi = async (input)=>{
         // console.log(input)
             const res = await addCategory({ variables: { input } });
@@ -25,10 +28,17 @@ export const useAdminMutations = () => {
         const res = await deleteCategory({ variables: { input } });
         return res;
     }
+   
+    const updateCategoryApi = async (input)=>{
+        console.log(input)
+        const res = await updateCategory({ variables: { input } });
+        return res;
+    }
 
     return{
         addCategoryApi,
-        deleteCategoryApi
+        deleteCategoryApi,
+        updateCategoryApi,
     }
 }
 

@@ -7,7 +7,10 @@ export default function Categories() {
   
   return (
     <aside className='mx-auto'>
-    <button className="bg-gray-200  hover:bg-gray-300 mb-5 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={()=>setShowCategoryForm(prev=> !prev )}> add category</button>
+    <div className='flex flex-col items-center'>
+    <button className="bg-gray-200  hover:bg-gray-300 mb-5 text-gray-800  font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+     onClick={()=>setShowCategoryForm(prev=> !prev )}> add category</button>
+    </div>
     {
       showCategoryForm && <AddCategoryForm/>
     }

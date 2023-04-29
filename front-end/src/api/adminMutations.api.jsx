@@ -30,6 +30,21 @@ class AdminMutations{
           }
         `
     }
+
+    updateCategory(){
+        return gql`
+        mutation ($input: UpdateCategoryInput!) {
+            updateCategory(input: $input) {
+              errors
+              success
+              category {
+                categoryName
+              }
+            }
+          }
+          
+        `
+    }
    
 }
 
