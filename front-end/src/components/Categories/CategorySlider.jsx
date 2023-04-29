@@ -4,13 +4,12 @@ import { useAdminMutations } from '../../hooks/useAdminMutations';
 import logo from "../../assets/logo.png"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import 'remixicon/fonts/remixicon.css';
+import './category.css';
 
 const PAGE_SIZE = 3;
 
 export default function CategorySlider() {
-    const [afterCursor, setAfterCursor] = useState(null);
-    const [beforeCursor, setBeforeCursor] = useState(null);
-    const {data , loading ,error ,reloadCategories } = useFetchCategoriesApi(PAGE_SIZE  , afterCursor , beforeCursor);
+    const {data , loading ,error ,reloadCategories , fetchMore } = useFetchCategoriesApi(PAGE_SIZE);
     const { deleteCategoryApi } = useAdminMutations();
     
     if (loading) return <p>Loading...</p>;
@@ -19,20 +18,52 @@ export default function CategorySlider() {
     const { edges, pageInfo , totalCount } = data.categoryList;
     
     
-      console.log("from api after cursor 'end cursor' " + pageInfo.endCursor)
-      console.log("from api before cursor 'start cursor' " + pageInfo.startCursor)
-      console.log("local state for after cursor" + afterCursor)
-      console.log("local state for before cursor" + beforeCursor)
+      // console.log("from api after cursor 'end cursor' " + pageInfo.endCursor)
+      // console.log("from api before cursor 'start cursor' " + pageInfo.startCursor)
+      
       
       const handlePrevClick = () => {
-          setAfterCursor(null);
-          setBeforeCursor(pageInfo.startCursor);
+     
+        fetchMore({
+          variables: {
+            last: PAGE_SIZE,
+            before: pageInfo.startCursor,
+          },
+          updateQuery: (prevResult, { fetchMoreResult }) => {
+            console.log(fetchMoreResult)
+            return {
+              categoryList: {
+                edges: fetchMoreResult.categoryList.edges,
+                pageInfo: {hasPreviousPage : fetchMoreResult.categoryList.pageInfo.hasPreviousPage, hasNextPage : true , startCursor : fetchMoreResult.categoryList.pageInfo.startCursor , endCursor : fetchMoreResult.categoryList.pageInfo.endCursor},
+                totalCount: fetchMoreResult.categoryList.totalCount,
+                __typename: prevResult.categoryList.__typename,
+              },
+            };
+          },
+        });
       };
    
       const handleNextClick = () => {
-        setAfterCursor(pageInfo.endCursor);
-        setBeforeCursor(null);
+        fetchMore({
+          variables: {
+            first: PAGE_SIZE,
+            after: pageInfo.endCursor,
+          },
+          updateQuery: (prevResult, { fetchMoreResult }) => {
+            return {
+              categoryList: {
+                edges:fetchMoreResult.categoryList.edges,
+                pageInfo: {hasPreviousPage : true , hasNextPage : fetchMoreResult.categoryList.pageInfo.hasNextPage , startCursor : fetchMoreResult.categoryList.pageInfo.startCursor , endCursor : fetchMoreResult.categoryList.pageInfo.endCursor},
+                totalCount: fetchMoreResult.categoryList.totalCount,
+                __typename: prevResult.categoryList.__typename,
+           
+              },
+            };
+          },
+        });
+     
       };
+
 
       const handleDelete = (id)=>{
         deleteCategoryApi({id})
@@ -54,6 +85,7 @@ export default function CategorySlider() {
         <>
           {
             totalCount === 0 ? <div className='bg-red-500 p-5 rounded text-center text-white  my-10 '>no categories added yet </div> : 
+            totalCount > 3 ?
             <div className='flex items-center'>
           <button
               className="shrink-0  h-24 rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
@@ -63,7 +95,7 @@ export default function CategorySlider() {
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
             </button>
             {edges.map(({ node }) => (
-              <div key={node.id} className='relative flex flex-col items-center shadow rounded mx-2 my-5 w-1/3'>
+              <div key={node.id} className={edges.length < 3 ? "relative w-full flex flex-col items-center shadow rounded mx-2 my-5" : "relative flex flex-col items-center shadow rounded mx-2 my-5 w-1/3" }>
                 <p className='my-2'>{node.categoryName}</p>
                 <img src={logo} className='w-64' alt="category logo" />
                 <button className='absolute left-1 top-1 bg-red-500 rounded p-1' onClick={()=>handleDelete(node.id)}>
@@ -78,6 +110,17 @@ export default function CategorySlider() {
               <span className="sr-only">Next</span>
               <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
             </button>
+          </div> :
+          <div className='flex items-center'>
+          {edges.map(({ node }) => (
+            <div key={node.id} className={edges.length < 3 ? "relative w-full flex flex-col items-center shadow rounded mx-2 my-5" : "relative flex flex-col items-center shadow rounded mx-2 my-5 w-1/3" } >
+              <p className='my-2'>{node.categoryName}</p>
+              <img src={logo} className='w-64' alt="category logo" />
+              <button className='absolute left-1 top-1 bg-red-500 rounded p-1' onClick={()=>handleDelete(node.id)}>
+                <i className="ri-delete-bin-line text-white"></i>
+              </button>
+            </div>
+          ))}
           </div>
 
           }
