@@ -1,18 +1,25 @@
-import React, { useEffect } from 'react'
-// import { useNavigate } from 'react-router-dom'
-// import { useAuthContext } from '../hooks/useAuthContext'
-import Cookies from 'universal-cookie';
+import React, { useState } from 'react'
+import SideBar from '../components/SideBar/SideBar';
+import Categories from '../components/Categories/Categories';
 
 export default function AdminPanel() {
-const user = new Cookies().get("user");
-
- console.log(user)
- useEffect(() => {
-  if(!user.isSuperuser){
-    navigate("/")
-  }
- })
+  const [active, setActive] = useState("Dashboard");
+  
   return (
-    <div>AdminPanel</div>
+    <div className='flex items-baseline adminPanel'>
+      <SideBar setActive={setActive} />
+      {
+        active === "Dashboard" ?
+          <div>Dashboard</div>
+          : active === "Users" ?
+            <div>Users</div>
+            : active === "Products" ?
+              <div>Products</div>
+              : active === "Orders" ?
+                <div>Orders</div> :
+                <Categories />
+      }
+
+    </div>
   )
 }

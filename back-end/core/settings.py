@@ -65,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -157,15 +158,14 @@ SITE_NAME = os.getenv('SITE_NAME')
 #
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-STATIC_URL = '/static/backend/'
+STATIC_URL = '/static/static/'
+MEDIA_URL='/static/media/'
 
-STATIC_ROOT = os.environ.get('STATIC_ROOT')
-
-MEDIA_ROOT = os.environ.get('MEDIA_ROOT')
+STATIC_ROOT='vol/web/static'
+MEDIA_ROOT='vol/web/media'
 
 STATICFILES_DIRS = [
-    BASE_DIR.joinpath('static'),
-]
+    BASE_DIR / "static",]
 
 
 # Default primary key field type
@@ -180,12 +180,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #  /_/   \_\__,_|\__|_| |_|
 #
 AUTH_USER_MODEL = 'user.User'
-# AUTHENTICATION_BACKENDS = [
-#     'apps.config.graphql_jwt.backends.CustomJSONWebTokenBackend',
-#     # 'social_core.backends.google.GoogleOAuth2',
-#     # 'social_core.backends.apple.AppleIdAuth',
-#     'django.contrib.auth.backends.ModelBackend',
-# ]
+AUTHENTICATION_BACKENDS = [
+    "graphql_jwt.backends.JSONWebTokenBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
 
 #    ____                 _      ___  _
 #   / ___|_ __ __ _ _ __ | |__  / _ \| |
@@ -200,8 +198,6 @@ GRAPHQL_JWT = {
     'JWT_EXPIRATION_DELTA': timedelta(minutes=120),
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
     'JWT_HIDE_TOKEN_FIELDS': True,
-    "JWT_PAYLOAD_HANDLER": "apps.config.graphql_jwt.utils.custom_jwt_payload",
-
 }
 GRAPHENE = {
     'SCHEMA': 'api.graphql.schema',
@@ -218,3 +214,18 @@ CORS_ORIGIN_WHITELIST = (
   'http://localhost:3000',
   'http://localhost:3001',
 )
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'x-refresh-token',
+    'x-token',
+    'x-access-token',
+]

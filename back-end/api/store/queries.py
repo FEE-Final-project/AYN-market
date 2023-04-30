@@ -5,14 +5,11 @@ from graphql_jwt.decorators import login_required, user_passes_test
 
 from apps.store.models import Products , Category , Variation
 from .types import ProductType , VariationType , CategoryType
+from .filters import ProductFilter , CategoryFilter
 
 class storeQuery(graphene.ObjectType):
-    product_list = graphene.List(
-        ProductType,
-    )
-    category_list=graphene.List(
-        CategoryType,
-    )
+    product_list = DjangoFilterConnectionField(ProductType, filterset_class=ProductFilter)
+    category_list=DjangoFilterConnectionField(CategoryType , filterset_class=CategoryFilter)
     variation_list=graphene.List(
         VariationType,
     )

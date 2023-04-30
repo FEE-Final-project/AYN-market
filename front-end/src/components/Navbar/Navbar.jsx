@@ -1,12 +1,12 @@
 //import react utilities
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import { Fragment } from "react";
 import Cookies from "universal-cookie";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { gql, useQuery } from '@apollo/client';
+// import { gql, useQuery } from '@apollo/client';
 //import tailwind tags
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -20,16 +20,16 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-let GET_USER = gql`
-query Me($id: ID!) {
-  me(id: $id) {
-    isActive
-    isAdmin
-    role
-  }
-}
+// let GET_USER = gql`
+// query Me($id: ID!) {
+//   me(id: $id) {
+//     isActive
+//     isAdmin
+//     role
+//   }
+// }
+// `;
 
-`;
 export default function Navbar() {
   const cookies = new Cookies();
   const { user, dispatch } = useAuthContext();
@@ -42,6 +42,7 @@ export default function Navbar() {
   function handleSignOut() {
     cookies.remove("user");
     cookies.remove("token");
+    cookies.remove("refreshToken");
     dispatch({ type: "LOGOUT" });
     navigate("/")
   }
@@ -234,10 +235,39 @@ export default function Navbar() {
                         <Menu.Item>
                           <NavLink to="/Profile" className=" text-sm mb-1 text-black  flex items-center hover:text-blue-500 "  >
                             <i className="ri-user-settings-line text-2xl"></i>
-                            <span className="ml-3">Profile</span>
+                            <span className="ml-3"> {user.isSuperuser ? "Admin Panel" : "Profile"}</span>
                           </NavLink>
 
                         </Menu.Item>
+                       
+                        {!user.isSuperuser &&   <>  <Menu.Item >
+                          
+                            
+                            
+                          <NavLink to="/Wishlist" className=" text-sm mb-1 text-black  flex items-center hover:text-blue-500 "  >
+                            
+                            <i className="ri-heart-fill  text-2xl "></i>
+                            <span className="ml-3">  Wishlist</span>
+                          </NavLink>
+                          
+                        </Menu.Item> 
+                        <Menu.Item>
+                        <NavLink to="/Orders" className=" text-sm mb-1 text-black  flex items-center hover:text-blue-500 "  >
+                            
+                            
+                            <i class="ri-order-play-line  text-2xl"></i>
+
+                            <span className="ml-3">  Orders </span>
+                          </NavLink>
+                        
+                        </Menu.Item>  
+
+
+
+                         </>
+
+                        
+                                             }
                         <Menu.Item >
                           <button
                             onClick={handleSignOut}
@@ -246,31 +276,13 @@ export default function Navbar() {
                            <i className="ri-logout-box-r-line text-2xl "></i>
                           <span className="ml-3">Sign out</span>
                           </button>
-
-
-
                         </Menu.Item>
+
+                       
                       </Menu.Items>
                     </Transition>
                   </Menu>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
               ) : (
                 <div className="flex content-center  absolute inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto ">
                   <NavLink
