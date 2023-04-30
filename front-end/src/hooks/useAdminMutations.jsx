@@ -3,8 +3,6 @@ import { useMutation } from "@apollo/client";
 import AdminMutations from '../api/adminMutations.api';
 // import { useAuthContext } from "./useAuthContext";
 
-
-
 export const useAdminMutations = () => {
   
     const [addCategory] = useMutation(AdminMutations.addCategory(),{
@@ -18,7 +16,7 @@ export const useAdminMutations = () => {
     });
 
     const addCategoryApi = async (input)=>{
-        // console.log(input)
+         console.log(input)
             const res = await addCategory({ variables: { input } });
             // console.log(res)
             return res;
