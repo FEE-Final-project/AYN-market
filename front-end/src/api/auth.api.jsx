@@ -4,7 +4,7 @@ class AuthAPI{
 
 createUser() {
 return gql`
-mutation CreateUser($input:CustomerSignUpInput!) {
+mutation ($input:CustomerSignUpInput!) {
   customerSignup(input: $input) {
   success
   errors

@@ -12,6 +12,7 @@ export const useAuthApi = () => {
     const [refreshToken] = useMutation(AuthAPI.refreshToken());
 
     const createUserApi = (input) => {
+        
         return createUser({variables:{input}})
     }
 

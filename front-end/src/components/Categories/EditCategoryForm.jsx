@@ -21,15 +21,15 @@ function handleImageChange(e) {
 async function handleSubmit(e) {
     e.preventDefault();
     setLoadingForm(true);
-    let res = await updateCategoryApi({id:node.id,description:categoryUpdatedData.description,image,categoryName:categoryUpdatedData.categoryName})
-        console.log(res)
-        if(res.data.updateCategory.success){
-          setCategoryUpdatedData({categoryName:"",description:""})
+    let res = await updateCategoryApi({description:categoryData.description,image,name:categoryData.name})
+    
+        if(res.data.createCategory.success){
+          setCategoryData({name:"",description:""})
           setImage(null)
           setCategoryError("")
         }
         else{
-          setCategoryError(res.data.updateCategory.errors[0])
+          setCategoryError(res.data.createCategory.errors[0])
         }
     setLoadingForm(false);
 }
