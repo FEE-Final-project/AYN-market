@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, fromPromise, createHttpLink } from "@apollo/client";
 import { onError } from '@apollo/client/link/error'
 import { setContext } from "@apollo/client/link/context";
-import { createUploadLink } from 'apollo-upload-client';
+// import { createUploadLink } from 'apollo-upload-client';
 import AuthAPI from '../api/auth.api';
 import TokenStorage from '../services/TokenStorage.service';
 
@@ -28,7 +28,7 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
 })
 
 const authLink = setContext((_, { headers }) => {
-
+   
     return {
         headers: {
             ...headers,

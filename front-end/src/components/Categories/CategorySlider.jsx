@@ -93,10 +93,10 @@ export default function CategorySlider() {
                 <span className="sr-only">Previous</span>
                 <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
               </button>
-              {edges.map(({ node }) => (
+              {edges.map(({ node },i) => (
                  showEditForm === node.id ? 
                  
-                 <EditCategoryForm className="backCategory" node={node}  setShowEditForm={setShowEditForm} /> 
+                 <EditCategoryForm key={i} className="backCategory" node={node}  setShowEditForm={setShowEditForm} /> 
                  
                  :
                 <div key={node.id} className={edges.length < 3 ? "frontCategory relative w-full flex flex-col items-center shadow rounded mx-2 my-5" : "frontCategory relative flex flex-col items-center shadow rounded mx-2 my-5 w-1/3"}>
@@ -121,10 +121,10 @@ export default function CategorySlider() {
               </button>
             </div> :
             <div className='flex items-center mb-5'>
-              {edges.map(({ node }) => (
+              {edges.map(({ node },i) => (
                     showEditForm === node.id ? 
 
-                     <EditCategoryForm className="backCategory" node={node} setShowEditForm={setShowEditForm} /> 
+                     <EditCategoryForm key={i} className="backCategory" node={node} setShowEditForm={setShowEditForm} /> 
                     : 
                     
                     <div key={node.id} className={edges.length < 3 ? "frontCategory relative w-full flex flex-col items-center shadow rounded mx-2 my-5" : "relative flex flex-col items-center shadow rounded mx-2 my-5 w-1/3"} >

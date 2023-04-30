@@ -5,8 +5,9 @@ export default class TokenStorage {
 static cookies = new Cookies();
 
 static isAuthenticated() {
-    return this.getToken() !== null;
+    return this.getToken() !== null && this.getToken() !== undefined;
 }
+
 static getAuthenticationHeader() {
     return `JWT ${this.getToken()}`;
 }
