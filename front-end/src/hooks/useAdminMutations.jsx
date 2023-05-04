@@ -18,7 +18,7 @@ export const useAdminMutations = () => {
     const addCategoryApi = async (input)=>{
          console.log(input)
             const res = await addCategory({ variables: { input } });
-            // console.log(res)
+            console.log(res)
             return res;
     }
 
