@@ -3,7 +3,7 @@ import { useAdminMutations } from '../../hooks/useAdminMutations';
 
 import SpinnerComponent from '../LoadingComponent/SpinnerComponent';
 import EditCategoryForm from './EditCategoryForm';
-import logo from "../../assets/logo.png"
+import logo from "../../assets/logo.png";
 
 export default function CategoryCard({edges,node,handlePrevClick , index}) {
     const [showEditForm, setShowEditForm] = useState("");

@@ -23,8 +23,8 @@ let PAGE_SIZE = 3;
 // });
 
 export default function CategorySlider() {
-  const { data, loading, error,  fetchMore } = useFetchCategoriesApi(PAGE_SIZE);
- 
+  const { data, loading, error, fetchMore } = useFetchCategoriesApi(PAGE_SIZE);
+
 
   if (loading) return <LoadingComponent />;
   if (error) return <p>{error.message} </p>;
@@ -77,11 +77,11 @@ export default function CategorySlider() {
 
 
 
- 
+
   //TODO: add toast notification for success and error 
   //TODO: add loading delete button
   //TODO: handle prev to the right page
-  
+
   return (
     <>
       {
@@ -95,8 +95,8 @@ export default function CategorySlider() {
                 <span className="sr-only">Previous</span>
                 <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
               </button>
-              {edges.map(({ node },i) => (
-               <CategoryCard node={node} edges={edges} index={i} handlePrevClick={handlePrevClick} />
+              {edges.map(({ node }, i) => (
+                <CategoryCard node={node} edges={edges} index={i} handlePrevClick={handlePrevClick} />
               ))}
               <button
                 className="shrink-0  h-24  rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
@@ -107,8 +107,8 @@ export default function CategorySlider() {
               </button>
             </div> :
             <div className='flex items-center mb-5 '>
-              {edges.map(({ node },i) => (
-                   <CategoryCard node={node} edges={edges} index={i} handlePrevClick={handlePrevClick} />
+              {edges.map(({ node }, i) => (
+                <CategoryCard node={node} edges={edges} index={i} handlePrevClick={handlePrevClick} />
               ))}
             </div>
 
