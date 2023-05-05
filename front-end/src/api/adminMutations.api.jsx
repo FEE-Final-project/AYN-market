@@ -45,6 +45,21 @@ class AdminMutations{
           
         `
     }
+
+    addProduct(){
+      
+      return gql`
+      mutation($input: CreateProductInput!){
+        createProduct(input: $input){
+          errors
+          success
+          product{
+            productName
+          }
+        }
+      }
+      `
+    }
    
 }
 
