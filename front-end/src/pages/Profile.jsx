@@ -1,12 +1,25 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
+
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 import { FiPackage, FiMessageCircle, FiMapPin, FiEdit, FiLock } from 'react-icons/fi';
 
 import './pages.css';
 
 export default function Profile() {
+
   const { user } = useAuthContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user || user.isSuperuser) {
+      navigate('/');
+    }
+  }, [user]);
+
+
   return (
     <div className="container mx-auto px-4">
       <div className="profile-header flex items-center justify-between mb-4">
@@ -22,7 +35,7 @@ export default function Profile() {
           <span className="text-gray-800 ml-2">{user?.email}</span>
         </div>
       </div>
-      <div className="profile-options bg-white shadow-md p-6 rounded-md">
+      <div className="profile-options bg-white shadow-md p-6 rounded-md mb-11">
         <h2 className="text-2xl font-bold mb-4">Your Account</h2>
         <div className="grid grid-cols-3 gap-4 mt-4">
           <div className="flex items-center space-x-2">
