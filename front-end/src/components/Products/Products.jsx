@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import AddProductForm from './AddProductForm';
-import ProductsCards from './ProductsCards';
+import ProductsFilter from './ProductsFilter';
+
 
 export default function Products() {
   
@@ -15,7 +16,7 @@ export default function Products() {
       </div>
      
       {
-        showProductForm ? <AddProductForm /> : <ProductsCards />
+        showProductForm ? <AddProductForm /> : <ProductsFilter /> 
       }
    
       </aside>

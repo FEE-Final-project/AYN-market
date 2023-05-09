@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import Cookies from 'universal-cookie';
+import { useAuthContext } from '../hooks/useAuthContext';
+
 import { useNavigate } from 'react-router-dom';
 
 export default function Cart() {
-  const cookies = new Cookies();
-  const user = cookies.get('user');
   const navigate = useNavigate();
+
+  const { user } = useAuthContext();
+
   const [cart, setCart] = useState([]);
+
   const [products, setProducts] = useState([
     { id: 1, name: 'Product 1', quantity: 10 },
     { id: 2, name: 'Product 2', quantity: 5 },
@@ -17,11 +20,6 @@ export default function Cart() {
   useEffect(() => {
     if (!user || user.isSuperuser) {
       navigate('/');
-    } else {
-      // Load cart items from server (you'll need to implement this)
-      // and set the `cart` state variable with the results
-      const items = [];
-      setCart(items);
     }
   }, [user]);
 
