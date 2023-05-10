@@ -4,13 +4,14 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import { Fragment } from "react";
-import Cookies from "universal-cookie";
 import { useAuthContext } from "../../hooks/useAuthContext";
-// import { gql, useQuery } from '@apollo/client';
+import TokenStorage from "../../services/TokenStorage.service";
+
 //import tailwind tags
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon  } from "@heroicons/react/24/outline";
-import { FiSearch } from 'react-icons/fi';
+// import { FiSearch } from 'react-icons/fi';
+
 //import styles and logo
 import logo from "../../assets/logo.svg";
 import "./Navbar.css";
@@ -21,18 +22,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-// let GET_USER = gql`
-// query Me($id: ID!) {
-//   me(id: $id) {
-//     isActive
-//     isAdmin
-//     role
-//   }
-// }
-// `;
+
 
 export default function Navbar() {
-  const cookies = new Cookies();
+ 
   const { user, dispatch } = useAuthContext();
   const navigate = useNavigate();
 
@@ -44,9 +37,7 @@ export default function Navbar() {
 
 
   function handleSignOut() {
-    cookies.remove("user");
-    cookies.remove("token");
-    cookies.remove("refreshToken");
+    TokenStorage.clearCookies();
     dispatch({ type: "LOGOUT" });
     navigate("/")
   }
@@ -102,7 +93,7 @@ export default function Navbar() {
               {!user?.isSuperuser ?   
                <>
           {/* added search icon */}
-               <div className="relative">
+               {/* <div className="relative">
                <input
                    type="text"
                    className="rounded-full bg-gray-800 text-gray-400 pl-8 pr-3 py-1 sm:text-sm placeholder-gray-500 focus:outline-none"
@@ -111,7 +102,7 @@ export default function Navbar() {
                    onChange={(e) => setSearchQuery(e.target.value)}
                 />
                   <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                </div>
+                </div> */}
 
                 <button
                     type="button"
@@ -265,7 +256,7 @@ export default function Navbar() {
                         <Menu.Item >
                           <button
                             onClick={handleSignOut}
-                            className="text-sm  text-black  flex items-center hover:text-blue-500"
+                            className="text-sm  text-black  flex items-center hover:text-red-500"
                           >
                            <i className="ri-logout-box-r-line text-2xl "></i>
                           <span className="ml-3">Sign out</span>
