@@ -18,9 +18,10 @@ from apps.user.models import (
     User,
 )
 from django.contrib.auth import get_user_model
-
-
-
+from django.utils.http import urlsafe_base64_decode , urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from apps.user.notification import NotificationManager
 
 from .types import CustomerType
 
@@ -99,8 +100,11 @@ class CustomerSignUp(relay.ClientIDMutation):
                 customer.gender=input.get('gender')
 
             customer.set_password(input.get('password'))
+
             customer.is_active=True
+
             customer.save()
+            NotificationManager(customer).send_confirmation_link()
 
 
             return CustomerSignUp(customer=customer, success=True)

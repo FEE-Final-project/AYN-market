@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'apps.config',
     'apps.store',
     'apps.carts',
+    'apps.payment',
     #vendor
     'graphene_django',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
@@ -73,7 +74,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -184,6 +185,13 @@ AUTHENTICATION_BACKENDS = [
     "graphql_jwt.backends.JSONWebTokenBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('email')
+EMAIL_HOST_PASSWORD = os.environ.get('pass')
 
 #    ____                 _      ___  _
 #   / ___|_ __ __ _ _ __ | |__  / _ \| |
