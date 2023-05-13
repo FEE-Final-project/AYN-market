@@ -1,3 +1,13 @@
 .categoryNav{
   width: 70vw;
 }
+
+
+
+@media screen and (max-width: 650px) {
+  
+ .categoryNav{
+    width: 85vw;
+  }
+
+}

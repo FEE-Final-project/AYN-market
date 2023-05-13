@@ -15,6 +15,7 @@ export default function AddProductForm() {
     image:null
    }
 )
+
  const [productFormError,setProductFormError] = useState("");
  const [loadingForm,setLoadingForm] = useState(false);
 
@@ -61,9 +62,8 @@ export default function AddProductForm() {
         )
     }
   return (
-    <form className="flex flex-col w-full mx-auto  gap-3 mb-5 bg-red-200 p-5 rounded shadow-lg"  onSubmit={(e)=>{
+    <form className="flex flex-col w-fit lg:w-full mx-auto  gap-3 mb-5 bg-red-200 p-5 rounded shadow-lg"  onSubmit={(e)=>{
         handleSubmit(e);
-      
         }}>
         {productFormError && <p className="text-red-300 bg-red-900 text-center rounded p-3">{productFormError}</p>}
         <label htmlFor="productName" className='text-gray-900 font-mono'>Product Name</label>
@@ -87,7 +87,6 @@ export default function AddProductForm() {
   
         <label htmlFor="image" className='text-gray-900 font-mono'>Upload Category Image</label>
         <input id="image" name='image' type="file" className='bg-gray-500 text-white' onChange={handleChange}  />
-
 
         <button className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow" disabled={loadingForm} type="submit"> {loadingForm ? "Creating your Product" : "Add Product"}  </button>
       </form>

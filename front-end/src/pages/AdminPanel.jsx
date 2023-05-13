@@ -7,7 +7,7 @@ export default function AdminPanel() {
   const [active, setActive] = useState("Dashboard");
   
   return (
-    <div className='flex items-baseline adminPanel'>
+    <div className='block lg:flex lg:items-baseline'>
       <SideBar setActive={setActive} />
       {
         active === "Dashboard" ?

@@ -26,7 +26,7 @@ export default function CategoryCard({edges,node,handlePrevClick , index}) {
 
         <EditCategoryForm key={index}  node={node} setShowEditForm={setShowEditForm} /> 
        : 
-    <div key={node.id} className={edges.length < 3 ? "relative w-full flex flex-col items-center shadow rounded mx-2 my-5" : "relative flex flex-col items-center shadow rounded mx-2 my-5 w-1/3"} >
+    <div key={node.id} className={edges.length < 3 ? "relative  w-full flex flex-col items-center shadow rounded lg:mx-2 my-5" : "relative flex flex-col items-center  shadow rounded lg:mx-2 my-5 lg:w-1/3"} >
     <p className='my-2'>{node.categoryName}</p>
     <img src={logo} className='w-64' alt="category logo" />
     {/* delete button */}
