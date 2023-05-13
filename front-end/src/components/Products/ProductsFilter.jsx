@@ -74,8 +74,8 @@ export default function ProductsFilter() {
 
   return (
     <>
-      <nav className='categoryNav flex justify-between'>
-        <ul className='flex justify-around items-center w-11/12'>
+      <nav className='block categoryNav lg:flex lg:justify-between'>
+        <ul className='flex justify-around items-center  lg:w-11/12'>
           <button  className='bg-gray-900 p-2 rounded-full text-white mb-1 hover:bg-gray-600 '  disabled={startIndex === 0 || loadingSlider } onClick={handlePreviousPage}> {"<"}</button>
           
           {    
@@ -130,8 +130,8 @@ export default function ProductsFilter() {
           }
           <button disabled={endIndex === edges.length || loadingSlider} className='bg-gray-900 p-2 rounded-full text-white mb-1 hover:bg-gray-600 ' onClick={handleNextPage}> {">"}</button>
         </ul>
-        <aside className='relative'>
-        <input type="text" className="rounded-full border-2 border-gray-300 bg-white  px-4 focus:outline-none focus:border-blue-500" placeholder='search by name' onChange={handleSearch}  />
+        <aside className='relative mt-5 w-full lg:w-fit lg:mt-0'>
+        <input type="text" className="rounded-full w-full lg:w-fit border-2 border-gray-300 bg-white  px-4 focus:outline-none focus:border-blue-500" placeholder='search by name' onChange={handleSearch}  />
         <i className="ri-search-line absolute right-4 top-2"></i>
         </aside>
       </nav>

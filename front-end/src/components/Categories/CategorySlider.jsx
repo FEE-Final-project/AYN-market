@@ -89,24 +89,26 @@ export default function CategorySlider() {
           totalCount > 3 ?
             <div className='flex items-center mb-5'>
               <button
-                className="shrink-0  h-24 rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                className="shrink-0  h-24 rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ml-2 lg:ml-0"
                 disabled={!pageInfo.hasPreviousPage} onClick={handlePrevClick}
               >
                 <span className="sr-only">Previous</span>
                 <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
               </button>
+              <div className='block mx-auto lg:flex lg:items-center lg:mb-5 '>
               {edges.map(({ node }, i) => (
                 <CategoryCard node={node} edges={edges} index={i} handlePrevClick={handlePrevClick} />
               ))}
+              </div>
               <button
-                className="shrink-0  h-24  rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                className="shrink-0  h-24  rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 mr-2 lg:mr-0"
                 disabled={!pageInfo.hasNextPage} onClick={handleNextClick}
               >
                 <span className="sr-only">Next</span>
                 <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
               </button>
             </div> :
-            <div className='flex items-center mb-5 '>
+            <div className='block mx-auto lg:flex lg:items-center lg:mb-5 '>
               {edges.map(({ node }, i) => (
                 <CategoryCard node={node} edges={edges} index={i} handlePrevClick={handlePrevClick} />
               ))}

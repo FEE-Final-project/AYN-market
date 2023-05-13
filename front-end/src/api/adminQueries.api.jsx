@@ -36,6 +36,7 @@ class AdminQueries{
             node {
               category {
                 categoryName
+                id
               }
               productName
               stock
