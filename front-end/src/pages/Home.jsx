@@ -1,11 +1,13 @@
 import React from 'react'
-import Products from './Products'
+
+import ProductsCards from '../components/Products/ProductsCards';
+import Slider from '../components/Slider/Slider';
 
 export default function Home() {
   return (
     <>
-    <header>products</header>
-    <Products/>
+    <Slider />
+    <ProductsCards isCustomer={true} />
     </>
   )
 }
