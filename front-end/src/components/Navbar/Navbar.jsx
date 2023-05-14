@@ -4,12 +4,14 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import { Fragment } from "react";
-import Cookies from "universal-cookie";
 import { useAuthContext } from "../../hooks/useAuthContext";
-// import { gql, useQuery } from '@apollo/client';
+import TokenStorage from "../../services/TokenStorage.service";
+
 //import tailwind tags
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, BellIcon, XMarkIcon  } from "@heroicons/react/24/outline";
+// import { FiSearch } from 'react-icons/fi';
+
 //import styles and logo
 import logo from "../../assets/logo.svg";
 import "./Navbar.css";
@@ -20,29 +22,22 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-// let GET_USER = gql`
-// query Me($id: ID!) {
-//   me(id: $id) {
-//     isActive
-//     isAdmin
-//     role
-//   }
-// }
-// `;
+
 
 export default function Navbar() {
-  const cookies = new Cookies();
+ 
   const { user, dispatch } = useAuthContext();
   const navigate = useNavigate();
 
 
   const [read, setRead] = useState(false);
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+
 
   function handleSignOut() {
-    cookies.remove("user");
-    cookies.remove("token");
-    cookies.remove("refreshToken");
+    TokenStorage.clearCookies();
     dispatch({ type: "LOGOUT" });
     navigate("/")
   }
@@ -97,17 +92,34 @@ export default function Navbar() {
               {/* notification dropdown */}
               {!user?.isSuperuser ?   
                <>
-                  <button
+          {/* added search icon */}
+               {/* <div className="relative">
+               <input
+                   type="text"
+                   className="rounded-full bg-gray-800 text-gray-400 pl-8 pr-3 py-1 sm:text-sm placeholder-gray-500 focus:outline-none"
+                   placeholder="Search..."
+                   value={searchQuery}
+                   onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                  <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                </div> */}
+
+                <button
                     type="button"
                     className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white"
-                  ></button>
+                 >
+                 
+                </button>
+        
                   <Menu as="div" className="relative ml-3">
                     <div>
                       <Menu.Button className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white">
                         <span className="sr-only">View notifications</span>
                         <BellIcon className="h-6 w-6" aria-hidden="true" />
+                        
                       </Menu.Button>
                     </div>
+                    
                     <Transition
                       as={Fragment}
                       enter="transition ease-out duration-100"
@@ -134,7 +146,7 @@ export default function Navbar() {
                             href="#"
                             className={classNames(
                               read ? "" : "bg-blue-100",
-                              "block px-4 py-4 text-sm text-gray-700 notification hover:bg-white"
+                              "block em-4 py-4 text-sm text-gray-700 notification hover:bg-white"
                             )}
                           >
                             Notification 2
@@ -145,7 +157,7 @@ export default function Navbar() {
                             href="#"
                             className={classNames(
                               read ? "" : "bg-blue-100",
-                              "block px-4 py-4 text-sm text-gray-700 notification hover:bg-white"
+                              "block em-4 py-4 text-sm text-gray-700 notification hover:bg-white"
                             )}
                           >
                             Notification 3
@@ -156,7 +168,7 @@ export default function Navbar() {
                             href="#"
                             className={classNames(
                               read ? "" : "bg-blue-100",
-                              "block px-4 py-4 text-sm text-gray-700 notification hover:bg-white"
+                              "block em-4 py-4 text-sm text-gray-700 notification hover:bg-white"
                             )}
                           >
                             Notification 1
@@ -167,7 +179,7 @@ export default function Navbar() {
                             href="#"
                             className={classNames(
                               read ? "" : "bg-blue-100",
-                              "block px-4 py-4 text-sm text-gray-700 notification hover:bg-white"
+                              "block em-4 py-4 text-sm text-gray-700 notification hover:bg-white"
                             )}
                           >
                             Notification 2
@@ -178,7 +190,7 @@ export default function Navbar() {
                             href="#"
                             className={classNames(
                               read ? "" : "bg-blue-100",
-                              "block px-4 py-4 text-sm text-gray-700 notification hover:bg-white"
+                              "block em-4 py-4 text-sm text-gray-700 notification hover:bg-white"
                             )}
                           >
                             Notification 3
@@ -240,34 +252,7 @@ export default function Navbar() {
 
                         </Menu.Item>
                        
-                        {!user.isSuperuser &&   <>  <Menu.Item >
-                          
-                            
-                            
-                          <NavLink to="/Wishlist" className=" text-sm mb-1 text-black  flex items-center hover:text-blue-500 "  >
-                            
-                            <i className="ri-heart-fill  text-2xl "></i>
-                            <span className="ml-3">  Wishlist</span>
-                          </NavLink>
-                          
-                        </Menu.Item> 
-                        <Menu.Item>
-                        <NavLink to="/Orders" className=" text-sm mb-1 text-black  flex items-center hover:text-blue-500 "  >
-                            
-                            
-                            <i class="ri-order-play-line  text-2xl"></i>
-
-                            <span className="ml-3">  Orders </span>
-                          </NavLink>
                         
-                        </Menu.Item>  
-
-
-
-                         </>
-
-                        
-                                             }
                         <Menu.Item >
                           <button
                             onClick={handleSignOut}

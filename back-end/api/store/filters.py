@@ -27,12 +27,10 @@ class ProductFilter(filters.FilterSet):
         """
         Filter by category
         """
-        try:
-            category_id = from_global_id(value)[1]
 
-            return queryset.filter(category__id =category_id)
-        except:
-            return queryset
+        category_name = value
+        return queryset.filter(category__category_name__icontains=category_name)
+
 
 class CategoryFilter(filters.FilterSet):
     """

@@ -26,6 +26,38 @@ class AdminQueries{
           }
     `
     }
+
+    fetchProducts(){
+      return gql`
+      query ProductList($after: String, $before: String, $first: Int, $last: Int, $search: String, $category: String) {
+        productList(after: $after, before: $before, first: $first, last: $last, search: $search, category: $category) {
+          edges {
+            cursor
+            node {
+              category {
+                categoryName
+                id
+              }
+              productName
+              stock
+              price
+              description
+              id
+              image
+              isAvailable
+            }
+          }
+          pageInfo {
+            hasNextPage
+            startCursor
+            endCursor
+            hasPreviousPage
+          }
+          totalCount
+        }
+      }
+      `
+    }
    
 }
 

@@ -1,7 +1,7 @@
-import { ApolloClient, InMemoryCache, fromPromise, createHttpLink } from "@apollo/client";
+import { ApolloClient, InMemoryCache, fromPromise} from "@apollo/client";
 import { onError } from '@apollo/client/link/error'
 import { setContext } from "@apollo/client/link/context";
-// import { createUploadLink } from 'apollo-upload-client';
+import { createUploadLink } from 'apollo-upload-client';
 import AuthAPI from '../api/auth.api';
 import TokenStorage from '../services/TokenStorage.service';
 
@@ -64,16 +64,16 @@ const getNewTokenByRefreshToken = (refreshToken) => {
 };
 
 
-//const uploadLink = createUploadLink({
-//  uri: 'http://localhost:8000/graphql/',
-//});
-
-const httpLink = createHttpLink({
-    uri: 'http://localhost:8000/graphql/',
+const uploadLink = createUploadLink({
+ uri: 'http://localhost:8000/graphql/',
 });
+
+// const httpLink = createHttpLink({
+//     uri: 'http://localhost:8000/graphql/',
+// });
 
 //connect with server
 export const client = new ApolloClient({
-    link: errorLink.concat(authLink).concat(httpLink),
+    link: errorLink.concat(authLink).concat(uploadLink),
     cache: new InMemoryCache()
 });

@@ -1,20 +1,32 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useFetchCategoriesApi } from '../../hooks/useAdminQueries';
-import { useAdminMutations } from '../../hooks/useAdminMutations';
 
-import EditCategoryForm from './EditCategoryForm';
-import logo from "../../assets/logo.png"
+
+
+import LoadingComponent from "../LoadingComponent/LoadingComponent";
+import CategoryCard from './CategoryCard';
+
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import 'remixicon/fonts/remixicon.css';
 import './category.css';
 
-const PAGE_SIZE = 3;
+let PAGE_SIZE = 3;
+
+// window.addEventListener('resize', () => {
+//   const width = window.innerWidth;
+//   if (width >= 768) {
+//    PAGE_SIZE = 3;
+//   }
+//   else {
+//     PAGE_SIZE = 1;
+//   }
+// });
 
 export default function CategorySlider() {
-  const { data, loading, error, reloadCategories, fetchMore } = useFetchCategoriesApi(PAGE_SIZE);
-  const { deleteCategoryApi } = useAdminMutations();
-  const [showEditForm, setShowEditForm] = useState("");
-  if (loading) return <p>Loading...</p>;
+  const { data, loading, error, fetchMore } = useFetchCategoriesApi(PAGE_SIZE);
+
+
+  if (loading) return <LoadingComponent />;
   if (error) return <p>{error.message} </p>;
 
   const { edges, pageInfo, totalCount } = data.categoryList;
@@ -64,21 +76,11 @@ export default function CategorySlider() {
   };
 
 
-  const handleDelete = (id) => {
-    deleteCategoryApi({ id })
-    if (edges.length === 0) {
-      handlePrevClick();
-    }
-    else
-      reloadCategories();
-  }
 
- 
+
   //TODO: add toast notification for success and error 
   //TODO: add loading delete button
   //TODO: handle prev to the right page
-  //TODO: add edit button
- 
 
   return (
     <>
@@ -87,58 +89,28 @@ export default function CategorySlider() {
           totalCount > 3 ?
             <div className='flex items-center mb-5'>
               <button
-                className="shrink-0  h-24 rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                className="shrink-0  h-24 rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ml-2 lg:ml-0"
                 disabled={!pageInfo.hasPreviousPage} onClick={handlePrevClick}
               >
                 <span className="sr-only">Previous</span>
                 <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
               </button>
-              {edges.map(({ node },i) => (
-                 showEditForm === node.id ? 
-                 
-                 <EditCategoryForm key={i} className="backCategory" node={node}  setShowEditForm={setShowEditForm} /> 
-                 
-                 :
-                <div key={node.id} className={edges.length < 3 ? "frontCategory relative w-full flex flex-col items-center shadow rounded mx-2 my-5" : "frontCategory relative flex flex-col items-center shadow rounded mx-2 my-5 w-1/3"}>
-                  <p className='my-2'>{node.categoryName}</p>
-                  <img src={logo} className='w-64' alt="category logo" />
-                  <button className='absolute left-1 top-1 bg-red-500 rounded p-1' onClick={() => handleDelete(node.id)}>
-                    <i className="ri-delete-bin-line text-white"></i>
-                  </button>
-                  {/* edit button */}
-                  <button className='absolute right-1 top-1 bg-green-500 rounded p-1' onClick={() => setShowEditForm(node.id)}>
-                    <i className="ri-edit-line text-white"></i>
-                  </button>
-                
-                </div>
+              <div className='block mx-auto lg:flex lg:items-center lg:mb-5 '>
+              {edges.map(({ node }, i) => (
+                <CategoryCard node={node} edges={edges} index={i} handlePrevClick={handlePrevClick} />
               ))}
+              </div>
               <button
-                className="shrink-0  h-24  rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                className="shrink-0  h-24  rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 mr-2 lg:mr-0"
                 disabled={!pageInfo.hasNextPage} onClick={handleNextClick}
               >
                 <span className="sr-only">Next</span>
                 <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
               </button>
             </div> :
-            <div className='flex items-center mb-5'>
-              {edges.map(({ node },i) => (
-                    showEditForm === node.id ? 
-
-                     <EditCategoryForm key={i} className="backCategory" node={node} setShowEditForm={setShowEditForm} /> 
-                    : 
-                    
-                    <div key={node.id} className={edges.length < 3 ? "frontCategory relative w-full flex flex-col items-center shadow rounded mx-2 my-5" : "relative flex flex-col items-center shadow rounded mx-2 my-5 w-1/3"} >
-                    <p className='my-2'>{node.categoryName}</p>
-                    <img src={logo} className='w-64' alt="category logo" />
-                    <button className='absolute left-1 top-1 bg-red-500 rounded p-1' onClick={() => handleDelete(node.id)}>
-                      <i className="ri-delete-bin-line text-white"></i>
-                    </button>
-                    {/* edit button */}
-                    <button className='absolute right-1 top-1 bg-green-500 rounded p-1' onClick={() => setShowEditForm(node.id)}>
-                      <i className="ri-edit-line text-white"></i>
-                    </button>
-                    </div>
-                  
+            <div className='block mx-auto lg:flex lg:items-center lg:mb-5 '>
+              {edges.map(({ node }, i) => (
+                <CategoryCard node={node} edges={edges} index={i} handlePrevClick={handlePrevClick} />
               ))}
             </div>
 

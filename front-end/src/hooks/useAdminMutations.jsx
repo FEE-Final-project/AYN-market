@@ -14,11 +14,23 @@ export const useAdminMutations = () => {
     const [updateCategory] = useMutation(AdminMutations.updateCategory(),{
         refetchQueries: ['CategoryList'],
     });
+    
+    const [addProduct]  = useMutation(AdminMutations.addProduct(),{
+        refetchQueries: ['ProductList'],
+    });
+
+    const [deleteProduct]  = useMutation(AdminMutations.deleteProduct(),{   
+        refetchQueries: ['ProductList'],
+    });
+   
+    const [updateProduct]  = useMutation(AdminMutations.updateProduct(),{
+        refetchQueries: ['ProductList'],
+    });
 
     const addCategoryApi = async (input)=>{
          console.log(input)
             const res = await addCategory({ variables: { input } });
-            // console.log(res)
+            console.log(res)
             return res;
     }
 
@@ -32,11 +44,28 @@ export const useAdminMutations = () => {
         const res = await updateCategory({ variables: { input } });
         return res;
     }
+   const addProductApi = async (input)=>{
+        const res = await addProduct({ variables: { input } });
+        return res;
+    }
+
+    const deleteProductApi = async (input)=>{
+        const res = await deleteProduct({ variables: { input } });
+        return res;
+    }
+    
+    const updateProductApi = async (input)=>{
+        const res = await updateProduct({ variables: { input } });
+        return res;
+    }
 
     return{
         addCategoryApi,
         deleteCategoryApi,
         updateCategoryApi,
+        addProductApi,
+        deleteProductApi,
+        updateProductApi,
     }
 }
 

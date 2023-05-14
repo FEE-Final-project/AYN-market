@@ -206,8 +206,6 @@ class UpdateCategory(relay.ClientIDMutation):
             input.pop('id')
 
             if input.get('category_name'):
-                if input.get('category_name') not in [category[0] for category in CATEGORY_CHOICES]:
-                    raise Exception('Category does not exist')
                 if Category.objects.filter(category_name=input.get('category_name')).exists():
                     raise Exception('Category already exists')
 

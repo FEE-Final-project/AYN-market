@@ -22,6 +22,8 @@ export default function AddCategoryForm() {
 async function handleSubmit(e) {
       e.preventDefault();
       setLoadingForm(true);
+      // const formData = new FormData();
+      // formData.append("image", image);
       let res = await addCategoryApi({description:categoryData.description,image,name:categoryData.name})
           if(res.data.createCategory.success){
             setCategoryData({name:"",description:""})
@@ -35,7 +37,6 @@ async function handleSubmit(e) {
       setLoadingForm(false);
   }
 
- 
 
   return (
      
@@ -51,7 +52,7 @@ async function handleSubmit(e) {
       <textarea name="description" className='rounded outline-0 border-0' id="description" value={categoryData.description} onChange={handleChange} cols="30" rows="5" required></textarea>
 
       <label htmlFor="image" className='text-gray-900 font-mono'>Upload Category Image</label>
-      <input id="image" name='image' type="file" className='bg-gray-500 text-white' onChange={handleImageChange}  required/>
+      <input id="image" name='image' type="file" className='bg-gray-500 text-white' onChange={handleImageChange}  />
 
 
       <button className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow" disabled={loadingForm} type="submit"> {loadingForm ? "Creating your Category" : "Add Category"}  </button>
