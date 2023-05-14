@@ -135,7 +135,7 @@ export default function ProductsFilter() {
         <i className="ri-search-line absolute right-4 top-2"></i>
         </aside>
       </nav>
-     <ProductsCards categoryName={categoryName} productName={productName} />
+     <ProductsCards categoryName={categoryName} productName={productName} isCustomer={false} />
   </>
   )
 }

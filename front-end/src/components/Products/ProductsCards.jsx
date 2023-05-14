@@ -7,7 +7,7 @@ import './Product.css'
 
 const PAGE_SIZE = 9;
 
-export default function ProductsCards({categoryName , productName}) {
+export default function ProductsCards({categoryName , productName ,isCustomer}) {
   
   const { data: productData, loading: productLoading, error: productError, fetchMore } = useFetchProductsApi({category:categoryName , search:productName , first: PAGE_SIZE});
    
@@ -43,7 +43,7 @@ export default function ProductsCards({categoryName , productName}) {
         {totalCount === 0 && <p className="text-center text-2xl bg-red-500 p-5 rounded  text-white  my-10">No products found</p>}
         <div className='lg:flex lg:flex-wrap lg:justify-around lg:items-center'>
           {edges.map(({node},i) => 
-            <ProductCard key={node.id}  product={node} />
+            <ProductCard key={node.id}  product={node} isCustomer={isCustomer} />
           )}
         </div>
        <div className='flex flex-col items-center'>
