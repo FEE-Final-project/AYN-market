@@ -12,6 +12,7 @@ import { ApolloProvider } from "@apollo/client";
 import {client} from "./apollo/setup";
 import ProfileDirect from "./pages/ProfileDirect";
 import Cart from "./pages/Cart";
+import CategoryProducts from "./pages/CategoryProducts";
 
 function App() {
 
@@ -27,7 +28,9 @@ function App() {
       <Route path="/cart" element={<Cart/>}/>
       <Route path="/LogIn" element={<LogIn/>} />
       <Route path="/SignUp" element={<SignUp/>} />
+      <Route path="/products/:category" element={<CategoryProducts/>} />
       <Route path="/product" element={<Product/>} />
+
     </Routes>
     <Footer />
   </BrowserRouter>

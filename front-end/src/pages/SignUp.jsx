@@ -6,6 +6,7 @@ import { useAuthApi } from '../hooks/useAuthApi';
 //import for styling
 import logo from "../assets/logo.svg";
 import "./pages.css"
+import AnimBg from '../components/AnimatorBackGround/AnimBg';
 
 
 export default function SignUp() {
@@ -128,27 +129,7 @@ function handleSubmit(e) {
   
   return (
     <>
-      <div className="background">
-        <span>🛍</span>
-        <span>🎮</span>
-        <span>🥋</span>
-        <span>💻</span>
-        <span>🛠</span>
-        <span>📺</span>
-        <span>👚</span>
-        <span>📸</span>
-        <span>💄</span>
-        <span>👠</span>
-        <span>🎒</span>
-        <span>👒</span>
-        <span>💍</span>
-        <span>👗</span>
-        <span>🧦</span>
-        <span>🕶</span>
-        <span>👖</span>
-        <span>☂</span>
-        <span>🍴</span>
-      </div>
+      <AnimBg isCategory={false} />
       <div className="flex min-h-full items-center justify-center px-4 py-12 
       sm:px-6 lg:px-8 z-50 
       mt-20
