@@ -12,15 +12,6 @@ import './category.css';
 
 let PAGE_SIZE = 3;
 
-// window.addEventListener('resize', () => {
-//   const width = window.innerWidth;
-//   if (width >= 768) {
-//    PAGE_SIZE = 3;
-//   }
-//   else {
-//     PAGE_SIZE = 1;
-//   }
-// });
 
 export default function CategorySlider() {
   const { data, loading, error, fetchMore } = useFetchCategoriesApi(PAGE_SIZE);
@@ -32,8 +23,6 @@ export default function CategorySlider() {
   const { edges, pageInfo, totalCount } = data.categoryList;
 
 
-  // console.log("from api after cursor 'end cursor' " + pageInfo.endCursor)
-  // console.log("from api before cursor 'start cursor' " + pageInfo.startCursor)
 
   const handlePrevClick = () => {
     fetchMore({
@@ -97,7 +86,7 @@ export default function CategorySlider() {
               </button>
               <div className='block mx-auto lg:flex lg:items-center lg:mb-5 '>
               {edges.map(({ node }, i) => (
-                <CategoryCard node={node} edges={edges} index={i} handlePrevClick={handlePrevClick} />
+                <CategoryCard node={node} edges={edges} index={i} handlePrevClick={handlePrevClick} isCustomer={false} />
               ))}
               </div>
               <button
@@ -110,7 +99,7 @@ export default function CategorySlider() {
             </div> :
             <div className='block mx-auto lg:flex lg:items-center lg:mb-5 '>
               {edges.map(({ node }, i) => (
-                <CategoryCard node={node} edges={edges} index={i} handlePrevClick={handlePrevClick} />
+                <CategoryCard node={node} edges={edges} index={i} handlePrevClick={handlePrevClick} isCustomer={false} />
               ))}
             </div>
 

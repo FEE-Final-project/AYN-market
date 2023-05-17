@@ -1,50 +1,29 @@
-.sliderItems div{
- border-radius: 0 !important;
-}
-.sliderItems div button span{
-    background-color: #1F2937 !important;
-}
-
-
-@media screen and (min-width: 980px) {
-    .sliderContainer{
-        height: 650px !important;
-    }
-    .text-shadows{
-       font-size:calc(2rem + 4vw) !important;
-      }
- 
-  }
-
-
-
-
-  
-
-
 :root {
   --color-primary: #f6aca2;
   --color-secondary: #f49b90;
   --color-tertiary: #f28b7d;
   --color-quaternary: #f07a6a;
   --color-quinary: #ee6352;
-  /*
-  --color-primary: #5192ED;
-  --color-secondary: #69A1F0;
-  --color-tertiary: #7EAEF2;
-  --color-quaternary: #90BAF5;
-  --color-quinary: #A2C4F5;
-  */
+  
 }
 
-
-
+.sliderItems div{
+ border-radius: 0 !important;
+}
+.sliderItems div button span{
+    background-color: #1F2937 !important;
+}
+.sliderImage{
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover;
+}
 .text-shadows {
   text-shadow: 3px 3px 0 var(--color-secondary), 6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary), 12px 12px 0 var(--color-quinary);
 
   font-weight: 400;
   text-transform: uppercase;
-  font-size:1.8rem;
+  font-size:1.2rem;
   text-align: center;
   margin: 0;
   color: var(--color-primary);
@@ -157,4 +136,24 @@
   100% {
     transform: translate(0px, 0px);
   }
+}
+
+
+@media screen and (min-width: 980px) {
+  .sliderContainer{
+      height: 650px !important;
+  }
+  .text-shadows{
+     font-size:calc(2rem + 4vw) !important;
+    }
+
+}
+
+
+@media screen and (min-width: 760px) {
+
+  .text-shadows{
+     font-size:2rem;
+    }
+
 }
