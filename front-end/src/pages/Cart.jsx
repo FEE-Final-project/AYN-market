@@ -1,24 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect} from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { useFetchCartDetailsApi } from '../hooks/useUserQueries';
 
-import Cookies from 'universal-cookie';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 
+//import different components
 import LoadingComponent from '../components/LoadingComponent/LoadingComponent';
-
-
 import CartProduct from '../components/Cart/CartProduct';
 import EmptyCart from '../components/Cart/EmptyCart';
 
 export default function Cart() {
-  const cookies = new Cookies();
-  const user = useState(cookies.get('user'));
+  const { user } = useAuthContext();
   const navigate = useNavigate();
  
   const { data, loading:loadingProducts, error,reloadCartDetails } = useFetchCartDetailsApi();
-
 
   useEffect(() => {
   if(!user || user.isSuperUser){
@@ -26,8 +23,6 @@ export default function Cart() {
   }
   }, [user]);
 
-
- 
   if (loadingProducts) {
     return <LoadingComponent/>;
   }
