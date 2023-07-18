@@ -25,7 +25,7 @@ from graphql_jwt.decorators import (
 )
 from apps.user.notification import account_activation_token
 
-
+from apps.user.notification import NotificationManager
 
 #      _         _   _
 #     / \  _   _| |_| |__
@@ -182,7 +182,7 @@ class ResetPassword(relay.ClientIDMutation):
         user = User.objects.filter(email=email.lower().strip()).first()
         if user:
             user.save()
-            send_password_reset_link.delay(user.email)
+            NotificationManager(email=user.email).send_password_reset_link()
         return ResetPassword(success=True)
 
 
@@ -209,7 +209,6 @@ class ResetPasswordConfirm(relay.ClientIDMutation):
         try:
             if uid and token:
                 user_id = force_text(urlsafe_base64_decode(uid))
-
                 try:
                     user = User.objects.get(pk=user_id)
                 except(
@@ -220,8 +219,7 @@ class ResetPasswordConfirm(relay.ClientIDMutation):
                 ):
                     user = None
 
-                if user is not None \
-                        and account_activation_token.check_token(user, token):
+                if user and account_activation_token.check_token(user, token):
 
                     if new_password1 != new_password2:
                         raise Exception(
