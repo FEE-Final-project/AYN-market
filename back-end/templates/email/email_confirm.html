@@ -1,0 +1,8 @@
+
+{% autoescape off %}
+hi {{user.username}}
+please click on below link to confirm registartion
+{{ domain }}/auth/email-confirm/?uidb64={{uid}}&token={{token}}
+
+if you think it is not you ignore th mail
+{% endautoescape %}

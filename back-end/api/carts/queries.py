@@ -14,7 +14,6 @@ class CartQuery(graphene.ObjectType):
     )
     cart_details = graphene.Field(CartType)
 
-
     @login_required
     @user_passes_test(
         lambda u: u.is_staff is True

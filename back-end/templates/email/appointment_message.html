@@ -1,0 +1,15 @@
+{% extends "email/base.html" %}
+
+{% block title %}
+    {{ subject }}
+{% endblock %}
+
+{% block body %}
+    <h3>Hello{% if username %}, {{username}}{% endif %}</h3>
+    <p>
+        {{ message }}
+    </p>
+    <a href="{{ link }}" class="button">
+        <span class="button-text">Start appointment</span>
+    </a>
+{% endblock %}
