@@ -23,6 +23,8 @@ from graphql_jwt.decorators import (
     login_required,
     user_passes_test
 )
+from apps.user.notification import account_activation_token
+
 
 
 #      _         _   _
@@ -124,3 +126,117 @@ class AdminUserCreate(relay.ClientIDMutation):
         except Exception as e:
             errors += [e]
             return AdminUserCreate(success=False, errors=errors)
+
+class EmailConfirm(relay.ClientIDMutation):
+    """
+    Mutation for email confirmation
+    """
+    class Input:
+        uid = graphene.String(required=True)
+        token = graphene.String(required=True)
+
+    success = graphene.Boolean()
+    errors = graphene.List(graphene.String)
+
+    def mutate_and_get_payload(
+        root,
+        info,
+        uid,
+        token,
+    ):
+        try:
+            if uid and token:
+                user_id = force_text(urlsafe_base64_decode(uid))
+
+                user = User.objects.filter(pk=user_id).first()
+
+                if user and account_activation_token.check_token(user, token):
+                    user.is_active = True
+                    user.save()
+                    return EmailConfirm(success=True)
+                else:
+                    errors = [
+                        _('Link is expired')
+                    ]
+                    return EmailConfirm(success=False, errors=errors)
+        except ValueError:
+            errors = [
+                _('Link is invalid')
+            ]
+            return EmailConfirm(success=False, errors=errors)
+
+class ResetPassword(relay.ClientIDMutation):
+    """
+    Mutation for requesting a password reset email
+    """
+    class Input:
+        email = graphene.String(required=True)
+
+    success = graphene.Boolean()
+
+    def mutate_and_get_payload(
+        root,
+        info,
+        email
+    ):
+        user = User.objects.filter(email=email.lower().strip()).first()
+        if user:
+            user.save()
+            send_password_reset_link.delay(user.email)
+        return ResetPassword(success=True)
+
+
+class ResetPasswordConfirm(relay.ClientIDMutation):
+    """
+    Mutation for password reset confirm
+    """
+    class Input:
+        uid = graphene.String(required=True)
+        token = graphene.String(required=True)
+        new_password1 = graphene.String(required=True)
+        new_password2 = graphene.String(required=True)
+
+    success = graphene.Boolean()
+
+    @ratelimit(key="ip", rate="5/d", block=True)
+    def mutate_and_get_payload(
+        root,
+        info,
+        uid,
+        token,
+        new_password1,
+        new_password2
+    ):
+        try:
+            if uid and token:
+                user_id = force_text(urlsafe_base64_decode(uid))
+
+                try:
+                    user = User.objects.get(pk=user_id)
+                except(
+                    TypeError,
+                    ValueError,
+                    OverflowError,
+                    User.DoesNotExist
+                ):
+                    user = None
+
+                if user is not None \
+                        and account_activation_token.check_token(user, token):
+
+                    if new_password1 != new_password2:
+                        raise Exception(
+                            _('Passwords must be confirmed correctly')
+                        )
+
+                    user.set_password(new_password1)
+                    user.save()
+                    return ResetPasswordConfirm(success=True)
+                else:
+                    raise Exception(
+                        _('Link is expired')
+                    )
+        except ValueError:
+            raise Exception(
+                _('Link is invalid')
+            )

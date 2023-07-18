@@ -15,6 +15,9 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
 from django.conf import settings
+from apps.config.utils import TokenGenerator
+
+account_activation_token = TokenGenerator()
 
 
 class NotificationManager:
@@ -54,10 +57,10 @@ class NotificationManager:
 
         mail_subject= " Please activate you account "
         to_email=self.user.email
-        message=render_to_string("accounts/verification.html" , {
+        message=render_to_string("email/email_confirm.html" , {
             'user':self.user,
             'domain':settings.DOMAIN,
-            'token':default_token_generator.make_token(self.user),
+            'token': account_activation_token.make_token(self.user),
             'uid':urlsafe_base64_encode(force_bytes(self.user.pk)),
         })
         send_message=EmailMessage(mail_subject , message ,to=[to_email])
@@ -65,4 +68,54 @@ class NotificationManager:
 
 
 
-    
+    def send_password_reset_link(self):
+        """Send reset password confirmation link"""
+        # Create dynamic link:
+
+        cur_site=settings.DOMAIN
+        mail_subject= " Reset password "
+        to_email=self.user.email
+        message=render_to_string("accounts/ResetPass.html" , {
+            'user':user,
+            'domain':cur_site,
+            'token':account_activation_token.make_token(user),
+            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+        })
+        send_message=EmailMessage(mail_subject , message ,to=[to_email])
+        send_message.send()
+
+    def send_create_a_password(self):
+        """Send create new password email (for doctors and pharmacists)"""
+
+        # Generate temporary password
+        tmp_password = uuid.uuid4().hex[:8]
+        self.user.set_password(tmp_password)
+        self.user.is_active = True
+        self.user.save()
+
+        # Create dynamic link:
+        token = (
+            f'?uid64={urlsafe_base64_encode(force_bytes(self.user.pk))}'
+            f'&token={account_activation_token.make_token(self.user)}'
+            f'&type=reset_password'
+        )
+
+        link = f'{settings.DOMAIN}/auth/create-password/{token}'
+
+        context = {
+            'link': link,
+            'site_name': settings.SITE_NAME,
+        }
+        html_message = render_to_string(
+            'email/create_a_password.html',
+            context
+        )
+
+        send_mail(
+            subject='Create a password',
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            message=None,
+            recipient_list=[self.user.email],
+            fail_silently=True,
+            html_message=html_message
+        )

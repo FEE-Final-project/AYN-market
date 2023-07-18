@@ -106,7 +106,6 @@ class CustomerSignUp(relay.ClientIDMutation):
             customer.save()
             NotificationManager(customer).send_confirmation_link()
 
-
             return CustomerSignUp(customer=customer, success=True)
         except Exception as e:
             errors += [e]
