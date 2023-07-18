@@ -101,7 +101,7 @@ class CustomerSignUp(relay.ClientIDMutation):
 
             customer.set_password(input.get('password'))
 
-            customer.is_active=True
+            # customer.is_active=True
 
             customer.save()
             NotificationManager(customer).send_confirmation_link()

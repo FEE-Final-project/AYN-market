@@ -198,7 +198,6 @@ class ResetPasswordConfirm(relay.ClientIDMutation):
 
     success = graphene.Boolean()
 
-    @ratelimit(key="ip", rate="5/d", block=True)
     def mutate_and_get_payload(
         root,
         info,
