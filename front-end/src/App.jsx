@@ -29,8 +29,10 @@ function App() {
       </Route>
       <Route path="/LogIn" element={<LogIn/>} />
       <Route path="/SignUp" element={<SignUp/>} />
+      
       <Route path="/emailConfirm/:uid/:token" element={<EmailConfirm/>} />
       <Route path="/resetPassword/:uid/:token" element={<ResetPassword/>} />
+
       <Route path="/products/:category" element={<CategoryProducts/>} />
       <Route path="/product" element={<Product/>} />
       <Route path="/cart" element={<Cart/>}/>

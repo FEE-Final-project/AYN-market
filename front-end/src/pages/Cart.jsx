@@ -14,7 +14,7 @@ import EmptyCart from '../components/Cart/EmptyCart';
 export default function Cart() {
   const { user } = useAuthContext();
   const navigate = useNavigate();
- 
+  console.log(user)
   const { data, loading:loadingProducts, error,reloadCartDetails } = useFetchCartDetailsApi();
 
   useEffect(() => {

@@ -28,12 +28,11 @@ export default function Navbar() {
  
   const { user, dispatch } = useAuthContext();
   const navigate = useNavigate();
-
+   
 
   const [read, setRead] = useState(false);
 
-  const [searchQuery, setSearchQuery] = useState("");
-
+  // const [searchQuery, setSearchQuery] = useState("");
 
 
   function handleSignOut() {
