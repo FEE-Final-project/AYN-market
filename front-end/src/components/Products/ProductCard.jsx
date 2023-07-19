@@ -3,6 +3,7 @@ import { useAdminMutations } from '../../hooks/useAdminMutations';
 import { useUserMutations } from '../../hooks/useUserMutations';
 import toast, { Toaster } from 'react-hot-toast';
 
+
 import SpinnerComponent from '../LoadingComponent/SpinnerComponent';
 import EditProductForm from './EditProductForm';
 import toy from "../../assets/toy.jpg";
@@ -11,6 +12,8 @@ import 'remixicon/fonts/remixicon.css'
 
 
 export default function ProductCard({ product, isCustomer }) {
+
+  
   const [showEditForm, setShowEditForm] = useState("");
   const { deleteProductApi } = useAdminMutations();
   const { addToCartApi } = useUserMutations();
@@ -25,6 +28,7 @@ export default function ProductCard({ product, isCustomer }) {
 
   const handleAddToCart = async (productId) => {
     setLoading(true);
+    console.log(productId)
     const input = { productId, quantity: 1 }
     const res = await addToCartApi(input)
     if (res.data.addToCart.success) {
