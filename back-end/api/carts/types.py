@@ -9,6 +9,7 @@ from apps.carts.models import CartItems
 
 
 class CartItemsType(DjangoObjectType):
+
     class Meta:
         model = CartItems
         interfaces = (relay.Node,)
@@ -17,6 +18,7 @@ class CartItemsType(DjangoObjectType):
 
 class CartType(DjangoObjectType):
     cart_items = graphene.List(CartItemsType)
+    total_amount = graphene.Int()
     class Meta:
         model = Cart
         interfaces = (relay.Node,)
@@ -24,4 +26,6 @@ class CartType(DjangoObjectType):
         fields = "__all__"
     def resolve_cart_items(self, info, **kwargs):
         return self.cart_items.all()
-    
+    def resolve_total_amount(self , info , **kwargs):
+        return self.total
+
