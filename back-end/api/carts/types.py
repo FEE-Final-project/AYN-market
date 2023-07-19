@@ -16,9 +16,6 @@ class CartItemsType(DjangoObjectType):
         connection_class = CountableConnection
         fields = "__all__"
 
-    def resolve_total_amount(self , info , **kwargs):
-        return self.total
-
 class CartType(DjangoObjectType):
     cart_items = graphene.List(CartItemsType)
     total_amount = graphene.Int()
