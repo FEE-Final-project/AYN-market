@@ -28,7 +28,7 @@ export default function Cart() {
   }
 
   if(error){
-    return <p className='text-red-500 text-center text-2xl font-bold'>Something went wrong</p>
+    return <EmptyCart/>
   }
 
   return (

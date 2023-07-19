@@ -1,20 +1,21 @@
 import { gql } from '@apollo/client';
 
-class AuthAPI{
+class AuthAPI {
 
-createUser() {
-return gql`
+  createUser() {
+    return gql`
 mutation ($input:CustomerSignUpInput!) {
   customerSignup(input: $input) {
   success
   errors
   }
 }
-`;}
+`;
+  }
 
- 
-obtainToken() {
-return  gql`
+
+  obtainToken() {
+    return gql`
 mutation ObtainToken($email: String!, $password: String!) {
   obtainToken(email: $email, password: $password) {
     errors
@@ -30,10 +31,10 @@ mutation ObtainToken($email: String!, $password: String!) {
   }
 }
 `;
-}
+  }
 
 
-refreshToken() {
+  refreshToken() {
     return gql`
       mutation refreshToken($refreshToken: String!) {
         refreshToken(refreshToken: $refreshToken) {
@@ -43,9 +44,35 @@ refreshToken() {
         }
      }`
 
-};
+  };
 
+  emailConfirm() {
+    return gql`
+      mutation emailConfirm($input: EmailConfirmInput!) {
+        emailConfirm(input: $input) {
+          errors
+          success
+        }
+      }`
+  }
 
+  resetPassword() {
+    return gql`
+    mutation ResetPassword($input: ResetPasswordInput!) {
+      resetPassword(input: $input) {
+        success
+      }
+    }`
+  }
+
+  resetPasswordConfirm() {
+    return gql`
+    mutation ResetPasswordConfirm($input: ResetPasswordConfirmInput!) {
+      resetPasswordConfirm(input: $input) {
+        success
+      }
+    }`
+  }
 
 }
 
