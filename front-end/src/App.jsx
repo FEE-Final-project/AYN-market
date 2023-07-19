@@ -13,6 +13,8 @@ import {client} from "./apollo/setup";
 import ProfileDirect from "./pages/ProfileDirect";
 import Cart from "./pages/Cart";
 import CategoryProducts from "./pages/CategoryProducts";
+import EmailConfirm from "./pages/EmailConfirm";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
 
@@ -25,11 +27,13 @@ function App() {
       <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<ProfileDirect/>} />
       </Route>
-      <Route path="/cart" element={<Cart/>}/>
       <Route path="/LogIn" element={<LogIn/>} />
       <Route path="/SignUp" element={<SignUp/>} />
+      <Route path="/emailConfirm/:uid/:token" element={<EmailConfirm/>} />
+      <Route path="/resetPassword/:uid/:token" element={<ResetPassword/>} />
       <Route path="/products/:category" element={<CategoryProducts/>} />
       <Route path="/product" element={<Product/>} />
+      <Route path="/cart" element={<Cart/>}/>
 
     </Routes>
     <Footer />

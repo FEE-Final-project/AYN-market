@@ -3,6 +3,7 @@ import React, {  useState , useEffect } from 'react'
 import {useNavigate} from 'react-router-dom'
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useAuthApi } from '../hooks/useAuthApi';
+import toast ,{Toaster} from 'react-hot-toast';
 //import for styling
 import logo from "../assets/logo.svg";
 import "./pages.css"
@@ -28,6 +29,7 @@ export default function SignUp() {
     gender: "",
     phone: "",
   });
+
   const [passwordError, setPasswordError] = useState("");
   const [passwordConfirmationError, setPasswordConfirmationError] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -99,13 +101,16 @@ function handleSubmit(e) {
       return;
     }
    setLoading(true);
+
    createUserApi({password:userData.password,passwordConfirmation:userData.passwordConfirmation,email:userData.email,username:userData.userName,phone:userData.phone}).then(response=>{
-    console.log(response)
     if (!response.data.customerSignup.success){
        setFormError(response.data.customerSignup.errors[0]); 
       return;
     }
     if(response.data.customerSignup.success){
+      
+      toast.success("Account created successfully please check your inbox to confirm your email")
+
       setUserData({
         password: "",
         passwordConfirmation: "",
@@ -114,11 +119,10 @@ function handleSubmit(e) {
         gender: "",
         phone: "",
       });
+
       setFormError('');
-      
-      navigate('/login');
   }
-  setLoading(false);
+ 
    })
    .catch(error=>{
     setFormError(error.message);
@@ -129,6 +133,7 @@ function handleSubmit(e) {
   
   return (
     <>
+   
       <AnimBg isCategory={false} />
       <div className="flex min-h-full items-center justify-center px-4 py-12 
       sm:px-6 lg:px-8 z-50 
@@ -255,6 +260,10 @@ function handleSubmit(e) {
           </form>
         </div>
       </div>
+      <Toaster
+          position="top-center"
+          reverseOrder={false}
+        />
     </>
   )
 
