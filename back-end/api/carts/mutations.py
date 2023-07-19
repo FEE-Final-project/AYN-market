@@ -29,6 +29,7 @@ class AddToCart(relay.ClientIDMutation):
     class Input:
         product_id = graphene.ID(required=True)
         quantity = graphene.Int(required=True)
+        seesion_id = graphene.String()
     success = graphene.Boolean()
     errors = graphene.List(graphene.String)
     @login_required
@@ -39,7 +40,6 @@ class AddToCart(relay.ClientIDMutation):
         ):
 
             user=info.context.user
-            session_id = info.context.session.session_key
             errors = []
             product_id = from_global_id(input.get('product_id'))[1]
             if not Products.objects.filter(id=product_id).exists():
@@ -139,7 +139,6 @@ class ReduceQuantityOfCartitem(relay.ClientIDMutation):
                 cart_item.quauntity -= 1
                 cart_item.save()
             return ReduceQuantityOfCartitem(success=True)
-
 
 
 
