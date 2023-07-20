@@ -49,16 +49,16 @@ services:
   #  | _||   / (_) | .` | | | | _|| .` | |) |
   #  |_| |_|_\\___/|_|\_| |_| |___|_|\_|___/
   #
-  frontend:
-      container_name: "frontend"
-      build: ./front-end
-      volumes:
-        - ./front-end/:/app
-        - /app/node_modules
-      ports:
-        - '3000:3000'
-      stdin_open: true
-      tty: true
+  # frontend:
+  #     container_name: "frontend"
+  #     build: ./front-end
+  #     volumes:
+  #       - ./front-end/:/app
+  #       - /app/node_modules
+  #     ports:
+  #       - '3000:3000'
+  #     stdin_open: true
+  #     tty: true
   # #   _   _  ____ ___ _   ___  __
   # #  | \ | |/ ___|_ _| \ | \ \/ /
   # #  |  \| | |  _ | ||  \| |\  /
@@ -80,6 +80,6 @@ services:
   #     - static:/static
   #     - frontend_build:/frontend_build
 volumes:
-  frontend_build: {} 
+  frontend_build: {}
   static: {}
   aws: {}

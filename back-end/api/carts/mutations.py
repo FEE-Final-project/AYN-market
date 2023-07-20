@@ -42,6 +42,7 @@ class AddToCart(relay.ClientIDMutation):
             user=info.context.user
             errors = []
             product_id = from_global_id(input.get('product_id'))[1]
+            
             if not Products.objects.filter(id=product_id).exists():
                 errors.append(_('Product not found'))
                 return AddToCart(
@@ -50,6 +51,7 @@ class AddToCart(relay.ClientIDMutation):
                 )
             product = Products.objects.get(id=product_id)
             quantity = input.get('quantity')
+            se
             if product.stock < quantity:
                 errors.append('Product quantity is not enough')
                 return AddToCart(
