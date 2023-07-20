@@ -4,7 +4,7 @@ from apps.store.models import Products , Variation
 from django.contrib.auth import get_user_model
 
 class Cart(models.Model):
-    cart_id=models.CharField(max_length=255 , blank=True  , null = True)
+    cart_id=models.CharField(max_length=255 , blank=True )
     date_added=models.DateField( auto_now=False, auto_now_add=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE , null=True)
 
@@ -32,4 +32,3 @@ class CartItems(models.Model):
         return self.product.product_name
     class Meta:
         ordering=("-id",)
-

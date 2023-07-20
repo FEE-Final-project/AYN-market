@@ -29,7 +29,6 @@ class AddToCart(relay.ClientIDMutation):
     class Input:
         product_id = graphene.ID(required=True)
         quantity = graphene.Int(required=True)
-        seesion_id = graphene.String()
     success = graphene.Boolean()
     errors = graphene.List(graphene.String)
     @login_required
@@ -40,6 +39,7 @@ class AddToCart(relay.ClientIDMutation):
         ):
 
             user=info.context.user
+            session_id = info.context.session.session_key
             errors = []
             product_id = from_global_id(input.get('product_id'))[1]
 
@@ -51,14 +51,13 @@ class AddToCart(relay.ClientIDMutation):
                 )
             product = Products.objects.get(id=product_id)
             quantity = input.get('quantity')
-
             if product.stock < quantity:
                 errors.append('Product quantity is not enough')
                 return AddToCart(
                     success=False,
                     errors=errors
                 )
-            cart = Cart.objects.get_or_create(user=user)[0]
+            cart = Cart.objects.get_or_create(cart_id = "a", user=user)[0]
             cart_item , created = CartItems.objects.get_or_create(
                 product=product,
                 user=user,
