@@ -224,6 +224,9 @@ CORS_ORIGIN_WHITELIST = (
   'http://localhost:3001',
 )
 
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
+
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',

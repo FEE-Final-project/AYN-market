@@ -6,7 +6,6 @@ import ProductsFilter from './ProductsFilter';
 export default function Products() {
   
     const [showProductForm, setShowProductForm] = useState(false);
-    
   
     return (
       <aside className={showProductForm ? "mt-5 lg:mt-0 mx-auto" : " mt-5 lg:mt-0 mx-10"}>
