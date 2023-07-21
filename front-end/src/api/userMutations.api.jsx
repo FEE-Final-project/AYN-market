@@ -35,6 +35,32 @@ class UserMutations {
     `;
   }
   
+  createOrder(){
+    return gql`
+    mutation CreateOrder($input: CreateOrderInput!) {
+      createOrder(input: $input) {
+        success
+        errors
+        order {
+          id
+          orderTotal
+          status
+        }
+      }
+    }
+    `
+  }
+
+  payOrder(){
+    return gql`
+    mutation Checkout($orderId: ID) {
+      checkout(orderId: $orderId) {
+        paymentRedirectUrl
+        success
+      }
+    }
+    `
+  }
 }
 
 export default new UserMutations();

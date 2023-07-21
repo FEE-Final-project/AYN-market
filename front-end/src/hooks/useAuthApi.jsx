@@ -23,6 +23,7 @@ export const useAuthApi = () => {
         const response = await obtainToken({ variables: { email, password } });
        if (response?.data) {
            const { token, refreshToken, user } = response.data.obtainToken;
+          
            if (token && refreshToken) {
                TokenStorage.storeToken(token);
                TokenStorage.storeRefreshToken(refreshToken);

@@ -26,6 +26,7 @@ mutation ObtainToken($email: String!, $password: String!) {
       id
       email
       username
+      phone
       isSuperuser
     }
   }

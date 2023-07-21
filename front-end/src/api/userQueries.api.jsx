@@ -9,6 +9,7 @@ class UserQueries{
             cartDetails {
               cartId
               id
+              totalAmount
               cartItems {
                 quauntity
                 product {

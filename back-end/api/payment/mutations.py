@@ -38,9 +38,9 @@ class CreateOrder(relay.ClientIDMutation):
         email = String(required=True)
         address_line1 = String(required=True)
         address_line2 = String()
-        country = String(required=True)
-        state = String(required=True)
-        city = String(required=True)
+        # country = String(required=True)
+        # state = String(required=True)
+        # city = String(required=True)
         order_note = String()
     success = graphene.Boolean()
     errors = graphene.List(graphene.String)
@@ -65,9 +65,9 @@ class CreateOrder(relay.ClientIDMutation):
                 email=input.get('email'),
                 address_line1=input.get('address_line1'),
                 address_line2=input.get('address_line2'),
-                country=input.get('country'),
-                state=input.get('state'),
-                city=input.get('city'),
+                # country=input.get('country'),
+                # state=input.get('state'),
+                # city=input.get('city'),
                 order_note=input.get('order_note'),
                 # payment=Payment.objects.get(id=from_global_id(input.get('payment'))[1]),
                 # address=input.get('address'),

@@ -36,6 +36,10 @@ export default function LogIn() {
   }
 
   async function handleResetPassword() {
+    if(userData.email === ""){
+      toast.error("Please enter your email")
+      return
+    }
     const res = await resetPasswordApi({ email: userData.email.toLowerCase() })
     if (res.data.resetPassword.success) {
       toast.success("Please check your email for reset password link")
