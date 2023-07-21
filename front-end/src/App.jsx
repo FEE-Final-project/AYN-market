@@ -16,8 +16,11 @@ import CategoryProducts from "./pages/CategoryProducts";
 import EmailConfirm from "./pages/EmailConfirm";
 import ResetPassword from "./pages/ResetPassword";
 import CheckOut from "./pages/CheckOut";
-import Payment from "./pages/Payment";
+
 import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCancel from "./pages/PaymentCancel";
+
+import NotFound from "./pages/NotFound";
 
 function App() {
 
@@ -44,12 +47,12 @@ function App() {
     
       <Route path="/cart" element={<Cart/>}/>
       <Route path="/checkOut" element={<CheckOut/>}/>
-      <Route path="/payment"  element={<Payment />} />
+    
    
       <Route path="/payment/success/*" element={<PaymentSuccess />} />
-      <Route path="/payment/cancel/*" element={<h1>Payment Cancelled</h1>} />
+      <Route path="/payment/cancel/*" element={<PaymentCancel />} />
 
-      <Route path="*" element={<h1>Not Found</h1>} />
+      <Route path="*" element={<NotFound />} />
 
     </Routes>
     <Footer />

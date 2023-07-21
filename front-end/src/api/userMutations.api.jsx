@@ -41,11 +41,19 @@ class UserMutations {
       createOrder(input: $input) {
         success
         errors
-        order {
-          id
-          orderTotal
-          status
-        }
+          order {
+            firstName
+            addressLine1
+            addressLine2
+            email
+            id
+            lastName
+            orderNumber
+            orderTotal
+            phoneNumber
+            status
+          }
+        
       }
     }
     `
