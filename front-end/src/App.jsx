@@ -15,6 +15,9 @@ import Cart from "./pages/Cart";
 import CategoryProducts from "./pages/CategoryProducts";
 import EmailConfirm from "./pages/EmailConfirm";
 import ResetPassword from "./pages/ResetPassword";
+import CheckOut from "./pages/CheckOut";
+import Payment from "./pages/Payment";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 function App() {
 
@@ -27,15 +30,26 @@ function App() {
       <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<ProfileDirect/>} />
       </Route>
+
       <Route path="/LogIn" element={<LogIn/>} />
       <Route path="/SignUp" element={<SignUp/>} />
-      
+     
       <Route path="/emailConfirm/:uid/:token" element={<EmailConfirm/>} />
       <Route path="/resetPassword/:uid/:token" element={<ResetPassword/>} />
-
+       
       <Route path="/products/:category" element={<CategoryProducts/>} />
+
       <Route path="/product" element={<Product/>} />
+      
+    
       <Route path="/cart" element={<Cart/>}/>
+      <Route path="/checkOut" element={<CheckOut/>}/>
+      <Route path="/payment"  element={<Payment />} />
+   
+      <Route path="/payment/success/*" element={<PaymentSuccess />} />
+      <Route path="/payment/cancel/*" element={<h1>Payment Cancelled</h1>} />
+
+      <Route path="*" element={<h1>Not Found</h1>} />
 
     </Routes>
     <Footer />
