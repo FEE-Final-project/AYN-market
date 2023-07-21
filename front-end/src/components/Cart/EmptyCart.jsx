@@ -8,8 +8,7 @@ export default function EmptyCart() {
 const navigate = useNavigate();
 
   return (
-    <div className="bg-white shadow-md rounded-lg px-4 py-4">
-
+    <div className="bg-white shadow-md rounded-lg px-4 pt-32 pb-24" >
     <div className="mt-4">
       <Fragment>
         <div className="flex flex-col items-center justify-center">

@@ -28,7 +28,7 @@ export default function ProductCard({ product, isCustomer }) {
 
   const handleAddToCart = async (productId) => {
     setLoading(true);
-    console.log(productId)
+  
     const input = { productId, quantity: 1 }
     const res = await addToCartApi(input)
     if (res.data.addToCart.success) {

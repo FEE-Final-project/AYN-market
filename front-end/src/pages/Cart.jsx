@@ -62,12 +62,12 @@ export default function Cart() {
             </div>
           )}
 
-        <div className='flex items-center justify-center mt-7'>
+    { data?.cartDetails.cartItems.length > 0 &&    <div className='flex items-center justify-center mt-7'>
         <button className='bg-green-600 p-3 rounded w-3/12 text-white hover:bg-green-500' onClick={()=>{
           TokenStorage.setCartId(data?.cartDetails.cartId);
           navigate("/checkOut")}
           }>Proceed to check out</button>
-        </div>
+        </div>}
    
         </div>
       </div>
