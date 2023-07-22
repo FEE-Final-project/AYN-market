@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { useFetchCartDetailsApi } from '../hooks/useUserQueries';
-import TokenStorage from '../services/TokenStorage.service';
+
 
 import { useAuthContext } from '../hooks/useAuthContext';
 
@@ -21,8 +21,8 @@ export default function Cart() {
 
   const { data, loading: loadingProducts, error, reloadCartDetails } = useFetchCartDetailsApi();
   
+ 
 
-  
   useEffect(() => {
     if (!user || user.isSuperUser) {
       navigate('/')
@@ -62,13 +62,24 @@ export default function Cart() {
             </div>
           )}
 
-    { data?.cartDetails.cartItems.length > 0 &&    <div className='flex items-center justify-center mt-7'>
+    {( data?.cartDetails.cartItems.length > 0 && ! JSON.parse(localStorage.getItem('toggleOrderForm'))) &&    <div className='flex items-center justify-center mt-7'>
         <button className='bg-green-600 p-3 rounded w-3/12 text-white hover:bg-green-500' onClick={()=>{
-          TokenStorage.setCartId(data?.cartDetails.cartId);
           navigate("/checkOut")}
           }>Proceed to check out</button>
         </div>}
-   
+
+    {JSON.parse(localStorage.getItem('toggleOrderForm')) && <div className='flex items-center justify-center mt-7'>
+        <button className='bg-green-600 p-3 rounded w-3/12 text-white hover:bg-green-500 mr-2' onClick={()=>{
+          navigate("/checkOut")}
+          }>Purchase not purchased order </button>
+          <h1 className='mr-2' >OR</h1>
+          <button className='bg-red-600 p-3 rounded w-3/12 text-white hover:bg-red-500' onClick={()=>{
+           localStorage.clear()
+           navigate("/cart")
+         }
+          }>Delete not purchased order</button>
+          
+        </div>}
         </div>
       </div>
     </div>

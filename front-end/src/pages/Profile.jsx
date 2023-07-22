@@ -23,7 +23,7 @@ export default function Profile() {
 
         <div className="lg:flex lg:justify-around ">
 
-          <Link className="flex items-center  rounded  text-lg   p-2 hover:text-white hover:bg-gray-900 space-x-2 lg:w-3/12" to="/orders">
+          <Link className="flex items-center  rounded  text-lg   p-2 hover:text-white hover:bg-gray-900 space-x-2 lg:w-3/12" to={`/profile/orders/${user.id}`}>
             <FiPackage className='text-3xl ' />
             <span  className="transition-colors duration-300">Orders</span>
           </Link>

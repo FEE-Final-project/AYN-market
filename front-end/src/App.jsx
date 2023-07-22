@@ -21,6 +21,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancel from "./pages/PaymentCancel";
 
 import NotFound from "./pages/NotFound";
+import CustomerOrders from "./pages/CustomerOrders";
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<ProfileDirect/>} />
+            <Route path="/profile/orders/:id" element={<CustomerOrders/>} />
       </Route>
 
       <Route path="/LogIn" element={<LogIn/>} />
@@ -48,7 +50,7 @@ function App() {
       <Route path="/cart" element={<Cart/>}/>
       <Route path="/checkOut" element={<CheckOut/>}/>
     
-   
+      
       <Route path="/payment/success/*" element={<PaymentSuccess />} />
       <Route path="/payment/cancel/*" element={<PaymentCancel />} />
 

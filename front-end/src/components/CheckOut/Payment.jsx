@@ -12,9 +12,9 @@ export default function Payment({orderId}) {
   async function handlePayment(){
     try{
      const response = await payOrderApi(orderId);
-        console.log(response)
         if(response.data.checkout.success){
             window.location.href = response.data.checkout.paymentRedirectUrl;
+            
         }
     }
     catch(error){

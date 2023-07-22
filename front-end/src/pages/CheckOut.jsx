@@ -13,7 +13,7 @@ export default function CheckOut() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(data?.cartDetails.cartItems.length === 0){
+    if(data?.cartDetails.cartItems.length === 0 && !localStorage.getItem("toggleOrderForm")){
         navigate("/cart")
     }
     }, [data?.cartDetails.cartItems.length]);
