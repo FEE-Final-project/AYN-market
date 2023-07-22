@@ -1,11 +1,11 @@
 import React from 'react'
 
 import deliver from "../assets/deliver.png"
-import { useParams } from 'react-router-dom';
+
 
 export default function PaymentSuccess() {
-    const{token} = useParams()
-    console.log(useParams())
+    
+    localStorage.clear()
 
   return (
     <section className='bg-green-400 w-9/12 mx-auto relative my-32 p-60 rounded'>

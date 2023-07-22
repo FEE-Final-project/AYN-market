@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import SpinnerComponent from '../LoadingComponent/SpinnerComponent';
 import EditCategoryForm from './EditCategoryForm';
 import logo from "../../assets/logo.png";
-import categoryImage from '../../assets/accessories.jpeg'
+import categoryImage from '../../assets/sports.jpeg'
 import './category.css';
 import AnimBg from '../AnimatorBackGround/AnimBg';
 

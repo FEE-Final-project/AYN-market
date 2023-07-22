@@ -4,12 +4,6 @@ export default class TokenStorage {
 
 static cookies = new Cookies();
 
-static setCartId(cartId){
-    this.cookies.set('cartId',cartId,{path:'/'})
-}
-static setOrderId(orderId){
-    this.cookies.set('orderId',orderId,{path:'/'})
-}
 static isAuthenticated() {
     return this.getToken() !== null && this.getToken() !== undefined;
 }
@@ -42,12 +36,7 @@ static storeUser(user){
 static getUser(){
     return this.cookies.get('user') || null
 }
-static getCartId(){
-    return this.cookies.get('cartId')
-}
-static getOrderId(){
-    return this.cookies.get('orderId')
-}
+
 
 }
 

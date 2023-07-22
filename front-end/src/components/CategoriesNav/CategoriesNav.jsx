@@ -24,10 +24,9 @@ export default function CategoriesNav() {
                
                 <div className='block mx-5 lg:flex lg:items-center lg:justify-around mb-10 lg:flex-wrap  '>
                 {edges.map(({ node }) => (
-                  <CategoryCard node={node} edges={edges}  isCustomer={true} />
+                  <CategoryCard key={node.id} node={node} edges={edges}  isCustomer={true} />
                 ))}
-                </div>
-                
+                </div> 
         }
       </section>
   

@@ -24,7 +24,10 @@ class UserQueries{
           }
     `
     }
-
+   
+   fetchOrderDetails(){
+    
+   }
  
    
 }

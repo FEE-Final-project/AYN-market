@@ -2,9 +2,9 @@ import React, {  useState , useEffect } from 'react'
 
 import {useNavigate} from 'react-router-dom'
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { usePaymentContext } from '../../hooks/usePaymentContext';
 
-import TokenStorage from '../../services/TokenStorage.service';
+import { useFetchCartDetailsApi } from '../../hooks/useUserQueries';
+
 
 import { useUserMutations } from '../../hooks/useUserMutations';
 import OrderInfo from './OrderInfo';
@@ -13,17 +13,22 @@ import OrderInfo from './OrderInfo';
 
 export default function CreateOrder() {
   const phoneRegex = /^01[0125][0-9]{8}$/;
-  
+
+  const { data } = useFetchCartDetailsApi();
+
+ 
+
   const {createOrderApi} = useUserMutations();
 
   const [loading ,setLoading] = useState(false);
   const {user} =useAuthContext()
-  const{cartId} = usePaymentContext();
+
  
   const {username,email,phone} = user;
   
-  const[toggleOrderForm,setToggleOrderForm] = useState(false);
-  const [orderData , setOrderData] = useState(null)
+  const [toggleOrderForm,setToggleOrderForm] = useState(JSON.parse(localStorage.getItem('toggleOrderForm')) || false);
+
+  const [orderData , setOrderData] = useState(JSON.parse(localStorage.getItem('orderData')) || null)
   const navigate = useNavigate();
   
   const [userData, setUserData] = useState({
@@ -36,19 +41,23 @@ export default function CreateOrder() {
    phone,
    phoneNumber:phone,
    orderNote:"",
-   cartId:cartId,
+   cartId:data?.cartDetails.cartId,
   });
-
 
  
   const [formError, setFormError] = useState("");
   
   useEffect (()=>{
+    setUserData((prev)=>({...prev,cartId:data?.cartDetails.cartId}))
+
+    localStorage.setItem("orderData",JSON.stringify(orderData))
+    localStorage.setItem('toggleOrderForm',toggleOrderForm)
+
     if(!user){
       navigate("/")
     }
-  })
-
+  },[data,orderData,toggleOrderForm])
+  
   function handleChange(e) {
    if(e.target.name === "firstName" || e.target.name === "lastName"){
       if(e.target.value.length < 3){
@@ -93,7 +102,10 @@ async function handleSubmit(e) {
     try{
        
         const response = await createOrderApi(userData);
+
         setOrderData(response.data.createOrder.order);
+
+     
         if(response.data.createOrder.success){
       
             setUserData({
@@ -106,11 +118,11 @@ async function handleSubmit(e) {
               phone,
               phoneNumber:phone,
               orderNote:"",
-              cartId,
+              cartId:data?.cartDetails.cartId,
             });
             setFormError('');
-            TokenStorage.setOrderId(response.data.createOrder.order.id);
             setToggleOrderForm(true);
+
         }
        else{
         setFormError(response.data.createOrder.errors[0]);
@@ -124,7 +136,7 @@ async function handleSubmit(e) {
 
     setLoading(false);  
   }
-  
+ 
   return (
     <>
       {
