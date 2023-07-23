@@ -15,13 +15,18 @@ export default function EditCategoryForm({node,  setShowEditForm}) {
     setCategoryUpdatedData(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 function handleImageChange(e) {
-    setImage(e.target.files[0])
+  const {
+    target: {
+      files: [file],
+    }
+  } = e;
+  setImage(file)
     }
   
 async function handleSubmit(e) {
     e.preventDefault();
     setLoadingForm(true);
-    let res = await updateCategoryApi({id:node.id,description:categoryUpdatedData.description,image:null,categoryName:categoryUpdatedData.categoryName})
+    let res = await updateCategoryApi({id:node.id,description:categoryUpdatedData.description,image,categoryName:categoryUpdatedData.categoryName})
     
         if(res.data.updateCategory.success){
           setCategoryData({name:"",description:""})

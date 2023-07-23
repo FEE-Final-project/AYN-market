@@ -4,7 +4,9 @@ import { useFetchCategoriesApi } from '../../hooks/useAdminQueries';
 
 export default function AddProductForm() {
   const {addProductApi} = useAdminMutations();
+
   const {data:categoryData,loading:categoryLoading,error:categoryError} = useFetchCategoriesApi();
+  
   const [productData,setProductData] = useState({
     name:'',
     description:'',

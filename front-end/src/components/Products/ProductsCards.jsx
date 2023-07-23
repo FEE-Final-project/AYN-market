@@ -13,6 +13,7 @@ export default function ProductsCards({categoryName , productName ,isCustomer , 
   
   const { data: productData, loading: productLoading, error: productError, fetchMore } = useFetchProductsApi({category:categoryName , search:productName , first: PAGE_SIZE , priceLt:priceLt , priceGt:priceGt , price:price});
   
+  
   if (productLoading) return <LoadingComponent />;
   if (productError) return <p>{error.message} </p>;
 
