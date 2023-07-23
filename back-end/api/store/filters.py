@@ -15,7 +15,7 @@ class ProductFilter(filters.FilterSet):
     search = filters.CharFilter(field_name="product_name", lookup_expr="icontains")
     price = filters.NumberFilter(lookup_expr="exact")
     price__gt = filters.NumberFilter(field_name="price", lookup_expr="gt")
-    price_lt = filters.NumberFilter(field_name="price", lookup_expr="lt")
+    price_lt = filters.NumberFilter(field_name="price", lookup_expr="lte")
     is_available = filters.BooleanFilter(lookup_expr="exact")
     category = filters.CharFilter(method="filter_category")
 

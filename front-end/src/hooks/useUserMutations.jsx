@@ -6,15 +6,15 @@ import UserMutations from "../api/userMutations.api";
 export const useUserMutations = () => {
   
     const [addToCart] = useMutation(UserMutations.addToCart(),{
-        refetchQueries:['cartDetails'],
+        refetchQueries:['CartDetails'],
     });
   
     const [reduceQuantityOfCartItem] = useMutation(UserMutations.reduceQuantityOfCartItem(),{
-        refetchQueries: ['cartDetails'],
+        refetchQueries: ['CartDetails'],
     });
 
     const [removeFromCartItem] = useMutation(UserMutations.removeFromCartItem(),{
-        refetchQueries: ['cartDetails'],
+        refetchQueries: ['CartDetails'],
     });
     
     const [createOrder] = useMutation(UserMutations.createOrder(),{

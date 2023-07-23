@@ -155,7 +155,7 @@ class CreateCategory(relay.ClientIDMutation):
         name = graphene.String(required=True)
         description = graphene.String()
         image = FileUpload()
-
+        print(image)
     @login_required
     @user_passes_test(lambda user: user.is_staff)
     def mutate_and_get_payload(
@@ -171,6 +171,7 @@ class CreateCategory(relay.ClientIDMutation):
                 raise Exception('Category already exists')
             description = input.get('description')
             image = input.get('image')
+            print(image)
             category = Category.objects.create(
                 category_name=category_name,
                 description=description,

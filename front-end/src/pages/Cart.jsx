@@ -19,7 +19,7 @@ export default function Cart() {
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
-  const { data, loading: loadingProducts, error, reloadCartDetails } = useFetchCartDetailsApi();
+  const { data, loading: loadingProducts, error } = useFetchCartDetailsApi();
   
  
 
@@ -50,7 +50,7 @@ export default function Cart() {
               <h2 className="text-lg font-medium text-gray-700 text-center">Your Cart</h2>
               <div className="mt-4 [&>*:not(:last-child)]:border-b ">
                 {data?.cartDetails.cartItems.map((item) => (
-                  <CartProduct item={item} key={item.id} reloadCartDetails={reloadCartDetails} />
+                  <CartProduct item={item} key={item.id}  />
                 ))}
               </div>
               <hr></hr>

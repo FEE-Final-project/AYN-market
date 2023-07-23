@@ -5,7 +5,7 @@ class UserQueries{
 
     fetchCartDetails(){
         return gql`
-        query{
+        query CartDetails{
             cartDetails {
               cartId
               id
@@ -25,9 +25,7 @@ class UserQueries{
     `
     }
    
-   fetchOrderDetails(){
-    
-   }
+
  
    
 }
