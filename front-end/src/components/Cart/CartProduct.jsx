@@ -10,9 +10,11 @@ import 'remixicon/fonts/remixicon.css'
 
 import SpinnerComponent from '../LoadingComponent/SpinnerComponent';
 
-export default function CartProduct({item,reloadCartDetails}) {
+export default function CartProduct({item}) {
 
 const [loading, setLoading] = useState(false);
+const [loadingReduce, setLoadingReduce] = useState(false);
+const [loadingRemove, setLoadingRemove] = useState(false);
 
 const { addToCartApi } = useUserMutations();
 const { reduceQuantityOfCartItemApi } = useUserMutations();
@@ -22,23 +24,20 @@ const handleAddToCart = async (productId) => {
         setLoading(true);
         const input = { productId, quantity: 1 }
         await addToCartApi(input)
-        reloadCartDetails()
         setLoading(false);
       }
       
 
 const handleReduceQuantityOfCartItem = async (cartItemId) => {
-        setLoading(true);
+        setLoadingReduce(true);
         await reduceQuantityOfCartItemApi({cartItemId})
-        reloadCartDetails()
-        setLoading(false);
+        setLoadingReduce(false);
         }
 
 const handleRemoveFromCartItem = async (cartItemId) => {
-        setLoading(true);
+        setLoadingRemove(true);
         await removeFromCartItemApi({cartItemId})
-        reloadCartDetails()
-        setLoading(false);
+        setLoadingRemove(false);
         }
 
   return (
@@ -52,7 +51,7 @@ const handleRemoveFromCartItem = async (cartItemId) => {
         className=" p-1 mt-2  text-gray-700 rounded-md hover:bg-red-300"
         onClick={() => handleRemoveFromCartItem(item.id)}
       >
-        {loading ? <SpinnerComponent/> :   
+        {loadingRemove ? <SpinnerComponent/> :   
         <>
         <i className="ri-delete-bin-2-line mx-1"></i>
         Remove
@@ -67,7 +66,7 @@ const handleRemoveFromCartItem = async (cartItemId) => {
         className="px-2 py-1 bg-gray-700 text-gray-300 rounded w-2/12 hover:bg-gray-500"
         onClick={() => handleReduceQuantityOfCartItem(item.id)}
       >
-       {loading ? <SpinnerComponent/> : "-"}
+       {loadingReduce ? <SpinnerComponent/> : "-"}
       </button>
       <span className="font-medium text-gray-700 ">
         {item.quauntity}

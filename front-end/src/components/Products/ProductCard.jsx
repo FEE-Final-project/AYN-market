@@ -3,7 +3,7 @@ import { useAdminMutations } from '../../hooks/useAdminMutations';
 import { useUserMutations } from '../../hooks/useUserMutations';
 import toast, { Toaster } from 'react-hot-toast';
 
-
+import { useFetchCartDetailsApi } from '../../hooks/useUserQueries';
 import SpinnerComponent from '../LoadingComponent/SpinnerComponent';
 import EditProductForm from './EditProductForm';
 import toy from "../../assets/toy.jpg";
@@ -33,6 +33,7 @@ export default function ProductCard({ product, isCustomer }) {
     const res = await addToCartApi(input)
     if (res.data.addToCart.success) {
       toast.success("Product added to cart");
+   
     }
     else {
       toast.error("Product not added to cart");

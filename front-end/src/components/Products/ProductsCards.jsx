@@ -9,10 +9,10 @@ import noMoreProducts from "../../assets/noMoreProducts.svg"
 
 const PAGE_SIZE = 9;
 
-export default function ProductsCards({categoryName , productName ,isCustomer}) {
+export default function ProductsCards({categoryName , productName ,isCustomer , priceLt , priceGt , price}) {
   
-  const { data: productData, loading: productLoading, error: productError, fetchMore } = useFetchProductsApi({category:categoryName , search:productName , first: PAGE_SIZE});
-   
+  const { data: productData, loading: productLoading, error: productError, fetchMore } = useFetchProductsApi({category:categoryName , search:productName , first: PAGE_SIZE , priceLt:priceLt , priceGt:priceGt , price:price});
+  
   if (productLoading) return <LoadingComponent />;
   if (productError) return <p>{error.message} </p>;
 

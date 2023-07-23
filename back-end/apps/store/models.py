@@ -8,6 +8,7 @@ class Category(models.Model):
     category_name=models.CharField( max_length=255 , unique=True)
     description=models.TextField(null=True, blank=True)
     image=models.ImageField(upload_to=category_image_file_path ,null=True, blank=True)
+   
 
     def get_url(self):
         return reverse('products-by-category' , args=[self.slug])
