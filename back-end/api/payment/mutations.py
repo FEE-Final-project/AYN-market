@@ -137,6 +137,8 @@ class Checkout(graphene.Mutation):
             approval_url = next(link.href for link in paypal_payment.links if link.method == "REDIRECT")
             payment.payment_id = paypal_payment.id
             payment.save()
+            order.status = Order.STATUS.Completed
+            order.save()
             return Checkout(success=True, order=order, payment_redirect_url=approval_url)
         else:
             raise ValueError(paypal_payment.error)
