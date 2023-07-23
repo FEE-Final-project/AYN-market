@@ -3,8 +3,10 @@ import { useAdminMutations } from '../../hooks/useAdminMutations';
 import { useUserMutations } from '../../hooks/useUserMutations';
 import toast, { Toaster } from 'react-hot-toast';
 
-import { useFetchCartDetailsApi } from '../../hooks/useUserQueries';
+
+
 import SpinnerComponent from '../LoadingComponent/SpinnerComponent';
+
 import EditProductForm from './EditProductForm';
 import toy from "../../assets/toy.jpg";
 
@@ -12,8 +14,7 @@ import 'remixicon/fonts/remixicon.css'
 
 
 export default function ProductCard({ product, isCustomer }) {
-
-  
+  console.log(isCustomer)
   const [showEditForm, setShowEditForm] = useState("");
   const { deleteProductApi } = useAdminMutations();
   const { addToCartApi } = useUserMutations();
@@ -49,7 +50,11 @@ export default function ProductCard({ product, isCustomer }) {
         :
         <div key={product.id} className="relative  w-64 lg:w-3/12  mx-auto flex flex-col items-center shadow rounded lg:mx-2 my-5 bg-purple-400"  >
         
-          <img src={toy} className='rounded ' alt="product image" />
+          <img src={
+            product.image
+              ?"http://localhost:8000" + product.image
+              : toy
+          }  className='rounded ' alt="product image" />
           <hr className='bg-green-500 w-full h-0.5 mb-2' />
           <p className=' bg-gray-600 px-2 py-1 text-white rounded-full'>{product.category.categoryName}</p>
           <p className='my-2 font-extrabold'>{product.productName}</p>

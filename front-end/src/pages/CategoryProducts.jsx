@@ -2,8 +2,10 @@ import React,{useState} from 'react'
 import ProductsCards from '../components/Products/ProductsCards';
 
 import 'remixicon/fonts/remixicon.css';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 export default function CategoryProducts() {
+  const {user} = useAuthContext();
   const categoryName = window.location.pathname.split('/')[2];
 
   const [productName,setProductName] = useState('');
@@ -16,7 +18,7 @@ export default function CategoryProducts() {
     price:''
   });
   
- 
+  
   const handleSearch = (e) => {
     setProductName(e.target.value);
   }
@@ -47,13 +49,9 @@ export default function CategoryProducts() {
         </div>
        
         }
-       
- 
-       
         </aside>
-
         </header>
-        <ProductsCards isCustomer={true} categoryName={categoryName} productName={productName} priceLt={filter.priceLt} priceGt={filter.priceGt} price={filter.price} />
+        <ProductsCards isCustomer={!user.isSuperuser} categoryName={categoryName} productName={productName} priceLt={filter.priceLt} priceGt={filter.priceGt} price={filter.price} />
     </section>
   )
 }

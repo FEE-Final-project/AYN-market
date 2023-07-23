@@ -3,7 +3,7 @@ import { useAdminMutations } from '../../hooks/useAdminMutations';
 
 
 export default function AddCategoryForm() {
-  //TODO: image upload fix
+
   const { addCategoryApi } = useAdminMutations();
   const [loadingForm, setLoadingForm] = useState(false);
   const [categoryData, setCategoryData] = useState({ name: "", description: "" });
@@ -20,7 +20,6 @@ export default function AddCategoryForm() {
         files: [file],
       }
     } = e;
-    console.log(file)
     setImage(file)
   }
 
@@ -30,6 +29,7 @@ async function handleSubmit(e) {
       setLoadingForm(true);
    
       let res = await addCategoryApi({description:categoryData.description,image,name:categoryData.name})
+      
           if(res.data.createCategory.success){
             setCategoryData({name:"",description:""})
             setImage(null)
