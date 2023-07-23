@@ -14,7 +14,7 @@ from apps.config.models import (
     TimeStampedModel,
 )
 from apps.config.fields import TrimCharField, TrimEmailField
-
+from apps.store.models import Products
 
 
 #   _   _ ____  _____ ____
@@ -77,6 +77,9 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
         blank=True,
         unique=True
     )
+
+    wish_list = models.ManyToManyField(Products, blank=True, related_name='users_wishing')
+
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 

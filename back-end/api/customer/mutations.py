@@ -22,6 +22,7 @@ from django.utils.http import urlsafe_base64_decode , urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from apps.user.notification import NotificationManager
+from apps.store.models import Products
 
 from .types import CustomerType
 
@@ -203,3 +204,49 @@ class CustomerDelete(relay.ClientIDMutation):
                 _('customer does not exist')
             ]
             return CustomerDelete(success=False, errors=errors)
+class AddToWishList(relay.ClientIDMutation):
+    class Input:
+        product_id = graphene.ID(required=True)
+
+    success = graphene.Boolean()
+    errors = graphene.List(graphene.String)
+
+    @login_required
+    def mutate_and_get_payload(
+        root,
+        info,
+        **input
+    ):
+        try:
+            product=Products.objects.get(id=from_global_id(input.get('product_id'))[1])
+            user = info.context.user
+            user.wish_list.add(product)
+            return AddToWishList(success=True)
+        except Exception:
+            errors = [
+                _('product does not exist')
+            ]
+            return AddToWishList(success=False, errors=errors)
+class RemoveFromWishList(relay.ClientIDMutation):
+    class Input:
+        product_id = graphene.ID(required=True)
+
+    success = graphene.Boolean()
+    errors = graphene.List(graphene.String)
+
+    @login_required
+    def mutate_and_get_payload(
+        root,
+        info,
+        **input
+    ):
+        try:
+            product=Products.objects.get(id=from_global_id(input.get('product_id'))[1])
+            user = info.context.user
+            user.wish_list.remove(product)
+            return RemoveFromWishList(success=True)
+        except Exception:
+            errors = [
+                _('product does not exist')
+            ]
+            return RemoveFromWishList(success=False, errors=errors)
