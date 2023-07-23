@@ -14,12 +14,26 @@ import 'remixicon/fonts/remixicon.css'
 
 
 export default function ProductCard({ product, isCustomer }) {
-  console.log(isCustomer)
+  
   const [showEditForm, setShowEditForm] = useState("");
   const { deleteProductApi } = useAdminMutations();
   const { addToCartApi } = useUserMutations();
+  const {addToWishListApi} = useUserMutations();
 
   const [loading, setLoading] = useState(false);
+
+  const addToWishList = async (productId) => {
+    setLoading(true);
+    const input = { productId }
+    const res = await addToWishListApi(input)
+    if (res.data.addToWishList.success) {
+      toast.success("Product added to wishlist");
+    }
+    else {
+      toast.error("Product not added to wishlist");
+    }
+    setLoading(false);
+  }
 
   const handleDelete = async (id) => {
     setLoading(true);
@@ -71,7 +85,11 @@ export default function ProductCard({ product, isCustomer }) {
                 {loading ? <SpinnerComponent /> : <i className="ri-shopping-cart-2-fill"></i>}
                
               </button>
-              <button className='bg-yellow-600 p-3 absolute left-0 bottom-0 text-white  rounded-br rounded-bl rounded-tl rounded-tr-2xl  hover:bg-yellow-500'><i className="ri-star-line"></i></button>
+              <button className='bg-yellow-600 p-3 absolute left-0 bottom-0 text-white  rounded-br rounded-bl rounded-tl rounded-tr-2xl  hover:bg-yellow-500' onClick={()=>addToWishList(product.id)}>
+
+              {loading ? <SpinnerComponent /> :<i className="ri-star-line"></i>}
+              
+              </button>
             </>
               :
               <>

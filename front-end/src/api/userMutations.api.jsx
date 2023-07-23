@@ -69,6 +69,17 @@ class UserMutations {
     }
     `
   }
+
+  addToWishList(){
+    return gql`
+    mutation AddToWishList($input: AddToWishListInput!) {
+      addToWishList(input: $input) {
+        success
+        errors
+      }
+    }    
+    `
+  }
 }
 
 export default new UserMutations();

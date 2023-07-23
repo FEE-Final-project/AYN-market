@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useUserMutations } from '../../hooks/useUserMutations';
 
 
-import randomImg from '../../assets/kids.jpeg'
+import toy from '../../assets/toy.jpg'
 
 
 import 'remixicon/fonts/remixicon.css'
@@ -44,7 +44,12 @@ const handleRemoveFromCartItem = async (cartItemId) => {
     <div  className="flex justify-around items-center py-2 border-b-gray-300">
     <div className='w-5/12 flex flex-col items-center'>
     <div className='flex items-start'>
-      <img className='w-20 h-20 rounded mr-2' src={randomImg} alt="product image" />
+      <img className='w-20 h-20 rounded mr-2' src={
+            item.product.image
+              ?"http://localhost:8000/" +
+                item.product.image
+              : toy
+          } alt="product image" />
       <h3 className="text-md font-medium text-gray-700">{item.product.productName}</h3>                   
     </div>
     <button

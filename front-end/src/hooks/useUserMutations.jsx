@@ -21,7 +21,11 @@ export const useUserMutations = () => {
         refetchQueries: ['orderDetails'],
     });
     
-    const [payOrder] = useMutation(UserMutations.payOrder());
+   const [payOrder] = useMutation(UserMutations.payOrder());
+
+   const [addToWishList] = useMutation(UserMutations.addToWishList(),{
+    refetchQueries: [''],
+    });
 
     const addToCartApi = async (input)=>{
          const res = await addToCart({ variables: { input } });
@@ -47,11 +51,18 @@ export const useUserMutations = () => {
         const res = await payOrder({ variables: { orderId } });
         return res;
     }
+
+    const addToWishListApi = async (input)=>{
+        const res = await addToWishList({ variables: { input } });
+        return res;
+    }
+
     return{
         addToCartApi,
         reduceQuantityOfCartItemApi,
         removeFromCartItemApi,
         createOrderApi,
         payOrderApi,
+        addToWishListApi,
     }
 }
