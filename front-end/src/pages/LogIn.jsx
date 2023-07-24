@@ -24,7 +24,6 @@ export default function LogIn() {
 
   const { user } = useAuthContext();
 
-
   useEffect(() => {
     if (user) {
       navigate("/")

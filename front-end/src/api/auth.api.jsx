@@ -28,6 +28,22 @@ mutation ObtainToken($email: String!, $password: String!) {
       username
       phone
       isSuperuser
+      wishList {
+        id
+        productName
+        price
+        image
+        usersWishing {
+          edges {
+            node {
+              id
+              customer {
+                email
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAdminMutations } from '../../hooks/useAdminMutations';
 import { useUserMutations } from '../../hooks/useUserMutations';
 import toast, { Toaster } from 'react-hot-toast';
 
+import LoadingComponent from '../LoadingComponent/LoadingComponent'
+import { useFetchWishlistApi } from '../../hooks/useUserQueries';
 
+import {useAuthContext} from '../../hooks/useAuthContext'
 
 import SpinnerComponent from '../LoadingComponent/SpinnerComponent';
 
@@ -14,23 +17,53 @@ import 'remixicon/fonts/remixicon.css'
 
 
 export default function ProductCard({ product, isCustomer }) {
+
+  const {user} = useAuthContext()
+
+
+  const {data,loading:loadingWishlist,error,reloadWishlist} = useFetchWishlistApi(user.id);
   
+
   const [showEditForm, setShowEditForm] = useState("");
   const { deleteProductApi } = useAdminMutations();
   const { addToCartApi } = useUserMutations();
   const {addToWishListApi} = useUserMutations();
+  const {removeFromWishListApi} = useUserMutations();
 
   const [loading, setLoading] = useState(false);
-
-  const addToWishList = async (productId) => {
-    setLoading(true);
-    const input = { productId }
-    const res = await addToWishListApi(input)
-    if (res.data.addToWishList.success) {
-      toast.success("Product added to wishlist");
+  
+  const checkWishList = (id)=>{
+    let index = data?.customerDetails.wishList.findIndex(ele=> ele.id === id)
+    if(index > -1){
+      return true
     }
-    else {
-      toast.error("Product not added to wishlist");
+    else{
+      return false
+    }
+  }
+
+  const toggleWishlist = async (productId) => {
+    setLoading(true);
+  
+    const input = { productId }
+    if(! checkWishList(productId)){
+
+      const res = await addToWishListApi(input)
+      if (res.data.addToWishList.success) {
+        toast.success("Product added to wishlist");
+      }
+      else {
+        toast.error("Product not added to wishlist");
+      }
+    }
+    else{
+      const res = await removeFromWishListApi(input)
+      if(res.data.removeFromWishList.success){
+        toast.success("Product removed from wishlist");
+      }
+      else{
+        toast.error("Product not removed from wishlist");
+      }
     }
     setLoading(false);
   }
@@ -54,6 +87,10 @@ export default function ProductCard({ product, isCustomer }) {
       toast.error("Product not added to cart");
     }
     setLoading(false);
+  }
+
+  if(loadingWishlist){
+    return <LoadingComponent />
   }
 
   return (
@@ -85,9 +122,9 @@ export default function ProductCard({ product, isCustomer }) {
                 {loading ? <SpinnerComponent /> : <i className="ri-shopping-cart-2-fill"></i>}
                
               </button>
-              <button className='bg-yellow-600 p-3 absolute left-0 bottom-0 text-white  rounded-br rounded-bl rounded-tl rounded-tr-2xl  hover:bg-yellow-500' onClick={()=>addToWishList(product.id)}>
+              <button className='bg-yellow-600 p-3 absolute left-0 bottom-0 text-white  rounded-br rounded-bl rounded-tl rounded-tr-2xl  hover:bg-yellow-500' onClick={()=>toggleWishlist(product.id)}>
 
-              {loading ? <SpinnerComponent /> :<i className="ri-star-line"></i>}
+              {loading ? <SpinnerComponent /> : checkWishList(product.id) ? <i className="ri-star-fill"></i> : <i className="ri-star-line"></i>}
               
               </button>
             </>

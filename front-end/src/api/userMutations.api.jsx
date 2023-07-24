@@ -80,6 +80,18 @@ class UserMutations {
     }    
     `
   }
+
+  removeFromWishList(){
+    return gql`
+    mutation RemoveFromWishList($input: RemoveFromWishListInput!) {
+      removeFromWishList(input: $input) {
+        errors
+        success
+      }
+    }
+    `
+  }
+  
 }
 
 export default new UserMutations();

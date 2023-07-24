@@ -23,7 +23,7 @@ export default function Payment({orderId}) {
     }
 
   return (
-<button onClick={handlePayment} className='bg-yellow-400 hover:bg-yellow-300 text-white flex rounded items-center justify-center w-2/12 mt-4 mx-auto'> <img className='w-10' src={payPal} alt="" /> <span>ay Now</span></button>
+<button onClick={handlePayment} className='bg-yellow-400 hover:bg-yellow-300 text-white flex rounded items-center justify-center w-6/12 mt-4 mx-auto'> <img className='w-10' src={payPal} alt="" /> <span>ay Now</span></button>
 
   )
 }

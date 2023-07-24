@@ -29,6 +29,6 @@ class AuthType(DjangoObjectType):
 
         ) else False
 
-    @user_passes_test(lambda user: user.role == 'customer')
+    # @user_passes_test(lambda user: user.role == 'customer')
     def resolve_customer(self, info):
         return info.context.user
