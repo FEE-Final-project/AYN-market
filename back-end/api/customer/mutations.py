@@ -121,6 +121,8 @@ class CustomerUpdate(relay.ClientIDMutation):
         username =graphene.String()
         gender = graphene.String()
         phone = graphene.String()
+        new_password = graphene.String()
+        old_password = graphene.String()
 
 
     success = graphene.Boolean()
@@ -165,9 +167,19 @@ class CustomerUpdate(relay.ClientIDMutation):
                 )
 
                 return CustomerUpdate(success=False, errors=errors)
+            if input.get('new_password'):
+                if not customer.check_password(input.get('old_password')):
+                    errors.append(
+                        _('Old password is incorrect!')
+                    )
+
+                    return CustomerUpdate(success=False, errors=errors)
+                customer.set_password(input.get('new_password'))
+            input.pop('customer_id')
+            input.pop('new_password')
+            input.pop('old_password')
             for k , v in input.items():
-                if k not in ['customer_id']:
-                    setattr(customer, k, v)
+                setattr(customer, k, v)
             customer.save()
             return CustomerUpdate(customer=customer, success=True)
         except Exception as e:
