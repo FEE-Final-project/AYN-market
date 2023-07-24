@@ -27,6 +27,8 @@ export const useAdminMutations = () => {
         refetchQueries: ['ProductList'],
     });
 
+    
+
     const addCategoryApi = async (input)=>{
          console.log(input)
             const res = await addCategory({ variables: { input } });

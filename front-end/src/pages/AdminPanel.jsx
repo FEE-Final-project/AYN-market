@@ -3,6 +3,8 @@ import SideBar from '../components/SideBar/SideBar';
 import Categories from '../components/Categories/Categories';
 import Products from '../components/Products/Products';
 
+import Orders from '../components/Orders/Orders';
+
 export default function AdminPanel() {
   const [active, setActive] = useState("Dashboard");
   
@@ -17,7 +19,7 @@ export default function AdminPanel() {
             : active === "Products" ?
               <Products />
               : active === "Orders" ?
-                <div>Orders</div> :
+                <Orders /> :
                 <Categories />
       }
 

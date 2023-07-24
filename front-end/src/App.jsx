@@ -22,6 +22,7 @@ import PaymentCancel from "./pages/PaymentCancel";
 
 import NotFound from "./pages/NotFound";
 import CustomerOrders from "./pages/CustomerOrders";
+import OrderDetails from "./components/Orders/OrderDetails";
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
       <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<ProfileDirect/>} />
             <Route path="/profile/orders/:id" element={<CustomerOrders/>} />
+            <Route path="/orderDetail/:id" element={<OrderDetails/>} />
       </Route>
 
       <Route path="/LogIn" element={<LogIn/>} />

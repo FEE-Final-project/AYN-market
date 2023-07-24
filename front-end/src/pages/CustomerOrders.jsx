@@ -4,9 +4,12 @@ import {useFetchCustomerOrdersApi} from '../hooks/useUserQueries'
 import LoadingComponent from "../components/LoadingComponent/LoadingComponent"
 import Payment from '../components/CheckOut/Payment'
 
+import { useNavigate } from 'react-router-dom';
+
 export default function CustomerOrders() {
   const {user} = useAuthContext()
-  
+  const navigate = useNavigate()
+
   const {data , loading ,error ,reloadCustomerOrders } = useFetchCustomerOrdersApi(user.id)
   
   
@@ -19,7 +22,7 @@ export default function CustomerOrders() {
     <header className='text-3xl text-gray-800 font-bold text-center'>{user.username}'s orders</header>
     <table className='border-separate border-spacing-2 table-auto w-full my-10'>
     <thead>
-                <tr>
+                <tr >
                   <th className='text-lg font-bold text-gray-800'>Order Number</th>
                   <th className='text-lg font-bold text-gray-800'>Shipping Address</th>
                   <th className='text-lg font-bold text-gray-800'>Order Total</th>
@@ -30,7 +33,8 @@ export default function CustomerOrders() {
     {
        data?.customerDetails?.orderSet?.edges.map(({node})=>{
          return(
-                <tr>
+                <tr className='cursor-pointer' onClick={()=>{
+                  navigate(`/orderDetail/${node.id}`)}}>
                   <td className='text-lg  text-center text-gray-800'>{node.orderNumber}</td>
                   <td className='text-lg p-5  text-center text-gray-800'>{node.addressLine1}</td>
                   <td className='text-lg p-5 text-center text-gray-800'>{node.orderTotal} USD </td>
