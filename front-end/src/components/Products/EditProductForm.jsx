@@ -14,7 +14,8 @@ export default function EditProductForm({ node, setShowEditForm }) {
     category: node.category.id,
     isAvailable: node.isAvailable,
     stock: node.stock,
-    image: node.image
+    image: node.image,
+    images :node.images
   }
   )
   
@@ -24,6 +25,10 @@ export default function EditProductForm({ node, setShowEditForm }) {
   const handleChange = (e) => {
     if (e.target.name === 'image') {
       setProductData({ ...productData, [e.target.name]: e.target.files[0] })
+      return;
+    }
+    if (e.target.name === 'images') {
+      setProductData({ ...productData, [e.target.name]: e.target.files })
       return;
     }
     if(e.target.name === 'isAvailable'){
@@ -46,9 +51,11 @@ export default function EditProductForm({ node, setShowEditForm }) {
       setLoadingForm(false);
       return;
     }
-    const { productName, description, price, category, isAvailable, stock, image } = productData;
-    const product = {id: node.id, productName, description, price: Number(price), category, isAvailable, stock: Number(stock), image }
+    const { productName, description, price, category, isAvailable, stock, image ,images } = productData;
+    const product = {id: node.id, productName, description, price: Number(price), category, isAvailable, stock: Number(stock), image,images}
+    console.log(product)
     const { data } = await updateProductApi(product);
+    console.log(data)
     if (data.updateProduct.errors) {
       console.log(data)
       setProductFormError(data.updateProduct.errors[0]);
@@ -65,7 +72,8 @@ export default function EditProductForm({ node, setShowEditForm }) {
       category: '',
       isAvailable: true,
       stock: 0,
-      image: null
+      image: null,
+      images:null
     }
     )
   }
@@ -94,8 +102,11 @@ export default function EditProductForm({ node, setShowEditForm }) {
       <label htmlFor="description" className='text-gray-900 font-mono' >Product Description</label>
       <textarea name="description" className='rounded outline-0 border-0' id="description" value={productData.description} onChange={handleChange} cols="30" rows="5" required></textarea>
 
-      <label htmlFor="image" className='text-gray-900 font-mono'>Upload Category Image</label>
-      <input id="image" name='image' type="file" className='bg-gray-500 text-white' onChange={handleChange} />
+      <label htmlFor="image" className='text-gray-900 font-mono'>Upload Cover Image</label>
+        <input id="image" name='image' type="file" className='bg-gray-500 text-white' onChange={handleChange} />
+  
+        <label htmlFor="images" className='text-gray-900 font-mono'>Upload Product Images</label>
+        <input id="images" name='images' type="file" className='bg-gray-500 text-white' onChange={handleChange} multiple={true} />
 
 
       <label for="availability" className="flex items-center cursor-pointer">

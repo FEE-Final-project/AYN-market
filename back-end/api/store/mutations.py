@@ -100,7 +100,7 @@ class UpdateProduct(relay.ClientIDMutation):
         category = graphene.ID()
         image = FileUpload()
         is_available = graphene.Boolean()
-        iamges = graphene.List(FileUpload)
+        images = graphene.List(FileUpload)
 
     @login_required
     @user_passes_test(lambda user: user.is_staff)

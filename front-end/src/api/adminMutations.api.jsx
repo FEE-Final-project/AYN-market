@@ -55,6 +55,12 @@ class AdminMutations{
           success
           product{
             productName
+            description
+            images{
+              id
+              image
+            }
+            image
           }
         }
       }
