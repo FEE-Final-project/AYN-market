@@ -19,7 +19,7 @@ from apps.user.models import (
 )
 from django.contrib.auth import get_user_model
 
-from apps.store.models import Products , Category , Variation
+from apps.store.models import Products , Category , Variation , MultipleImages
 from .types import ProductType , VariationType , CategoryType
 
 class CreateProduct(relay.ClientIDMutation):
@@ -35,6 +35,7 @@ class CreateProduct(relay.ClientIDMutation):
         category = graphene.ID()
         image = FileUpload()
         is_available = graphene.Boolean(required=True)
+        images = graphene.List(FileUpload)
 
     @login_required
     @user_passes_test(lambda user: user.is_staff)
@@ -74,6 +75,13 @@ class CreateProduct(relay.ClientIDMutation):
                 category = Category.objects.get(id=category_id)
                 product.category = category
 
+
+            if input.get('images'):
+                for image in input.get('images'):
+                    MultipleImages.objects.create(
+                        product=product,
+                        image=image
+                    )
             product.save()
             return CreateProduct(product=product, success=True)
         except Exception as e:
@@ -92,6 +100,7 @@ class UpdateProduct(relay.ClientIDMutation):
         category = graphene.ID()
         image = FileUpload()
         is_available = graphene.Boolean()
+        iamges = graphene.List(FileUpload)
 
     @login_required
     @user_passes_test(lambda user: user.is_staff)
@@ -115,6 +124,13 @@ class UpdateProduct(relay.ClientIDMutation):
                     raise Exception('Category does not exist')
                 category = Category.objects.get(id=category_id)
                 input['category'] = category
+            if input.get('images'):
+                for image in input.get('images'):
+                    MultipleImages.objects.create(
+                        product=product,
+                        image=image
+                    )
+            input.pop('images')
             for key, value in input.items():
                 setattr(product, key, value)
             product.save()
@@ -336,9 +352,6 @@ class DeleteVariation(relay.ClientIDMutation):
             return DeleteVariation(success=True)
         except Exception as e:
             return DeleteVariation(success=False, errors=[str(e)])
-
-
-
 
 
 

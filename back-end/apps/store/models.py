@@ -8,14 +8,18 @@ class Category(models.Model):
     category_name=models.CharField( max_length=255 , unique=True)
     description=models.TextField(null=True, blank=True)
     image=models.ImageField(upload_to=category_image_file_path ,null=True, blank=True)
-   
+
 
     def get_url(self):
         return reverse('products-by-category' , args=[self.slug])
 
     def __str__(self):
         return self.category_name
-
+class MultipleImages(models.Model):
+    product=models.ForeignKey('Products' ,related_name= "images" , on_delete=models.CASCADE)
+    image=models.ImageField(upload_to=products_image_file_path ,null=True, blank=True)
+    def __str__(self):
+        return self.product.product_name
 
 class Products(models.Model):
     product_name=models.CharField( max_length=255 , unique=True)
