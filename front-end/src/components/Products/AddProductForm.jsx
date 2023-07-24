@@ -14,6 +14,7 @@ export default function AddProductForm() {
     category:'',
     isAvailable:true,
     stock:0,
+    images:null,
     image:null
    }
 )
@@ -26,8 +27,13 @@ export default function AddProductForm() {
             setProductData({...productData,[e.target.name]:e.target.files[0]})
             return;
          }
+        if(e.target.name === 'images'){
+            setProductData({...productData,[e.target.name]:e.target.files})
+            return;
+         }
         setProductData({...productData,[e.target.name]:e.target.value})
     }
+
     const handleSubmit = async (e)=>{
         e.preventDefault();
         setLoadingForm(true);
@@ -41,9 +47,11 @@ export default function AddProductForm() {
          setLoadingForm(false);
          return;
         }
-        const {name,description,price,category,isAvailable,stock,image} = productData;
-        const product = {name,description,price:Number(price),category,isAvailable,stock:Number(stock),image}
+        const {name,description,price,category,isAvailable,stock,image,images} = productData;
+       
+        const product = {name,description,price:Number(price),category,isAvailable,stock:Number(stock),images,image}
         const {data} = await addProductApi(product);
+        console.log(data)
         if(data.createProduct.errors){
             console.log(data)
             setProductFormError(data.createProduct.errors[0]);
@@ -59,7 +67,8 @@ export default function AddProductForm() {
             category:'',
             isAvailable:true,
             stock:0,
-            image:null
+            image:null,
+            images:null
               }
         )
     }
@@ -86,9 +95,12 @@ export default function AddProductForm() {
         </select>
         <label htmlFor="description" className='text-gray-900 font-mono' >Product Description</label>
         <textarea name="description" className='rounded outline-0 border-0' id="description" value={productData.description} onChange={handleChange} cols="30" rows="5" required></textarea>
+
+        <label htmlFor="image" className='text-gray-900 font-mono'>Upload Cover Image</label>
+        <input id="image" name='image' type="file" className='bg-gray-500 text-white' onChange={handleChange} />
   
-        <label htmlFor="image" className='text-gray-900 font-mono'>Upload Category Image</label>
-        <input id="image" name='image' type="file" className='bg-gray-500 text-white' onChange={handleChange}  />
+        <label htmlFor="images" className='text-gray-900 font-mono'>Upload Product Images</label>
+        <input id="images" name='images' type="file" className='bg-gray-500 text-white' onChange={handleChange} multiple={true} />
 
         <button className="bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow" disabled={loadingForm} type="submit"> {loadingForm ? "Creating your Product" : "Add Product"}  </button>
       </form>
