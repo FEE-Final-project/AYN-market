@@ -12,10 +12,10 @@ class CustomerQuery(graphene.ObjectType):
         CustomerType,
     )
     customer_details = relay.Node.Field(CustomerType)
-    @login_required
-    @user_passes_test(
-        lambda u: u.is_staff is True
-    )
+    # @login_required
+    # @user_passes_test(
+    #     lambda u: u.is_staff is True
+    # )
     def resolve_customer_list(self, info, **kwargs):
         return User.objects.filter(
             is_staff=False,
