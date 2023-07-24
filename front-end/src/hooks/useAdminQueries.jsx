@@ -19,3 +19,14 @@ export const useFetchProductsApi = ({first,last,after,before,search,category,pri
    
     return {data , loading ,error ,reloadProducts , fetchMore}
 }
+
+export const useFetchOrdersApi = () => {
+    const {data , loading ,error , refetch:reloadOrders , fetchMore } = useQuery(AdminQueries.fetchOrders(),{errorPolicy:'all',fetchPolicy: 'network-only'})
+    return {data , loading ,error ,reloadOrders , fetchMore}
+}
+
+
+export const useFetchOrderApi = (id) => {
+    const {data , loading ,error , refetch:reloadOrder , fetchMore } = useQuery(AdminQueries.fetchOrderDetails(),{variables:{"orderDetailsId": id},errorPolicy:'all',fetchPolicy: 'network-only'})
+    return {data , loading ,error ,reloadOrder , fetchMore}
+}
