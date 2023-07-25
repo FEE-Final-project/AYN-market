@@ -29,7 +29,7 @@ import ChangePassword from "./pages/ChangePassword";
 
 function App() {
 
-  return (
+  return ( 
     <ApolloProvider client={client}>
     <BrowserRouter>
     <Navbar />
@@ -41,8 +41,12 @@ function App() {
             <Route path="/orderDetail/:id" element={<OrderDetails/>} />
             <Route path="/products/:category" element={<CategoryProducts/>} />
             <Route path="/wishList" element={<WishList/>} />
-          
             <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/product/:id" element={<Product/>} />
+            <Route path="/payment/success/*" element={<PaymentSuccess />} />
+            <Route path="/payment/cancel/*" element={<PaymentCancel />} />
+            <Route path="/cart" element={<Cart/>}/>
+            <Route path="/checkOut" element={<CheckOut/>}/>
       </Route>
 
       <Route path="/LogIn" element={<LogIn/>} />
@@ -50,18 +54,7 @@ function App() {
      
       <Route path="/emailConfirm/:uid/:token" element={<EmailConfirm/>} />
       <Route path="/resetPassword/:uid/:token" element={<ResetPassword/>} />
-       
- 
 
-      <Route path="/product" element={<Product/>} />
-      
-    
-      <Route path="/cart" element={<Cart/>}/>
-      <Route path="/checkOut" element={<CheckOut/>}/>
-    
-      
-      <Route path="/payment/success/*" element={<PaymentSuccess />} />
-      <Route path="/payment/cancel/*" element={<PaymentCancel />} />
 
       <Route path="*" element={<NotFound />} />
 
