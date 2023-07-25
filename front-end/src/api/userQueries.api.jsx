@@ -71,6 +71,30 @@ class UserQueries{
       
       `
     }
+
+  fetchProductDetails(){
+    return gql`
+    query ProductDetails($productDetailsId: ID!) {
+      productDetails(id: $productDetailsId) {
+        image
+        stock
+        images {
+          id
+          image
+        }
+        price
+        productName
+        isAvailable
+        category {
+          id
+          categoryName
+        }
+        description
+        id
+      }
+    }
+    `
+  }
    
 
  

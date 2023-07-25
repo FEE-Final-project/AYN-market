@@ -20,3 +20,8 @@ export const useFetchCustomerOrdersApi = (userId) => {
     return {data , loading ,error ,reloadCustomerOrders }  
 }
 
+export const useFetchProductDetailsApi = (productDetailsId)=>{
+    const {data,loading,error} = useQuery(UserQueries.fetchProductDetails(),{variables:{"productDetailsId":productDetailsId},errorPolicy:'all',fetchPolicy: 'network-only'})
+    
+    return {data , loading ,error} 
+}

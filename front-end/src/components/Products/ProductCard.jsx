@@ -7,6 +7,7 @@ import LoadingComponent from '../LoadingComponent/LoadingComponent'
 import { useFetchWishlistApi } from '../../hooks/useUserQueries';
 
 import {useAuthContext} from '../../hooks/useAuthContext'
+import {useNavigate} from "react-router-dom"
 
 import SpinnerComponent from '../LoadingComponent/SpinnerComponent';
 
@@ -20,7 +21,7 @@ export default function ProductCard({ product, isCustomer }) {
 
   const {user} = useAuthContext()
 
-
+  const navigate = useNavigate()
   const {data,loading:loadingWishlist,error,reloadWishlist} = useFetchWishlistApi(user.id);
   
 
@@ -99,13 +100,13 @@ export default function ProductCard({ product, isCustomer }) {
 
         <EditProductForm node={product} setShowEditForm={setShowEditForm} />
         :
-        <div key={product.id} className="relative  w-64 lg:w-3/12  mx-auto flex flex-col items-center shadow rounded lg:mx-2 my-5 bg-purple-400"  >
+        <div className="relative  w-64 lg:w-3/12  mx-auto flex flex-col items-center shadow rounded lg:mx-2 my-5 bg-purple-400 cursor-pointer" >
         
           <img src={
             product.image
               ?"http://localhost:8000" + product.image
               : toy
-          }  className='rounded ' alt="product image" />
+          }  className='rounded w-full h-64' alt="product image" onClick={()=>navigate(`/product/${product.id}`)} />
           <hr className='bg-green-500 w-full h-0.5 mb-2' />
           <p className=' bg-gray-600 px-2 py-1 text-white rounded-full'>{product.category.categoryName}</p>
           <p className='my-2 font-extrabold'>{product.productName}</p>
