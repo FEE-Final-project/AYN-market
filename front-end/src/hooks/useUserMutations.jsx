@@ -31,6 +31,8 @@ export const useUserMutations = () => {
     refetchQueries: ['CustomerDetails']
    })
 
+   const [updateProfile] = useMutation(UserMutations.updateProfile())
+
     const addToCartApi = async (input)=>{
          const res = await addToCart({ variables: { input } });
          return res;
@@ -66,6 +68,12 @@ export const useUserMutations = () => {
         return res
     }
 
+   const updateProfileApi = async (input)=>{
+     
+         const res = await updateProfile({variables:{input}})
+         return res
+    }
+
     return{
         addToCartApi,
         reduceQuantityOfCartItemApi,
@@ -74,5 +82,6 @@ export const useUserMutations = () => {
         payOrderApi,
         addToWishListApi,
         removeFromWishListApi,
+        updateProfileApi
     }
 }

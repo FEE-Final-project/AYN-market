@@ -91,7 +91,28 @@ class UserMutations {
     }
     `
   }
-  
+  updateProfile(){
+    return gql`
+    mutation CustomerUpdate($input: CustomerUpdateInput!) {
+      customerUpdate(input: $input) {
+        customer {
+          id
+          email
+          username
+          isSuperuser
+          phone
+          wishList {
+            id
+            productName
+            price
+            image
+          }
+        }
+      }
+    }
+`
+  }
+
 }
 
 export default new UserMutations();

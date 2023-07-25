@@ -33,16 +33,6 @@ mutation ObtainToken($email: String!, $password: String!) {
         productName
         price
         image
-        usersWishing {
-          edges {
-            node {
-              id
-              customer {
-                email
-              }
-            }
-          }
-        }
       }
     }
   }
