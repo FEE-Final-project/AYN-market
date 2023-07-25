@@ -23,6 +23,9 @@ import PaymentCancel from "./pages/PaymentCancel";
 import NotFound from "./pages/NotFound";
 import CustomerOrders from "./pages/CustomerOrders";
 import OrderDetails from "./components/Orders/OrderDetails";
+import WishList from "./pages/WishList";
+import ChangePassword from "./pages/ChangePassword";
+
 
 function App() {
 
@@ -36,6 +39,10 @@ function App() {
             <Route path="/profile" element={<ProfileDirect/>} />
             <Route path="/profile/orders/:id" element={<CustomerOrders/>} />
             <Route path="/orderDetail/:id" element={<OrderDetails/>} />
+            <Route path="/products/:category" element={<CategoryProducts/>} />
+            <Route path="/wishList" element={<WishList/>} />
+          
+            <Route path="/change-password" element={<ChangePassword />} />
       </Route>
 
       <Route path="/LogIn" element={<LogIn/>} />
@@ -44,7 +51,7 @@ function App() {
       <Route path="/emailConfirm/:uid/:token" element={<EmailConfirm/>} />
       <Route path="/resetPassword/:uid/:token" element={<ResetPassword/>} />
        
-      <Route path="/products/:category" element={<CategoryProducts/>} />
+ 
 
       <Route path="/product" element={<Product/>} />
       

@@ -9,10 +9,11 @@ export default function OrderDetails() {
  const {data , loading ,error ,reloadOrders } = useFetchOrderApi(id)
 
 
- console.log(data)
+
     if(loading){
         return <LoadingComponent/>
     }
+    
   return (
     <main className='my-20'>
     <header className='text-center text-gray-800 font-bold text-3xl'>Order Number : {data.orderDetails.orderNumber}</header>
