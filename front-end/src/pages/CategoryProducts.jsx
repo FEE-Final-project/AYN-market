@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{ useState} from 'react'
 import ProductsCards from '../components/Products/ProductsCards';
 
 import 'remixicon/fonts/remixicon.css';
@@ -6,7 +6,10 @@ import { useAuthContext } from '../hooks/useAuthContext';
 
 export default function CategoryProducts() {
   const {user} = useAuthContext();
+  
+
   const categoryName = window.location.pathname.split('/')[2];
+
 
   const [productName,setProductName] = useState('');
 
@@ -17,8 +20,8 @@ export default function CategoryProducts() {
     priceGt:'',
     price:''
   });
-  
-  
+
+
   const handleSearch = (e) => {
     setProductName(e.target.value);
   }

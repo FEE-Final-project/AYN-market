@@ -6,6 +6,7 @@ import Products from '../components/Products/Products';
 import Orders from '../components/Orders/Orders';
 
 export default function AdminPanel() {
+  
   const [active, setActive] = useState("Dashboard");
   
   return (

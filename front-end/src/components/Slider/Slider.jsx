@@ -18,7 +18,7 @@ export default function Slider() {
         className='sliderImage'
         alt="..."
       />
-      <p className='absolute text-shadows top-2/4 left-1/4 font-extrabold '> Easy to used by different ages</p>
+      <p className='absolute text-shadows top-2/4 left-1/4 font-extrabold '> Easy to use by different ages</p>
     </div>
     <div className='relative'>
       <img
