@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_filters',
     'corsheaders',
+    'paypalrestsdk',
 
 
 ]
@@ -223,6 +224,9 @@ CORS_ORIGIN_WHITELIST = (
   'http://localhost:3001',
 )
 
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
+
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
@@ -237,3 +241,10 @@ CORS_ALLOW_HEADERS = [
     'x-token',
     'x-access-token',
 ]
+import paypalrestsdk
+
+paypalrestsdk.configure({
+    "mode": "sandbox",  # Use "live" for production mode
+    "client_id": os.environ.get('PayPal_id') ,
+    "client_secret": os.environ.get('payPal_key')
+})

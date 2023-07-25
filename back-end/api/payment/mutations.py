@@ -1,6 +1,7 @@
 import graphene
 import pytz
 from graphene import InputObjectType, Int, String, Float, Boolean
+import paypalrestsdk
 
 from datetime import timedelta, datetime
 from django.db.models import Q
@@ -37,9 +38,9 @@ class CreateOrder(relay.ClientIDMutation):
         email = String(required=True)
         address_line1 = String(required=True)
         address_line2 = String()
-        country = String(required=True)
-        state = String(required=True)
-        city = String(required=True)
+        # country = String(required=True)
+        # state = String(required=True)
+        # city = String(required=True)
         order_note = String()
     success = graphene.Boolean()
     errors = graphene.List(graphene.String)
@@ -64,9 +65,9 @@ class CreateOrder(relay.ClientIDMutation):
                 email=input.get('email'),
                 address_line1=input.get('address_line1'),
                 address_line2=input.get('address_line2'),
-                country=input.get('country'),
-                state=input.get('state'),
-                city=input.get('city'),
+                # country=input.get('country'),
+                # state=input.get('state'),
+                # city=input.get('city'),
                 order_note=input.get('order_note'),
                 # payment=Payment.objects.get(id=from_global_id(input.get('payment'))[1]),
                 # address=input.get('address'),
@@ -92,3 +93,57 @@ class CreateOrder(relay.ClientIDMutation):
             success=True,
             order=order
         )
+
+
+class Checkout(graphene.Mutation):
+    class Arguments:
+        order_id = graphene.ID()
+
+    success = graphene.Boolean()
+    order = graphene.Field(OrderType)
+    payment_redirect_url = graphene.String()
+
+    def mutate(self, info, order_id):
+        # Fetch the products from the database using the provided IDs
+        id =from_global_id(order_id)[1]
+        order = Order.objects.filter(id = id).exists()
+        if not order:
+            raise Exception(
+                            ('there is not order with this id')
+                        )
+        order = Order.objects.get(id = id)
+        total_amount = order.order_total
+        payment = Payment.objects.create(
+            amount_paid=total_amount,
+            user=info.context.user
+        )
+        paypal_payment = paypalrestsdk.Payment({
+            "intent": "sale",
+            "payer": {"payment_method": "paypal"},
+            "transactions": [{
+                "amount": {"total": str(total_amount), "currency": "USD"},
+                "description": "Order Payment",
+                "custom": str(order.id),
+                "payment_options": {"allowed_payment_method": "IMMEDIATE_PAY"}
+            }],
+            "redirect_urls": {
+                "return_url": "http://localhost:3000/payment/success",
+                "cancel_url": "http://localhost:3000/payment/cancel"
+            }
+        })
+
+        # Create the PayPal payment and retrieve the approval URL
+        if paypal_payment.create():
+            approval_url = next(link.href for link in paypal_payment.links if link.method == "REDIRECT")
+            payment.payment_id = paypal_payment.id
+            payment.save()
+            # order.status = Order.STATUS.Completed
+            order.save()
+            return Checkout(success=True, order=order, payment_redirect_url=approval_url)
+        else:
+            raise ValueError(paypal_payment.error)
+
+class Mutation(graphene.ObjectType):
+    checkout = Checkout.Field()
+
+# schema = graphene.Schema(query=Query, mutation=Mutation)

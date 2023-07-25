@@ -1,0 +1,10 @@
+
+{% autoescape off %}
+
+Hello {{user.username}}
+
+You registered an account on Ayn-Market, before being able to use your account you need to verify that this is your email address by clicking here: {{ domain }}:3000/emailConfirm/{{uid}}/{{token}}
+
+Kind Regards, AYN
+
+{% endautoescape %}

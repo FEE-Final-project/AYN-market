@@ -22,6 +22,7 @@ from django.utils.http import urlsafe_base64_decode , urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from apps.user.notification import NotificationManager
+from apps.store.models import Products
 
 from .types import CustomerType
 
@@ -101,11 +102,10 @@ class CustomerSignUp(relay.ClientIDMutation):
 
             customer.set_password(input.get('password'))
 
-            customer.is_active=True
+            # customer.is_active=True
 
             customer.save()
             NotificationManager(customer).send_confirmation_link()
-
 
             return CustomerSignUp(customer=customer, success=True)
         except Exception as e:
@@ -121,6 +121,8 @@ class CustomerUpdate(relay.ClientIDMutation):
         username =graphene.String()
         gender = graphene.String()
         phone = graphene.String()
+        new_password = graphene.String()
+        old_password = graphene.String()
 
 
     success = graphene.Boolean()
@@ -165,9 +167,19 @@ class CustomerUpdate(relay.ClientIDMutation):
                 )
 
                 return CustomerUpdate(success=False, errors=errors)
+            if input.get('new_password'):
+                if not customer.check_password(input.get('old_password')):
+                    errors.append(
+                        _('Old password is incorrect!')
+                    )
+
+                    return CustomerUpdate(success=False, errors=errors)
+                customer.set_password(input.get('new_password'))
+            input.pop('customer_id')
+            input.pop('new_password')
+            input.pop('old_password')
             for k , v in input.items():
-                if k not in ['customer_id']:
-                    setattr(customer, k, v)
+                setattr(customer, k, v)
             customer.save()
             return CustomerUpdate(customer=customer, success=True)
         except Exception as e:
@@ -204,3 +216,49 @@ class CustomerDelete(relay.ClientIDMutation):
                 _('customer does not exist')
             ]
             return CustomerDelete(success=False, errors=errors)
+class AddToWishList(relay.ClientIDMutation):
+    class Input:
+        product_id = graphene.ID(required=True)
+
+    success = graphene.Boolean()
+    errors = graphene.List(graphene.String)
+
+    @login_required
+    def mutate_and_get_payload(
+        root,
+        info,
+        **input
+    ):
+        try:
+            product=Products.objects.get(id=from_global_id(input.get('product_id'))[1])
+            user = info.context.user
+            user.wish_list.add(product)
+            return AddToWishList(success=True)
+        except Exception:
+            errors = [
+                _('product does not exist')
+            ]
+            return AddToWishList(success=False, errors=errors)
+class RemoveFromWishList(relay.ClientIDMutation):
+    class Input:
+        product_id = graphene.ID(required=True)
+
+    success = graphene.Boolean()
+    errors = graphene.List(graphene.String)
+
+    @login_required
+    def mutate_and_get_payload(
+        root,
+        info,
+        **input
+    ):
+        try:
+            product=Products.objects.get(id=from_global_id(input.get('product_id'))[1])
+            user = info.context.user
+            user.wish_list.remove(product)
+            return RemoveFromWishList(success=True)
+        except Exception:
+            errors = [
+                _('product does not exist')
+            ]
+            return RemoveFromWishList(success=False, errors=errors)

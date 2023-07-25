@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
 .categoryNav{
   width: 70vw;
 }
-
-
+.priceFont{
+  font-family: 'Lobster', cursive;
+}
 
 @media screen and (max-width: 650px) {
   

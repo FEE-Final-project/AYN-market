@@ -11,7 +11,7 @@ import TokenStorage from "../../services/TokenStorage.service";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon  } from "@heroicons/react/24/outline";
 // import { FiSearch } from 'react-icons/fi';
-
+import { useFetchCartDetailsApi } from '../../hooks/useUserQueries';
 //import styles and logo
 import logo from "../../assets/logo.svg";
 import "./Navbar.css";
@@ -28,21 +28,22 @@ export default function Navbar() {
  
   const { user, dispatch } = useAuthContext();
   const navigate = useNavigate();
-
+  const {data} = useFetchCartDetailsApi();
 
   const [read, setRead] = useState(false);
 
-  const [searchQuery, setSearchQuery] = useState("");
-
+  // const [searchQuery, setSearchQuery] = useState("");
 
 
   function handleSignOut() {
     TokenStorage.clearCookies();
+    localStorage.clear()
     dispatch({ type: "LOGOUT" });
     navigate("/")
   }
 
   return (
+    
     <Disclosure as="nav" className="bg-gray-800 z-50">
       {({ open }) => (
         <>
@@ -50,6 +51,7 @@ export default function Navbar() {
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
+              
                 <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
@@ -207,7 +209,8 @@ export default function Navbar() {
                       <Menu.Button className="flex rounded-full bg-gray-800 text-sm">
                         <span className="sr-only">cart</span>
                         <NavLink to="/cart">
-                        <i className="ri-shopping-cart-2-fill rounded-full  text-lg   bg-gray-800 p-1 text-gray-400 hover:text-white " ></i>
+                        <i className="ri-shopping-cart-2-fill relative rounded-full  text-lg   bg-gray-800 p-1 text-gray-400 hover:text-white " ></i>
+                        <p className="absolute left-5 bottom-4  bg-red-400 p-0.5 rounded-full w-4 h-4 leading-3 text-center text-white ">{data?.cartDetails.cartItems.length}</p>
                         </NavLink>
                       </Menu.Button>
                     </div>

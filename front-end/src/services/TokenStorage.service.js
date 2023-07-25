@@ -27,6 +27,8 @@ static clearCookies(){
     this.cookies.remove('token')
     this.cookies.remove('refreshToken')
     this.cookies.remove('user')
+    this.cookies.remove('cartId')
+    this.cookies.remove('orderId')
 }
 static storeUser(user){
     this.cookies.set('user',user,{path:'/'})
@@ -34,6 +36,7 @@ static storeUser(user){
 static getUser(){
     return this.cookies.get('user') || null
 }
+
 
 }
 

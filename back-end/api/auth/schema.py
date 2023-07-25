@@ -3,6 +3,9 @@ import graphql_jwt
 
 from .mutations import (
     ObtainJSONWebToken,
+    EmailConfirm,
+    ResetPassword,
+    ResetPasswordConfirm
 )
 from .queries import AuthQuery
 
@@ -22,9 +25,9 @@ class AuthMutations(graphene.ObjectType):
     obtain_token = ObtainJSONWebToken.Field()
     verify_token = graphql_jwt.Verify.Field()
     refresh_token = graphql_jwt.Refresh.Field()
-    # reset_password = ResetPassword.Field()
-    # reset_password_confirm = ResetPasswordConfirm.Field()
-    # email_confirm = EmailConfirm.Field()
+    reset_password = ResetPassword.Field()
+    reset_password_confirm = ResetPasswordConfirm.Field()
+    email_confirm = EmailConfirm.Field()
     # customer_resend_email = ReSendEmail.Field()
 
 

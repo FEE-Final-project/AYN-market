@@ -1,0 +1,111 @@
+{% autoescape off %}
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <style>
+            .text-block {
+                font-family: Open Sans;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 24px;
+                line-height: 32px;
+
+                /* or 133% */
+                color: #4F5A68;
+            }
+
+            .text-block p {
+                display: block;
+                width: 560px;
+            }
+
+            .button {
+                display: block;
+                height: 56px;
+                width: 285px;
+                border-radius: 0px;
+
+                /* Rectangle */
+                position: absolute;
+                left: 0%;
+                right: 0%;
+                top: 0%;
+                bottom: 0%;
+
+                /* Main blue */
+                background: #3C5896;
+            }
+
+            .button-text {
+                display: block;
+                font-family: Open Sans;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: 56px;
+                letter-spacing: 0px;
+                text-align: center;
+
+                /* T */
+                position: absolute;
+                left: 47px;
+                right: 48px;
+                top: calc(50% - 56px/2);
+
+                font-family: Open Sans;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 16px;
+                line-height: 56px;
+
+                /* identical to box height, or 350% */
+                text-align: center;
+                text-transform: uppercase;
+
+                color: #FFFFFF;
+            }
+
+            .footer {
+                border-top: 1px solid #F0F3F7;
+                padding-top: 16px;
+            }
+
+            .footer-text {
+                width: 560px;
+                font-family: Open Sans;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 10px;
+                line-height: 16px;
+
+                /* or 160% */
+                color: #8593A6;
+            }
+        </style>
+        {% block style %}{%endblock %}
+    </head>
+    <body>
+        <table width="800px">
+            <tr>
+                <td style="padding: 20px 0px;" class="text-block">
+                    {% block body %}{% endblock body %}
+                </td>
+            </tr>
+            <tr>
+                <td class="footer">
+                    <div class="footer-text">
+                        <p>
+                            This email was sent to you as a registered member of {{ site_name }}.<br>
+                            Use of the service and website is subject to our Terms of Use and Privacy.
+                        </p>
+                        <br>
+                        <p>
+                            © 2020 {{ site_name }}. All rights reserved
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
+{% endautoescape %}

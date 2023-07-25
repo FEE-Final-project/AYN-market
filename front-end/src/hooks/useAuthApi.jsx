@@ -10,6 +10,9 @@ export const useAuthApi = () => {
     const [createUser] = useMutation(AuthAPI.createUser());
     const [obtainToken] = useMutation(AuthAPI.obtainToken());
     const [refreshToken] = useMutation(AuthAPI.refreshToken());
+    const [emailConfirm] = useMutation(AuthAPI.emailConfirm());
+    const [resetPassword] = useMutation(AuthAPI.resetPassword());
+    const [resetPasswordConfirm] = useMutation(AuthAPI.resetPasswordConfirm());
 
     const createUserApi = (input) => {
         
@@ -40,10 +43,25 @@ export const useAuthApi = () => {
         return refreshToken({variables:{refreshToken: token}})
     }
 
+    const emailConfirmApi = (input) => {
+        return emailConfirm({variables:{input}})
+    }
+   
+    const resetPasswordApi = (input) => {
+        return resetPassword({variables:{input}})
+    }
+
+    const resetPasswordConfirmApi = (input) => {
+        return resetPasswordConfirm({variables:{input}})
+    }
+
  return{
         createUserApi,
         obtainTokenApi,
         refreshTokenApi,
+        emailConfirmApi,
+        resetPasswordApi,
+        resetPasswordConfirmApi
  }
 
 };

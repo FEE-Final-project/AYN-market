@@ -5,6 +5,7 @@ import App from './App'
 import './index.css'
 import { AuthContextProvider } from '../src/Context/auth'
 
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthContextProvider>

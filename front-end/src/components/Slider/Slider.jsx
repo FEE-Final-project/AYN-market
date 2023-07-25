@@ -10,18 +10,20 @@ import './Slider.css'
 
 export default function Slider() {
   return (
-    <div className="h-64  sliderContainer">
-    <Carousel slide={false} className='sliderItems'>
+    <div className="h-44 md:h-64  sliderContainer">
+    <Carousel slideInterval={5000} className='sliderItems'>
     <div className='relative'>
       <img
         src={accessibility}
+        className='sliderImage'
         alt="..."
       />
-      <p className='absolute text-shadows top-2/4 left-1/4 font-extrabold '> Easy to used by different ages</p>
+      <p className='absolute text-shadows top-2/4 left-1/4 font-extrabold '> Easy to use by different ages</p>
     </div>
     <div className='relative'>
       <img
         src={diversity}
+        className='sliderImage'
         alt="..."
       />
          <p className='absolute text-shadows top-2/4 left-1/4 font-extrabold '>Diversity of products</p>
@@ -29,6 +31,7 @@ export default function Slider() {
     <div className='relative'>
       <img
           src={fastDeliver}
+          className='sliderImage'
           alt="..."
       />
          <p className='absolute text-shadows top-2/4 left-1/4 font-extrabold '>Deliver on time</p>
@@ -36,6 +39,7 @@ export default function Slider() {
     <div className='relative'>
       <img
            src={purchase}
+            className='sliderImage'
            alt="..."
       />
          <p className='absolute text-shadows top-2/4 left-1/4 font-extrabold '>Different payment methods</p>
