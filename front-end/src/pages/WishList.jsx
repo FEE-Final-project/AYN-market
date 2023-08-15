@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import { useFetchWishlistApi } from '../hooks/useUserQueries';
 import {useAuthContext} from '../hooks/useAuthContext'
 import LoadingComponent from '../components/LoadingComponent/LoadingComponent';
-
+import {useNavigate} from 'react-router-dom'
 import SpinnerComponent from '../components/LoadingComponent/SpinnerComponent';
 import { useUserMutations } from '../hooks/useUserMutations';
 
@@ -12,6 +12,7 @@ export default function WishList() {
 const {user} = useAuthContext()
 const {data,loading:loadingWishlist,error,reloadWishlist} = useFetchWishlistApi(user.id);
 
+const navigate = useNavigate()
 const {removeFromWishListApi} = useUserMutations();
 
 const [loading, setLoading] = useState(false);
@@ -41,7 +42,7 @@ if(loadingWishlist){
     {data?.customerDetails?.wishList.length === 0 && <h1 className='text-3xl rounded p-2 text-red-200 bg-red-500 w-9/12 mx-auto text-center'>No Products added in Wishlist</h1>}
     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-20 '>
     {data?.customerDetails?.wishList.map((product)=>(
-        <div key={product.id} className='bg-gray-200 shadow-md relative rounded p-10'>
+        <div key={product.id} className='bg-gray-200 shadow-md relative rounded  cursor-pointer p-10' onClick={()=>{navigate(`/product/${product.id}`)}}>
             <div className='flex justify-center'>
                 <img src={
             product.image

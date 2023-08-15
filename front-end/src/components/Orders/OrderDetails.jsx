@@ -3,12 +3,13 @@ import { useParams } from 'react-router-dom'
 
 import { useFetchOrderApi  } from '../../hooks/useAdminQueries';
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
+import {useNavigate} from 'react-router-dom'
 
 export default function OrderDetails() {
  const {id} = useParams()
  const {data , loading ,error ,reloadOrders } = useFetchOrderApi(id)
 
-
+ const navigate = useNavigate()
 
     if(loading){
         return <LoadingComponent/>
@@ -70,7 +71,7 @@ export default function OrderDetails() {
     {
          data?.orderDetails?.orderproductSet?.edges.map(({node})=>{
               return(
-                    <tr>
+                    <tr className="cursor-pointer" onClick={()=>{navigate(`/product/${node.product.id}`)}}>
                       <td className='w-20'><img src={
                         node.product.image
                         ?"http://localhost:8000" + node.product.image
