@@ -4,7 +4,7 @@
 </div>
 
 <div align="center">
-<img src="./logo.png">
+<img src="./readmeAssets/logo.png">
 </div>
 
 
@@ -31,9 +31,38 @@ To use the website application, you need to have Docker installed on your machin
 ## Technologies
 
 The website application is built with the following technologies:
+<div align="center">
+
+<a href="">
+<img src="./readmeAssets/docker.png">
+</a>
+
+<a href="https://www.postgresql.org/">
+<img src="./readmeAssets/postgres.png">
+</a>
+
+<a href="https://graphql.org/">
+<img src="./readmeAssets/graphql.png">
+</a>
+
+<a href="https://www.djangoproject.com/">
+<img src="./readmeAssets/django.png">
+</a>
+
+<a href="https://react.dev/">
+<img src="./readmeAssets/react.png">
+</a>
+
+<a href="https://www.apollographql.com/docs/react/">
+<img src="./readmeAssets/apollo.png">
+</a>
+
+<a href="https://tailwindcss.com/docs/installation">
+<img src="./readmeAssets/tailwind.png">
+</a>
 
 
-  
+</div>
 
 
 ## Future Work
