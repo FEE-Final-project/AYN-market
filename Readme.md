@@ -34,31 +34,31 @@ The website application is built with the following technologies:
 <div align="center">
 
 <a href="">
-<img src="./readmeAssets/docker.png" width="20" height="20">
+<img src="./readmeAssets/docker.png" width="50" height="50">
 </a>
 
 <a href="https://www.postgresql.org/">
-<img src="./readmeAssets/postgres.png" width="20" height="20">
+<img src="./readmeAssets/postgres.png" width="50" height="50">
 </a>
 
 <a href="https://graphql.org/">
-<img src="./readmeAssets/graphql.png" width="20" height="20">
+<img src="./readmeAssets/graphql.png" width="50" height="50">
 </a>
 
 <a href="https://www.djangoproject.com/">
-<img src="./readmeAssets/django.png" width="20" height="20">
+<img src="./readmeAssets/django.png" width="50" height="50">
 </a>
 
 <a href="https://react.dev/">
-<img src="./readmeAssets/react.png" width="20" height="20">
+<img src="./readmeAssets/react.png" width="50" height="50">
 </a>
 
 <a href="https://www.apollographql.com/docs/react/" >
-<img src="./readmeAssets/apollo.png" width="20" height="20">
+<img src="./readmeAssets/apollo.png" width="50" height="50">
 </a>
 
 <a href="https://tailwindcss.com/docs/installation">
-<img src="./readmeAssets/tailwind.png" width="20" height="20">
+<img src="./readmeAssets/tailwind.png" width="50" height="50">
 </a>
 
 
